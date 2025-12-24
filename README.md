@@ -31,6 +31,12 @@ Este projeto está sendo desenvolvido de forma incremental, seguindo práticas i
 - **Quadro de Backlog (Trello)**  
   [Link do Trello](https://trello.com/invite/b/694a7f653e5736fea21635fe/ATTIf7101634f0a0d71fe4f69e3d2405255e901DC4BE/meu-quadro-do-trello)
 
+- **Arquitetura do Sistema**  
+  [Arquitetura](docs/arquitetura.md)
+
+- **Modelo de Domínio**  
+  [Modelo de Domínio](docs/dominio.md)
+
 ---
 
 ## Tecnologias (planejadas)
