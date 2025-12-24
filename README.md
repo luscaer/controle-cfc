@@ -36,23 +36,6 @@ O MVP do Controle CFC foca nos processos essenciais de uma autoescola:
 - Agendamento e confirmação de aulas práticas
 - Controle automático de carga horária e status do aluno
 
-## Tecnologias
-
-### Backend
-- Java 17
-- Spring Boot
-- Spring Data JPA
-
-### Frontend
-- Angular
-
-### Infraestrutura
-- PostgreSQL
-- Docker
-- Git e GitHub
-
----
-
 ### Modelagem de Dados
 
 O banco de dados do sistema foi modelado utilizando PostgreSQL, com foco em um ambiente SaaS multi-tenant.
@@ -71,6 +54,23 @@ O banco de dados do sistema foi modelado utilizando PostgreSQL, com foco em um a
 
 - **Modelo de Domínio**  
   [Modelo de Domínio](docs/dominio.md)
+
+---
+
+## Tecnologias
+
+### Backend
+- Java 17
+- Spring Boot
+- Spring Data JPA
+
+### Frontend
+- Angular
+
+### Infraestrutura
+- PostgreSQL
+- Docker
+- Git e GitHub
 
 ---
 
