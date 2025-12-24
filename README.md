@@ -36,12 +36,6 @@ O MVP do Controle CFC foca nos processos essenciais de uma autoescola:
 - Agendamento e confirmação de aulas práticas
 - Controle automático de carga horária e status do aluno
 
-### Modelagem de Dados
-
-O banco de dados do sistema foi modelado utilizando PostgreSQL, com foco em um ambiente SaaS multi-tenant.
-
-![Diagrama ER](docs/database/diagrama-er.png)
-
 ### Documentação
 - **Documento de Requisitos (MVP)**  
   [Documento de Requisitos (MVP)](docs/Sistema%20de%20Gerenciamento%20de%20Auto%20Escolas.pdf)
@@ -54,6 +48,12 @@ O banco de dados do sistema foi modelado utilizando PostgreSQL, com foco em um a
 
 - **Modelo de Domínio**  
   [Modelo de Domínio](docs/dominio.md)
+
+### Modelagem de Dados
+
+O banco de dados do sistema foi modelado utilizando PostgreSQL, com foco em um ambiente SaaS multi-tenant.
+
+![Diagrama ER](docs/database/diagrama-er.png)
 
 ---
 
