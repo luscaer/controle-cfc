@@ -1,6 +1,7 @@
 # Controle CFC
+> Sistema de gestão para CFCs e autoescolas, focado em organização e simplicidade no dia a dia.
 
-Sistema de gestão para CFCs e autoescolas, focado em organização e simplicidade no dia a dia.
+<img width="2560" height="1440" alt="Logo-ControleCFC-2K" src="https://github.com/user-attachments/assets/b232b8d6-7e15-44b2-a4d9-b70e167a3273" />
 
 **Controle total do seu CFC**
 
