@@ -24,6 +24,40 @@ Este projeto está sendo desenvolvido de forma incremental, seguindo práticas i
 - Backlog priorizado
 - Execução em sprints
 
+### Escopo do MVP
+
+O MVP do Controle CFC foca nos processos essenciais de uma autoescola:
+
+- Cadastro e gestão de autoescolas (multi-tenant)
+- Cadastro de usuários (Administrador e Instrutor)
+- Cadastro e acompanhamento de alunos
+- Venda de pacotes de aulas
+- Agendamento e confirmação de aulas práticas
+- Controle automático de carga horária e status do aluno
+
+## Tecnologias
+
+### Backend
+- Java 17
+- Spring Boot
+- Spring Data JPA
+
+### Frontend
+- Angular
+
+### Infraestrutura
+- PostgreSQL
+- Docker
+- Git e GitHub
+
+---
+
+### Modelagem de Dados
+
+O banco de dados do sistema foi modelado utilizando PostgreSQL, com foco em um ambiente SaaS multi-tenant.
+
+![Diagrama ER](docs/database/diagrama-er.png)
+
 ### Documentação
 - **Documento de Requisitos (MVP)**  
   [Documento de Requisitos (MVP)](docs/Sistema%20de%20Gerenciamento%20de%20Auto%20Escolas.pdf)
@@ -39,21 +73,16 @@ Este projeto está sendo desenvolvido de forma incremental, seguindo práticas i
 
 ---
 
-## Tecnologias (planejadas)
+## Status do Projeto
 
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- Angular
-- PostgreSQL
-- Docker
-- Git e GitHub
+🟡 Em desenvolvimento  
+Fase atual: definição de arquitetura, modelagem de domínio e estrutura base do backend.
 
 ---
 
-## Status do Projeto
+## Como Executar (em breve)
 
-🟡 Em desenvolvimento — atualmente na fase de **estruturação e arquitetura do sistema**.
+As instruções para execução local do projeto serão adicionadas conforme a implementação do backend e frontend avançar.
 
 ---
 
