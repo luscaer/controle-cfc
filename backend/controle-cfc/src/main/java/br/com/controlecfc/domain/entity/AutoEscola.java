@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 @Entity
 @Table(name = "auto_escola")
@@ -18,7 +19,8 @@ public class AutoEscola {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 14)
+    @CNPJ
+    @Column(nullable = false, unique = true)
     private String cnpj;
 
     @Column(nullable = false)
