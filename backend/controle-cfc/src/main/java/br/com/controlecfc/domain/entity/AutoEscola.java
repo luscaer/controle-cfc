@@ -1,8 +1,11 @@
 package br.com.controlecfc.domain.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "auto_escola")
@@ -11,6 +14,7 @@ public class AutoEscola {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String nome;
 
@@ -20,6 +24,7 @@ public class AutoEscola {
     @Column(nullable = false)
     private boolean ativo;
 
+    @CreationTimestamp
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
@@ -28,7 +33,6 @@ public class AutoEscola {
     public AutoEscola(String nome, String cnpj) {
         this.nome = nome;
         this.cnpj = cnpj;
-        this.dataCriacao = LocalDateTime.now();
         this.ativo = true;
     }
 
@@ -48,12 +52,8 @@ public class AutoEscola {
         return ativo;
     }
 
-    public LocalDateTime getData_criacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setNome(String nome) {
@@ -62,10 +62,6 @@ public class AutoEscola {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public void setData_criacao(LocalDateTime data_criacao) {
-        this.dataCriacao = data_criacao;
     }
 
     public void desativar() {
