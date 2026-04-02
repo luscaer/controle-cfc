@@ -30,7 +30,8 @@ public class AutoEscola {
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
-    protected AutoEscola() {}
+    protected AutoEscola() {
+    }
 
     public AutoEscola(String nome, String cnpj) {
         this.nome = nome;

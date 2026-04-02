@@ -47,15 +47,15 @@ public class Usuario {
     @JoinColumn(name = "auto_escola_id")
     private AutoEscola autoEscola;
 
-    protected Usuario() {}
+    protected Usuario() {
+    }
 
-    public Usuario(String nome, String email, String senha, PerfilUsuario perfilUsuario, boolean ativo,
-            AutoEscola autoEscola) {
+    public Usuario(String nome, String email, String senha, PerfilUsuario perfilUsuario, AutoEscola autoEscola) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.perfilUsuario = perfilUsuario;
-        this.ativo = ativo;
+        this.ativo = true;
         this.autoEscola = autoEscola;
     }
 

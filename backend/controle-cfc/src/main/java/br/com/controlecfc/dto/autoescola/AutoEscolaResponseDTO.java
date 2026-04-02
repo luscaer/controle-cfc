@@ -2,7 +2,7 @@ package br.com.controlecfc.dto.autoescola;
 
 import java.time.LocalDateTime;
 
-public record AutoEscolaResponse(
+public record AutoEscolaResponseDTO(
     Long id,
     String nome,
     String cnpj,

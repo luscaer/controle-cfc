@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.controlecfc.dto.autoescola.AutoEscolaRequest;
-import br.com.controlecfc.dto.autoescola.AutoEscolaResponse;
+import br.com.controlecfc.dto.autoescola.AutoEscolaRequestDTO;
+import br.com.controlecfc.dto.autoescola.AutoEscolaResponseDTO;
 import br.com.controlecfc.service.AutoEscolaService;
 import jakarta.validation.Valid;
 
@@ -23,7 +23,7 @@ public class AutoEscolaController {
     }
 
     @PostMapping()
-    public ResponseEntity<AutoEscolaResponse> save(@Valid @RequestBody AutoEscolaRequest request) {
+    public ResponseEntity<AutoEscolaResponseDTO> save(@Valid @RequestBody AutoEscolaRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(autoEscolaService.criarAutoEscola(request));
     }
 
