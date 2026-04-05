@@ -1,5 +1,7 @@
 package br.com.controlecfc.controller;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,7 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResponseDTO> save(@Valid @RequestBody UsuarioRequestDTO request) {
 
         // TODO (Sprint 3): Extrair o autoEscolaId do JWT via SecurityContextHolder
-        Long tenantIdProvisorio = 1L;
+        UUID tenantIdProvisorio = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.criarUsuario(request, tenantIdProvisorio));
     }

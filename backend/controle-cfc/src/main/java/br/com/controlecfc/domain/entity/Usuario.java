@@ -1,5 +1,7 @@
 package br.com.controlecfc.domain.entity;
 
+import java.util.UUID;
+
 import br.com.controlecfc.domain.enums.PerfilUsuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,14 +15,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @NotBlank
     @Column(nullable = false)
@@ -31,8 +32,6 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank
-    @Size(min = 6)
     @Column(nullable = false)
     private String senha;
 
@@ -59,7 +58,7 @@ public class Usuario {
         this.autoEscola = autoEscola;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -77,6 +76,10 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
     }
 
     public void alterarSenha(String novaSenhaHasheada) {

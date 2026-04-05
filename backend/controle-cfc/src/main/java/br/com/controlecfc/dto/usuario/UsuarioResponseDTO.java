@@ -1,12 +1,14 @@
 package br.com.controlecfc.dto.usuario;
 
+import java.util.UUID;
+
 import br.com.controlecfc.domain.enums.PerfilUsuario;
 
 public record UsuarioResponseDTO(
-    Long id,
+    UUID id,
     String nome,
     String email,
     PerfilUsuario perfilUsuario,
     boolean ativo,
-    Long autoEscolaId
+    UUID autoEscolaId
 ) {}

@@ -19,7 +19,7 @@ public class AutoEscolaService {
 
     @Transactional
     public AutoEscolaResponseDTO criarAutoEscola(AutoEscolaRequestDTO request) {
-        if (!autoEscolaRepository.findByCnpj(request.cnpj()).isEmpty()) {
+        if (autoEscolaRepository.existsByCnpj(request.cnpj())) {
             throw new IllegalArgumentException("Já existe uma auto escola com esse cnpj!");
         }
 

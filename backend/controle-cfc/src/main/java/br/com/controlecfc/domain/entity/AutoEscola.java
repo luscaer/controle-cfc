@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.br.CNPJ;
@@ -12,8 +13,8 @@ import org.hibernate.validator.constraints.br.CNPJ;
 @Table(name = "auto_escola")
 public class AutoEscola {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @NotBlank
     @Column(nullable = false)
@@ -39,7 +40,7 @@ public class AutoEscola {
         this.ativo = true;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
