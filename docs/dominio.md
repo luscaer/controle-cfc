@@ -59,6 +59,7 @@ Representa o aluno em processo de formação.
 - cpf
 - status (EM_FORMACAO | PRONTO_PARA_EXAMES)
 - cargaHorariaRealizada
+- cargaHorariaPrevista
 - autoEscolaId
 
 **Regras de negócio:**
