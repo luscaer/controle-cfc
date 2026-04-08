@@ -60,12 +60,12 @@ O banco de dados do sistema foi modelado utilizando PostgreSQL, com foco em um a
 ## Tecnologias
 
 ### Backend
-- Java 17
+- Java 21
 - Spring Boot
 - Spring Data JPA
 
 ### Frontend
-- Angular
+- React (Vite) + Tailwind CSS (em adoção)
 
 ### Infraestrutura
 - PostgreSQL

@@ -1,5 +1,7 @@
 package br.com.controlecfc.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,6 +55,20 @@ public class UsuarioService {
                 usuario.getPerfilUsuario(),
                 usuario.isAtivo(),
                 usuario.getAutoEscola().getId());
+    }
+
+    public List<UsuarioResponseDTO> findAllByAutoEscolaId(UUID autoEscolaId) {
+        List<Usuario> usuarios = usuarioRepository.findAllByAutoEscolaId(autoEscolaId);
+
+        return usuarios.stream()
+                .map(usuario -> new UsuarioResponseDTO(
+                        usuario.getId(),
+                        usuario.getNome(),
+                        usuario.getEmail(),
+                        usuario.getPerfilUsuario(),
+                        usuario.isAtivo(),
+                        usuario.getAutoEscola().getId()))
+                .toList();
     }
 
 }

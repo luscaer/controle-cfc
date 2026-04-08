@@ -91,7 +91,7 @@ Essa abordagem simplifica a implementação inicial e garante isolamento lógico
 - Perfis de acesso:
     - ADMINISTRADOR
     - INSTRUTOR
-- Adoção futura de Spring Security com JWT
+- Autenticação Stateless implementada com Spring Security e JWT
 
 No MVP, a segurança será implementada de forma incremental, priorizando a estrutura correta.
 

@@ -1,10 +1,30 @@
 package br.com.controlecfc.security.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.controlecfc.security.dto.LoginRequestDTO;
+import br.com.controlecfc.security.dto.LoginResponseDTO;
+import br.com.controlecfc.security.service.AuthService;
+import jakarta.validation.Valid;
+
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.authService.login(request));
+    }
 
 }
