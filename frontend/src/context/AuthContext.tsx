@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         verificarAutenticacao();
     }, []);
 
-    const isAuthenticaded = usuario !== null; // (Isso é um ternário?)
+    const isAuthenticaded = usuario !== null;
 
     return (
         <AuthContext.Provider value={{
