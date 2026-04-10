@@ -6,11 +6,11 @@ import {
   type ReactNode,
 } from "react";
 import { apiClient } from "../api/apiClient";
-import type { Usuario } from "../types/usuario";
+import type { UsuarioResponse } from "../types/usuario-response";
 import type { LoginCredentials } from "../types/auth";
 
 interface AuthContextParams {
-  usuario: Usuario | null;
+  usuario: UsuarioResponse | null;
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<boolean>;
   logout: () => void;
@@ -19,7 +19,7 @@ interface AuthContextParams {
 const AuthContext = createContext<AuthContextParams | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [usuario, setUsuario] = useState<UsuarioResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
