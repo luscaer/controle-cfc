@@ -12,7 +12,7 @@ import type { LoginCredentials } from "../types/auth";
 interface AuthContextParams {
   usuario: Usuario | null;
   isLoading: boolean;
-  login: (credentials: LoginCredentials) => Promise<void>;
+  login: (credentials: LoginCredentials) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -36,9 +36,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     verificarAutenticacao();
   }, []);
 
-  const login = async (credentials: LoginCredentials) => {
-    // TO-DO: Lógica de login (acregito que irá chamar algo do apiClient não é mesmo?)
-    console.log("Tentou logar!");
+  const login = async (credenciais: LoginCredentials) => {
+    try {
+        const response = await apiClient.post('/auth/login', credenciais);
+        setUsuario(response.data);
+        return true;
+    } catch (error) {
+        console.log("Erro no login: ", error);
+        alert("E-mail ou senha inválidos!");
+        return false;
+    }
   };
 
   const logout = () => {
