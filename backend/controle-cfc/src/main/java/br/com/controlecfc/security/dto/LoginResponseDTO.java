@@ -1,5 +1,8 @@
 package br.com.controlecfc.security.dto;
 
+import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
+
 public record LoginResponseDTO(
-    String token
+    String token,
+    UsuarioResponseDTO usuario
 ) {}

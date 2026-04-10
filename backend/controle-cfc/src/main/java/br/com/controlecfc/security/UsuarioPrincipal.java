@@ -43,6 +43,18 @@ public class UsuarioPrincipal implements UserDetails {
         return this.usuario.isAtivo();
     }
 
+    public UUID getId() {
+        return this.usuario.getId();
+    }
+
+    public String getNome() {
+        return this.usuario.getNome();
+    }
+
+    public PerfilUsuario getPerfil() {
+        return this.usuario.getPerfilUsuario();
+    }
+
     public UUID getAutoEscolaId() {
         return this.usuario.getAutoEscola().getId();
     }

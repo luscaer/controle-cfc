@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
 import br.com.controlecfc.security.UsuarioPrincipal;
 import br.com.controlecfc.security.dto.LoginRequestDTO;
 import br.com.controlecfc.security.dto.LoginResponseDTO;
@@ -32,11 +33,13 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UsuarioPrincipal> getUser() {
+    public ResponseEntity<UsuarioResponseDTO> getUser() {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UsuarioPrincipal usuarioLogado = (UsuarioPrincipal) user;
 
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioLogado);
+        UsuarioResponseDTO response = UsuarioResponseDTO.fromPrincipal(usuarioLogado);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/logout")
@@ -55,7 +58,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDTO request,
+    public ResponseEntity<UsuarioResponseDTO> login(@Valid @RequestBody LoginRequestDTO request,
             HttpServletResponse response) {
         LoginResponseDTO loginResult = this.authService.login(request);
 
@@ -69,7 +72,7 @@ public class AuthController {
 
         response.addHeader("Set-Cookie", cookie.toString());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).body(loginResult.usuario());
     }
 
 }
