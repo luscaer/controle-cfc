@@ -5,17 +5,6 @@ export const apiClient = axios.create({
   withCredentials: true
 });
 
-apiClient.interceptors.request.use(
-    (config) => {
-        console.log('[Axios] Requisição interceptada indo para:', config.url);
-
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-);
-
 apiClient.interceptors.response.use(
     (response) => {
         return response;
@@ -25,7 +14,7 @@ apiClient.interceptors.response.use(
         console.error('[Axios] Ops, interceptou um erro de retorno:', statusCode);
 
         if (statusCode === 401) {
-            
+            window.location.href = "/login";
         }
 
         return Promise.reject(error);
