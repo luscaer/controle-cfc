@@ -5,6 +5,7 @@ import { Registro } from "./pages/Registro";
 import { Dashboard } from "./pages/Dashboard";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import { AcessoNegado } from "./pages/AcessoNegado";
 
 function App() {
   return (
@@ -19,8 +20,23 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/registro"
+            element={
+              <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
+                <Registro />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/acesso-negado"
+            element={
+              <ProtectedRoute>
+                <AcessoNegado />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
-          <Route path="/registro" element={<Registro />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

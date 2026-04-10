@@ -4,19 +4,32 @@ import LogoIcon from "../../assets/logo.svg?react";
 
 import { useAuth } from "../../context/AuthContext";
 import { LoadingScreen } from "../ui/LoadingScreen";
+import type { PerfilUsuario } from "../../types/perfil-usuario";
 
-export const ProtectedRoute = ({ children }: { children : JSX.Element}) => {
-    const { usuario, isLoading } = useAuth();
+export const ProtectedRoute = ({
+  children,
+  allowedRoles,
+}: {
+  children: JSX.Element;
+  allowedRoles?: PerfilUsuario[];
+}) => {
+  const { usuario, isLoading } = useAuth();
 
-    if (isLoading) {
-        return <LoadingScreen 
-            logo={<LogoIcon className="h-full w-full text-white" />}
-        />;
+  if (isLoading) {
+    return (
+      <LoadingScreen logo={<LogoIcon className="h-full w-full text-white" />} />
+    );
+  }
+
+  if (!usuario) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles) {
+    if (!allowedRoles.includes(usuario.perfilUsuario)) {
+        return <Navigate to="/acesso-negado" replace />;
     }
+  }
 
-    if(!usuario) {
-        return <Navigate to="/login" replace />;
-    }
-
-    return children;
-}
+  return children;
+};
