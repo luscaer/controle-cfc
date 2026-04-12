@@ -6,13 +6,13 @@ import { useAuth } from "../../context/AuthContext";
 import { LoadingScreen } from "../ui/LoadingScreen";
 import type { PerfilUsuario } from "../../types/perfil-usuario";
 
-export const ProtectedRoute = ({
+export function ProtectedRoute({
   children,
   allowedRoles,
 }: {
   children: JSX.Element;
   allowedRoles?: PerfilUsuario[];
-}) => {
+}) {
   const { usuario, isLoading } = useAuth();
 
   if (isLoading) {
@@ -27,7 +27,7 @@ export const ProtectedRoute = ({
 
   if (allowedRoles) {
     if (!allowedRoles.includes(usuario.perfilUsuario)) {
-        return <Navigate to="/acesso-negado" replace />;
+      return <Navigate to="/acesso-negado" replace />;
     }
   }
 

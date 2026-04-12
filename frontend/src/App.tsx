@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./pages/Login";
 import { Registro } from "./pages/Registro";
 import { Dashboard } from "./pages/Dashboard";
-import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import { ProtectedRoute } from "./components/layouts/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { AcessoNegado } from "./pages/AcessoNegado";
 

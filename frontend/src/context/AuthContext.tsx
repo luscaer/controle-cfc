@@ -18,7 +18,7 @@ interface AuthContextParams {
 
 const AuthContext = createContext<AuthContextParams | null>(null);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export function AuthProvider ({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<UsuarioResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -65,11 +65,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => {
+export function useAuth () {
   const context = useContext(AuthContext);
 
-  if (!context)
+  if (!context) {
     throw new Error("useAuth deve ser usado dentro de um AuthProvider");
+  }
 
   return context;
 };

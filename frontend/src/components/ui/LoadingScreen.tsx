@@ -2,7 +2,7 @@ interface LoadingScreenProps {
   logo?: React.ReactNode;
 }
 
-export const LoadingScreen = ({ logo }: LoadingScreenProps) => {
+export function LoadingScreen({ logo }: LoadingScreenProps) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-white">
       <div className="flex flex-col items-center gap-8">
