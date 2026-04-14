@@ -1,4 +1,3 @@
-// src/layouts/AuthLayout.tsx
 import type { ReactNode } from "react";
 import LogoIcon from "../../assets/logo-separado-branco.svg?react";
 
@@ -10,9 +9,9 @@ interface AuthLayoutProps {
 export function AuthLayout({ children, aside }: AuthLayoutProps) {
   return (
     <div className="flex min-h-screen">
-      <div className="relative hidden lg:flex w-1/2 flex-col justify-between bg-[#1B62A5] p-10 overflow-hidden">
+      <div className="relative hidden lg:flex w-1/2 flex-col justify-between bg-primary-500 p-10 overflow-hidden">
         <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full border-[40px] border-white/5" />
-        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full border-[30px] border-white/[0.04]" />
+        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full border-[30px] border-white/4" />
 
         {/* Logo */}
         <div className="relative z-10">

@@ -13,7 +13,7 @@ export function StepIndicator({ numero, label, ativa, concluida }: StepIndicator
       <div className={`
         flex h-7 w-7 flex-shrink-0 items-center justify-center
         rounded-full border text-xs font-medium transition-all
-        ${ativa     ? "border-white bg-white text-[#1B62A5]"    : ""}
+        ${ativa     ? "border-white bg-white text-primary-500"    : ""}
         ${concluida ? "border-white/60 bg-white/20 text-white"  : ""}
         ${!ativa && !concluida ? "border-white/30 text-white/50" : ""}
       `}>

@@ -63,7 +63,7 @@ export function FormularioLogin() {
 
             {/* Esqueceu a senha */}
             <div className="text-right -mt-1">
-                <a href="#" className="text-xs text-[#1B62A5] hover:underline">
+                <a href="#" className="text-xs text-primary-500 hover:underline">
                     Esqueceu a senha?
                 </a>
             </div>

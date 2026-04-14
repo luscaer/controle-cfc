@@ -20,7 +20,7 @@ export function Login() {
           {/* Rodapé */}
           <div className="mt-6 text-center text-xs text-gray-400">
             Problemas para acessar?{" "}
-            <a href="#" className="text-[#1B62A5] hover:underline">
+            <a href="#" className="text-primary-500 hover:underline">
               Fale com o suporte
             </a>
           </div>
