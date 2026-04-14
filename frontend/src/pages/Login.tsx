@@ -14,7 +14,7 @@ export function Login() {
             </p>
           </div>
 
-          {/* Formulário — seu componente existente */}
+          {/* Formulário */}
           <FormularioLogin />
 
           {/* Rodapé */}
