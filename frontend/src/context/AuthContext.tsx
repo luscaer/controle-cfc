@@ -12,8 +12,9 @@ import type { LoginCredentials } from "../types/auth";
 interface AuthContextParams {
   usuario: UsuarioResponse | null;
   isLoading: boolean;
+  isAuthenticaded: boolean;
   login: (credentials: LoginCredentials) => Promise<boolean>;
-  logout: () => void;
+  logout: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextParams | null>(null);
@@ -42,14 +43,18 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
         setUsuario(response.data);
         return true;
     } catch (error) {
-        console.log("Erro no login: ", error);
-        alert("E-mail ou senha inválidos!");
         return false;
     }
   };
 
-  const logout = () => {
-    setUsuario(null);
+  const logout = async () => {
+    try {
+        const response = await apiClient.post('/auth/logout');
+        setUsuario(null);
+        return true;
+    } catch (error) {
+        return false;
+    }
   };
 
   const isAuthenticaded = usuario !== null;

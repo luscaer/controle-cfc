@@ -35,7 +35,7 @@ export function PerfilSelector({ value, onChange }: PerfilSelectorProps) {
               flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left
               transition-all
               ${selecionado
-                ? "border-[#1B62A5] bg-blue-50 text-[#1B62A5]"
+                ? "border-primary-500 bg-blue-50 text-primary-500"
                 : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300"
               }
             `}
