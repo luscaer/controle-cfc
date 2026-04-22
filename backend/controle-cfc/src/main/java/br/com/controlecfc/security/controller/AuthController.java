@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
+import br.com.controlecfc.security.SecurityUtils;
 import br.com.controlecfc.security.UsuarioPrincipal;
 import br.com.controlecfc.security.dto.LoginRequestDTO;
 import br.com.controlecfc.security.dto.LoginResponseDTO;
@@ -27,15 +28,16 @@ public class AuthController {
     private boolean cookieSecure;
 
     private final AuthService authService;
+    private final SecurityUtils securityUtils;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, SecurityUtils securityUtils) {
         this.authService = authService;
+        this.securityUtils = securityUtils;
     }
 
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDTO> getUser() {
-        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UsuarioPrincipal usuarioLogado = (UsuarioPrincipal) user;
+        UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
 
         UsuarioResponseDTO response = UsuarioResponseDTO.fromPrincipal(usuarioLogado);
 

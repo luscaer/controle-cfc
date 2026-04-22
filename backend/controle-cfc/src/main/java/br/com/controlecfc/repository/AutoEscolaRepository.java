@@ -1,5 +1,6 @@
 package br.com.controlecfc.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

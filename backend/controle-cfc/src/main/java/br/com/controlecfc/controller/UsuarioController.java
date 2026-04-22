@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
+import br.com.controlecfc.security.SecurityUtils;
 import br.com.controlecfc.security.UsuarioPrincipal;
 import br.com.controlecfc.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -25,17 +26,18 @@ import jakarta.validation.Valid;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final SecurityUtils securityUtils;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, SecurityUtils securityUtils) {
         this.usuarioService = usuarioService;
+        this.securityUtils = securityUtils;
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping("/listar-usuarios")
     public ResponseEntity<List<UsuarioResponseDTO>> listarUsuarios() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UsuarioPrincipal usuarioPrincipal = (UsuarioPrincipal) auth.getPrincipal();
-        UUID tenantId = usuarioPrincipal.getAutoEscolaId();
+        UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
+        UUID tenantId = usuarioLogado.getAutoEscolaId();
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAllByAutoEscolaId(tenantId));
     }
@@ -43,10 +45,8 @@ public class UsuarioController {
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> criarUsuario(@Valid @RequestBody UsuarioRequestDTO request) {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UsuarioPrincipal usuarioPrincipal = (UsuarioPrincipal) auth.getPrincipal();
-        UUID tenantId = usuarioPrincipal.getAutoEscolaId();
+        UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
+        UUID tenantId = usuarioLogado.getAutoEscolaId();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.criarUsuario(request, tenantId));
     }

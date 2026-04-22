@@ -1,5 +1,7 @@
 package br.com.controlecfc.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,20 @@ public class AutoEscolaService {
 
     public AutoEscolaService(AutoEscolaRepository autoEscolaRepository) {
         this.autoEscolaRepository = autoEscolaRepository;
+    }
+
+    public List<AutoEscolaResponseDTO> buscarTodasAutoEscolas() {
+        List<AutoEscola> autoEscolas = autoEscolaRepository.findAll();
+
+        return autoEscolas.stream()
+                .map(autoEscola -> new AutoEscolaResponseDTO(
+                    autoEscola.getId(),
+                    autoEscola.getNome(),
+                    autoEscola.getCnpj(),
+                    autoEscola.isAtivo(),
+                    autoEscola.getDataCriacao()
+                ))
+                .toList();
     }
 
     @Transactional
