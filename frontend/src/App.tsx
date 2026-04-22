@@ -2,10 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { Login } from "./pages/Login";
 import { Registro } from "./pages/Registro";
-import { Dashboard } from "./pages/Dashboard";
 import { ProtectedRoute } from "./components/layouts/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { AcessoNegado } from "./pages/AcessoNegado";
+import { DashboardLayout } from "./components/layouts/DashboardLayout";
+import { AutoEscolasDashboard } from "./pages/AutoEscolas";
+import { HomeRedirect } from "./components/layouts/HomeRedirect";
 
 function App() {
   return (
@@ -16,10 +18,13 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <DashboardLayout />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route index element={<HomeRedirect />} />
+            <Route path="auto-escolas" element={<AutoEscolasDashboard />} />
+          </Route>
           <Route
             path="/registro"
             element={
