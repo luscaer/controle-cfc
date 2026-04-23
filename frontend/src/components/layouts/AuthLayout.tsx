@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import LogoIcon from "../../assets/logo-separado-branco.svg?react";
+import { HeroBackground } from "../ui/HeroBackground";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -8,14 +9,16 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ children, aside }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen w-full">
       <div className="relative hidden lg:flex w-1/2 flex-col justify-between bg-primary-500 p-10 overflow-hidden">
-        <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full border-[40px] border-white/10" />
-        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full border-[30px] border-white/10" />
+        <HeroBackground />
+        
+        <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full border-40 border-white/10" />
+        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full border-30 border-white/10" />
 
         {/* Logo */}
         <div className="relative z-10">
-          <LogoIcon className="h-10 w-1/4" />
+          <LogoIcon className="h-10 w-48" />
         </div>
 
         {/* Aside */}
@@ -36,8 +39,8 @@ export function AuthLayout({ children, aside }: AuthLayoutProps) {
         </div>
       </div>
 
-      <div className="flex w-full lg:w-1/2 flex-col justify-center px-8 py-12 sm:px-12">
-        <div className="mx-auto w-full max-w-sm">{children}</div>
+      <div className="flex w-full lg:w-1/2 flex-col justify-center py-12 px-4 md:px-8 lg:px-12 xl:px-24">
+        <div className="mx-auto w-full max-w-sm xl:max-w-md 2xl:max-w-lg 2xl:scale-110">{children}</div>
       </div>
     </div>
   );

@@ -1,24 +1,22 @@
 import { ArrowRight, Building, User } from "lucide-react";
 import { CabecalhoEtapa } from "../../components/ui/CabecalhoEtapa";
-import type { RegistroFormsErrors } from "../../types/registro-form-errors";
 import { CustomInput } from "../../components/ui/Input";
-import type { AutoEscolaRequest } from "../../types/autoescola-request";
 import { CustomButton } from "../../components/ui/Button";
+import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import type { RegisterFormData } from "../../schemas/registerSchema";
 import { aplicarMascaraCnpj } from "../../utils/formatters";
 
 interface EtapaAutoEscolaProps {
-  dados: AutoEscolaRequest;
-  erros: RegistroFormsErrors;
-  onChange: (dados: AutoEscolaRequest) => void;
-  onBlur: (campo: keyof RegistroFormsErrors, valor: string) => void;
+  register: UseFormRegister<RegisterFormData>;
+  erros: FieldErrors<RegisterFormData>;
+  onCancelar: () => void;
   onAvancar: () => void;
 }
 
 export function EtapaAutoEscola({
-  dados,
+  register,
   erros,
-  onChange,
-  onBlur,
+  onCancelar,
   onAvancar,
 }: EtapaAutoEscolaProps) {
   return (
@@ -45,14 +43,12 @@ export function EtapaAutoEscola({
             id="nome-autoescola"
             placeholder="Auto Escola Exemplo"
             className="pl-9"
-            value={dados.nome}
-            onChange={(e) => onChange({ ...dados, nome: e.target.value })}
-            onBlur={(e) => onBlur("nomeAutoEscola", e.target.value)}
-            hasError={erros.nomeAutoEscola !== ""}
+            {...register("nomeAutoEscola")}
+            hasError={!!erros.nomeAutoEscola}
           />
         </div>
         {erros.nomeAutoEscola && (
-          <p className="text-xs text-red-600">{erros.nomeAutoEscola}</p>
+          <p className="text-xs text-red-600">{erros.nomeAutoEscola.message}</p>
         )}
       </div>
 
@@ -71,22 +67,38 @@ export function EtapaAutoEscola({
             id="cnpj"
             placeholder="00.000.000/0000-00"
             className="pl-9"
-            value={dados.cnpj}
-            onChange={(e) => {
-              const cnpjFormatado = aplicarMascaraCnpj(e.target.value);
-              onChange({ ...dados, cnpj: cnpjFormatado });
-            }}
-            onBlur={(e) => onBlur("cnpj", e.target.value)}
-            hasError={erros.cnpj !== ""}
+            hasError={!!erros.cnpj}
+            {...register("cnpj", {
+              onChange: (evento) => {
+                evento.target.value = aplicarMascaraCnpj(evento.target.value);
+              },
+            })}
           />
         </div>
-        {erros.cnpj && <p className="text-xs text-red-600">{erros.cnpj}</p>}
+        {erros.cnpj && (
+          <p className="text-xs text-red-600">{erros.cnpj.message}</p>
+        )}
       </div>
 
-      <CustomButton variant="primary" size="md" onClick={onAvancar}>
-        Próximo
-        <ArrowRight className="ml-2 h-4 w-4" />
-      </CustomButton>
+      <div className="flex gap-2 mt-1">
+        <CustomButton
+          variant="ghost"
+          size="md"
+          onClick={onCancelar}
+          type="button"
+        >
+          Cancelar
+        </CustomButton>
+        <CustomButton
+          variant="primary"
+          size="md"
+          onClick={onAvancar}
+          className="flex-1"
+        >
+          Próximo
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </CustomButton>
+      </div>
     </div>
   );
 }

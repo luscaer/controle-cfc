@@ -16,10 +16,19 @@ const navigationLinks: NavigationLink[] = [
     icon: Building2,
     perfis: ["SUPER_ADMIN"],
   },
-  { name: "Usuário", href: "/usuarios", icon: Users, perfis:["ADMINISTRADOR"] },
+  {
+    name: "Usuário",
+    href: "/usuarios",
+    icon: Users,
+    perfis: ["ADMINISTRADOR"],
+  },
 ];
 
-export function CustomSidebar() {
+export function CustomSidebar({
+  onCloseMobile,
+}: {
+  onCloseMobile?: () => void;
+}) {
   const { usuario, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -54,6 +63,7 @@ export function CustomSidebar() {
           })
           .map((link) => (
             <NavLink
+              onClick={onCloseMobile}
               key={link.href}
               to={link.href}
               end={link.href === "/"}

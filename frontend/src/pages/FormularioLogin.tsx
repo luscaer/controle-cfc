@@ -1,24 +1,31 @@
-import { useNavigate } from "react-router-dom";
-import { CustomInput } from "../components/ui/Input";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
-import type { LoginCredentials } from "../types/auth";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+import {
+  LoginValidatorSchema,
+  type LoginFormData,
+} from "../schemas/authSchema";
+
+import { CustomInput } from "../components/ui/Input";
 import { CustomButton } from "../components/ui/Button";
 import { LockIcon, MailIcon } from "lucide-react";
 import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Spinner } from "../components/ui/Spinner";
 
 export function FormularioLogin() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [credenciais, setCredenciais] = useState<LoginCredentials>({
-    email: "",
-    senha: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({ resolver: zodResolver(LoginValidatorSchema), mode:"onTouched" });
 
-  const aoSubmeter = async (evento: React.SyntheticEvent<HTMLFormElement>) => {
-    evento.preventDefault();
-    const sucesso = await login(credenciais);
+  const aoSubmeter = async (dados: LoginFormData) => {
+    const sucesso = await login(dados);
 
     if (sucesso) {
       navigate("/");
@@ -28,7 +35,7 @@ export function FormularioLogin() {
   };
 
   return (
-    <form onSubmit={aoSubmeter} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(aoSubmeter)} className="flex flex-col gap-4">
       {/* Campo e-mail */}
       <div className="flex flex-col gap-1.5">
         <label
@@ -44,12 +51,12 @@ export function FormularioLogin() {
             id="email"
             placeholder="seu@email.com"
             className="pl-9"
-            value={credenciais.email}
-            onChange={(e) =>
-              setCredenciais({ ...credenciais, email: e.target.value })
-            }
+            {...register("email")}
           />
         </div>
+        {errors.email && (
+          <span className="text-red-500 text-xs">{errors.email.message}</span>
+        )}
       </div>
 
       {/* Campo senha */}
@@ -67,12 +74,12 @@ export function FormularioLogin() {
             id="senha"
             placeholder="••••••••"
             className="pl-9"
-            value={credenciais.senha}
-            onChange={(e) =>
-              setCredenciais({ ...credenciais, senha: e.target.value })
-            }
+            {...register("senha")}
           />
         </div>
+        {errors.senha && (
+          <span className="text-red-500 text-xs">{errors.senha.message}</span>
+        )}
       </div>
 
       {/* Esqueceu a senha */}
@@ -82,7 +89,8 @@ export function FormularioLogin() {
         </a>
       </div>
 
-      <CustomButton type="submit" variant="primary" size="md">
+      <CustomButton type="submit" disabled={isSubmitting} variant="primary" size="md">
+        {isSubmitting && <Spinner size={14} />} 
         Entrar
       </CustomButton>
     </form>

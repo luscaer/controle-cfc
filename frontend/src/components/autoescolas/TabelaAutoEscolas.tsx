@@ -24,59 +24,61 @@ export function TabelaAutoEscolas({
 }: TabelaAutoEscolasProps) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-      <table className="w-full table-fixed border-collapse">
-        <thead>
-          <tr className="border-b border-gray-100 bg-gray-50">
-            <th className="w-[38%] px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-gray-400">
-              Nome
-            </th>
-            <th className="w-[30%] px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-gray-400">
-              CNPJ
-            </th>
-            <th className="w-[16%] px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-gray-400">
-              Status
-            </th>
-            <th className="w-[16%] px-4 py-2.5 text-right text-[11px] font-medium uppercase tracking-wide text-gray-400">
-              Ação
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {autoEscolas.map((ae) => (
-            <tr
-              key={ae.id}
-              className="border-b border-gray-100 last:border-0 hover:bg-gray-50"
-            >
-              <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                {ae.nome}
-              </td>
-              <td className="px-4 py-3 font-mono text-xs text-gray-500">
-                {aplicarMascaraCnpj(ae.cnpj)}
-              </td>
-              <td className="px-4 py-3">
-                <BadgeStatus ativo={ae.ativo} />
-              </td>
-              <td className="px-4 py-3 text-right">
-                <button
-                  onClick={() => onDetalhe(ae.id)}
-                  className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs text-gray-500 transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
-                >
-                  Detalhes
-                  <ArrowRight size={12} />
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[600px] border-collapse md:min-w-full">
+          <thead>
+            <tr className="border-b border-gray-100 bg-gray-50">
+              <th className="px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-gray-400">
+                Nome
+              </th>
+              <th className="px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-gray-400">
+                CNPJ
+              </th>
+              <th className="hidden px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-gray-400 sm:table-cell">
+                Status
+              </th>
+              <th className="px-4 py-2.5 text-right text-[11px] font-medium uppercase tracking-wide text-gray-400">
+                Ação
+              </th>
             </tr>
-          ))}
-
-          {autoEscolas.length === 0 && (
-            <tr>
-              <td colSpan={4}>
-                <EmptyState comBusca={busca !== ""} />
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {autoEscolas.map((ae) => (
+              <tr
+                key={ae.id}
+                className="border-b border-gray-100 last:border-0 hover:bg-gray-50"
+              >
+                <td className="px-4 py-3 text-sm font-medium text-gray-900">
+                  {ae.nome}
+                </td>
+                <td className="px-4 py-3 font-mono text-xs text-gray-500">
+                  {aplicarMascaraCnpj(ae.cnpj)}
+                </td>
+                <td className="hidden px-4 py-3 sm:table-cell">
+                  <BadgeStatus ativo={ae.ativo} />
+                </td>
+                <td className="px-4 py-3 text-right">
+                  <button
+                    onClick={() => onDetalhe(ae.id)}
+                    className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs text-gray-500 transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
+                  >
+                    Detalhes
+                    <ArrowRight size={12} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+ 
+            {autoEscolas.length === 0 && (
+              <tr>
+                <td colSpan={4}>
+                  <EmptyState comBusca={busca !== ""} />
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
       <div className="flex items-center justify-between border-t border-gray-100 bg-gray-50 px-4 py-3">
         {/* Info */}
         <span className="text-xs text-gray-400">

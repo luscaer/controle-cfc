@@ -1,28 +1,35 @@
 import { ArrowRight, Mail, User, Lock, ArrowLeft } from "lucide-react";
 import { CabecalhoEtapa } from "../../components/ui/CabecalhoEtapa";
-import type { RegistroFormsErrors } from "../../types/registro-form-errors";
 import { CustomInput } from "../../components/ui/Input";
 import { CustomButton } from "../../components/ui/Button";
-import type { UsuarioRequest } from "../../types/usuario-request";
 import { PerfilSelector } from "../../components/ui/PerfilSelector";
+import type {
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormTrigger,
+  UseFormWatch,
+} from "react-hook-form";
+import type { RegisterFormData } from "../../schemas/registerSchema";
+import { Spinner } from "../../components/ui/Spinner";
 
 interface EtapaUsuarioProps {
-  dados: UsuarioRequest;
-  erros: RegistroFormsErrors;
-  confirmacaoSenha: string;
-  onChange: (dados: UsuarioRequest) => void;
-  onBlur: (campo: keyof RegistroFormsErrors, valor: string) => void;
-  onConfirmacaoSenhaChange: (valor: string) => void;
+  register: UseFormRegister<RegisterFormData>;
+  trigger: UseFormTrigger<RegisterFormData>;
+  erros: FieldErrors<RegisterFormData>;
+  watch: UseFormWatch<RegisterFormData>;
+  setValue: UseFormSetValue<RegisterFormData>;
+  isSubmitting: boolean;
   onVoltar: () => void;
 }
 
 export function EtapaUsuario({
-  dados,
+  register,
+  trigger,
   erros,
-  confirmacaoSenha,
-  onChange,
-  onBlur,
-  onConfirmacaoSenhaChange,
+  watch,
+  setValue,
+  isSubmitting,
   onVoltar,
 }: EtapaUsuarioProps) {
   return (
@@ -36,7 +43,10 @@ export function EtapaUsuario({
 
       {/* Nome */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-medium uppercase tracking-wide text-gray-400" htmlFor="nome-usuario">
+        <label
+          className="text-xs font-medium uppercase tracking-wide text-gray-400"
+          htmlFor="nome-usuario"
+        >
           Nome completo
         </label>
         <div className="relative flex items-center">
@@ -46,20 +56,21 @@ export function EtapaUsuario({
             id="nome-usuario"
             placeholder="João Silva"
             className="pl-9"
-            value={dados.nome}
-            onChange={(e) => onChange({ ...dados, nome: e.target.value })}
-            onBlur={(e) => onBlur("nomeUsuario", e.target.value)}
-            hasError={erros.nomeUsuario !== ""}
+            {...register("nomeUsuario")}
+            hasError={!!erros.nomeUsuario}
           />
         </div>
         {erros.nomeUsuario && (
-          <p className="text-xs text-red-600">{erros.nomeUsuario}</p>
+          <p className="text-xs text-red-600">{erros.nomeUsuario.message}</p>
         )}
       </div>
 
       {/* E-mail */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-medium uppercase tracking-wide text-gray-400" htmlFor="email">
+        <label
+          className="text-xs font-medium uppercase tracking-wide text-gray-400"
+          htmlFor="email"
+        >
           E-mail
         </label>
         <div className="relative flex items-center">
@@ -69,21 +80,22 @@ export function EtapaUsuario({
             id="email"
             placeholder="joao@autoescola.com"
             className="pl-9"
-            value={dados.email}
-            onChange={(e) => onChange({ ...dados, email: e.target.value })}
-            onBlur={(e) => onBlur("email", e.target.value)}
-            hasError={erros.email !== ""}
+            {...register("email")}
+            hasError={!!erros.email}
           />
         </div>
         {erros.email && (
-          <p className="text-xs text-red-600">{erros.email}</p>
+          <p className="text-xs text-red-600">{erros.email.message}</p>
         )}
       </div>
 
       {/* Senha + Confirmação lado a lado */}
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-medium uppercase tracking-wide text-gray-400" htmlFor="senha">
+          <label
+            className="text-xs font-medium uppercase tracking-wide text-gray-400"
+            htmlFor="senha"
+          >
             Senha
           </label>
           <div className="relative flex items-center">
@@ -93,16 +105,19 @@ export function EtapaUsuario({
               id="senha"
               placeholder="••••••••"
               className="pl-9"
-              value={dados.senha}
-              onChange={(e) => onChange({ ...dados, senha: e.target.value })}
-              onBlur={(e) => onBlur("senha", e.target.value)}
-              hasError={erros.senha !== ""}
+              {...register("senha", {
+                onChange: () => trigger("confirmacaoSenha"),
+              })}
+              hasError={!!erros.senha}
             />
           </div>
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-medium uppercase tracking-wide text-gray-400" htmlFor="confirmacao-senha">
+          <label
+            className="text-xs font-medium uppercase tracking-wide text-gray-400"
+            htmlFor="confirmacao-senha"
+          >
             Confirmar
           </label>
           <div className="relative flex items-center">
@@ -112,17 +127,23 @@ export function EtapaUsuario({
               id="confirmacao-senha"
               placeholder="••••••••"
               className="pl-9"
-              value={confirmacaoSenha}
-              onChange={(e) => onConfirmacaoSenhaChange(e.target.value)}
-              onBlur={(e) => onBlur("senha", e.target.value)}
-              hasError={erros.senha !== ""}
+              {...register("confirmacaoSenha", {
+                onChange: () => trigger("confirmacaoSenha"),
+              })}
+              hasError={!!erros.confirmacaoSenha}
             />
           </div>
         </div>
       </div>
 
       {erros.senha && (
-        <p className="text-xs text-red-600 -mt-2">{erros.senha}</p>
+        <p className="text-xs text-red-600 -mt-2">{erros.senha.message}</p>
+      )}
+
+      {erros.confirmacaoSenha && (
+        <p className="text-xs text-red-600 -mt-2">
+          {erros.confirmacaoSenha.message}
+        </p>
       )}
 
       {/* Perfil */}
@@ -131,20 +152,32 @@ export function EtapaUsuario({
           Perfil de acesso
         </label>
         <PerfilSelector
-          value={dados.perfilUsuario}
-          onChange={(perfil) => onChange({ ...dados, perfilUsuario: perfil })}
+          value={watch("perfilUsuario")}
+          onChange={(novoPerfil) => setValue("perfilUsuario", novoPerfil)}
         />
       </div>
 
       {/* Ações */}
       <div className="flex gap-2 mt-1">
-        <CustomButton variant="ghost" size="md" onClick={onVoltar} type="button">
+        <CustomButton
+          variant="ghost"
+          size="md"
+          onClick={onVoltar}
+          type="button"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Voltar
         </CustomButton>
-        <CustomButton type="submit" variant="primary" size="md" className="flex-1">
+        <CustomButton
+          type="submit"
+          disabled={isSubmitting}
+          variant="primary"
+          size="md"
+          className="flex-1"
+        >
+          {isSubmitting && <Spinner size={14} />}
           Cadastrar
-          <ArrowRight className="ml-2 h-4 w-4" />
+          {!isSubmitting && <ArrowRight className="ml-2 h-4 w-4" />}
         </CustomButton>
       </div>
     </div>
