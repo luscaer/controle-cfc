@@ -3,15 +3,14 @@ package br.com.controlecfc.service;
 import java.util.EnumSet;
 import java.util.Set;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.controlecfc.domain.enums.PerfilUsuario;
 import br.com.controlecfc.dto.autoescola.AutoEscolaResponseDTO;
 import br.com.controlecfc.dto.registro.RegistroContaRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
+import br.com.controlecfc.exception.AcessoNegadoException;
 
 @Service
 public class RegistroService {
@@ -63,7 +62,7 @@ public class RegistroService {
 
     private void validarPerfil(PerfilUsuario perfil, Set<PerfilUsuario> permitidos) {
         if (!permitidos.contains(perfil)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Perfil não permitido");
+            throw new AcessoNegadoException("Perfil não tem permissão.");
         }
     }
 
