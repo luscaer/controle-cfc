@@ -8,11 +8,13 @@ import { AcessoNegado } from "./pages/AcessoNegado";
 import { DashboardLayout } from "./components/layouts/DashboardLayout";
 import { AutoEscolasDashboard } from "./pages/AutoEscolas";
 import { HomeRedirect } from "./components/layouts/HomeRedirect";
+import { Toaster } from "sonner";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Toaster richColors position="top-right" />
         <Routes>
           <Route
             path="/"
@@ -23,11 +25,14 @@ function App() {
             }
           >
             <Route index element={<HomeRedirect />} />
-            <Route path="auto-escolas" element={
+            <Route
+              path="auto-escolas"
+              element={
                 <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
-                    <AutoEscolasDashboard />
+                  <AutoEscolasDashboard />
                 </ProtectedRoute>
-                } />
+              }
+            />
           </Route>
           <Route
             path="/registro"

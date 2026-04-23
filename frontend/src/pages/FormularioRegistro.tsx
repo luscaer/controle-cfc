@@ -7,6 +7,8 @@ import type { UsuarioRequest } from "../types/usuario-request";
 import { EtapaAutoEscola } from "./registro/EtapaAutoEscola";
 import { EtapaUsuario } from "./registro/EtapaUsuario";
 import { validarCnpj } from "../utils/validators";
+import axios from "axios";
+import { toast } from "sonner";
 
 interface FormularioRegistroProps {
   etapa: number;
@@ -124,10 +126,15 @@ export function FormularioRegistro({
         };
 
         await apiClient.post("/v1/registro/super", registro);
+        toast.success("Cadastro realizado!");
         return true;
       } catch (error) {
-        console.log("Erro no registro: ", error);
-        alert("Ocorreu um erro, tente mais tarde.");
+        if (axios.isAxiosError(error)) {
+          const mensagem = error.response?.data?.mensagem;
+          toast.error(mensagem ?? "Ocorreu um erro inesperado.");
+        } else {
+          toast.error("Ocorreu um erro inesperado. Tente novamente.");
+        }
         return false;
       }
     }
