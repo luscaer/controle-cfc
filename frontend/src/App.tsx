@@ -6,7 +6,7 @@ import { ProtectedRoute } from "./components/layouts/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { AcessoNegado } from "./pages/AcessoNegado";
 import { DashboardLayout } from "./components/layouts/DashboardLayout";
-import { AutoEscolasDashboard } from "./pages/AutoEscolas";
+import { AutoEscolasDashboard } from "./pages/AutoEscolasDashboard";
 import { HomeRedirect } from "./components/layouts/HomeRedirect";
 import { Toaster } from "sonner";
 
