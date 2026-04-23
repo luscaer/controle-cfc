@@ -23,7 +23,11 @@ function App() {
             }
           >
             <Route index element={<HomeRedirect />} />
-            <Route path="auto-escolas" element={<AutoEscolasDashboard />} />
+            <Route path="auto-escolas" element={
+                <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
+                    <AutoEscolasDashboard />
+                </ProtectedRoute>
+                } />
           </Route>
           <Route
             path="/registro"
