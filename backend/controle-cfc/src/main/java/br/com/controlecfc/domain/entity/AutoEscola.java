@@ -71,4 +71,8 @@ public class AutoEscola {
     public void desativar() {
         this.ativo = false;
     }
+
+    public void ativar() {
+        this.ativo = true;
+    }
 }

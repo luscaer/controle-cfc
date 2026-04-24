@@ -15,6 +15,8 @@ import br.com.controlecfc.exception.ConflitoException;
 import br.com.controlecfc.exception.RecursoNaoEncontradoException;
 import br.com.controlecfc.repository.AutoEscolaRepository;
 import br.com.controlecfc.repository.UsuarioRepository;
+import br.com.controlecfc.security.SecurityUtils;
+import br.com.controlecfc.security.UsuarioPrincipal;
 
 @Service
 public class UsuarioService {
@@ -22,14 +24,14 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final AutoEscolaRepository autoEscolaRepository;
 
+    private final SecurityUtils securityUtils;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(
-            UsuarioRepository usuarioRepository,
-            AutoEscolaRepository autoEscolaRepository,
-            PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository, AutoEscolaRepository autoEscolaRepository,
+            SecurityUtils securityUtils, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.autoEscolaRepository = autoEscolaRepository;
+        this.securityUtils = securityUtils;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -58,8 +60,13 @@ public class UsuarioService {
                 usuario.getAutoEscola().getId());
     }
 
-    public List<UsuarioResponseDTO> findAllByAutoEscolaId(UUID autoEscolaId) {
-        List<Usuario> usuarios = usuarioRepository.findAllByAutoEscolaId(autoEscolaId);
+    @Transactional
+    public UsuarioResponseDTO criarUsuario(UsuarioRequestDTO request) {
+        return criarUsuario(request, getTenantId());
+    }
+
+    public List<UsuarioResponseDTO> findAllByAutoEscolaId() {
+        List<Usuario> usuarios = usuarioRepository.findAllByAutoEscolaId(getTenantId());
 
         return usuarios.stream()
                 .map(usuario -> new UsuarioResponseDTO(
@@ -70,6 +77,11 @@ public class UsuarioService {
                         usuario.isAtivo(),
                         usuario.getAutoEscola().getId()))
                 .toList();
+    }
+
+    private UUID getTenantId() {
+        UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
+        return usuarioLogado.getAutoEscolaId();
     }
 
 }

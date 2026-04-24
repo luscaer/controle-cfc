@@ -1,7 +1,6 @@
 package br.com.controlecfc.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
-import br.com.controlecfc.security.SecurityUtils;
-import br.com.controlecfc.security.UsuarioPrincipal;
 import br.com.controlecfc.service.UsuarioService;
 import jakarta.validation.Valid;
 
@@ -24,29 +21,21 @@ import jakarta.validation.Valid;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
-    private final SecurityUtils securityUtils;
 
-    public UsuarioController(UsuarioService usuarioService, SecurityUtils securityUtils) {
+    public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
-        this.securityUtils = securityUtils;
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping("/listar-usuarios")
     public ResponseEntity<List<UsuarioResponseDTO>> listarUsuarios() {
-        UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
-        UUID tenantId = usuarioLogado.getAutoEscolaId();
-
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAllByAutoEscolaId(tenantId));
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAllByAutoEscolaId());
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> criarUsuario(@Valid @RequestBody UsuarioRequestDTO request) {
-        UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
-        UUID tenantId = usuarioLogado.getAutoEscolaId();
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.criarUsuario(request, tenantId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.criarUsuario(request));
     }
 
 }

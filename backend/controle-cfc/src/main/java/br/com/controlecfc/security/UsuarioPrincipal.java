@@ -40,7 +40,7 @@ public class UsuarioPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.usuario.isAtivo();
+        return this.usuario.isAtivo() && this.usuario.getAutoEscola().isAtivo();
     }
 
     public UUID getId() {
