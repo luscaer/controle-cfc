@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import type { AutoEscolaResponse } from "../types/autoescola-response";
 import { buscarTodasAutoEscolas } from "../api/autoEscolaApi";
+import axios from "axios";
+import { toast } from "sonner";
 
 const ITENS_POR_PAGINA = 10;
 
@@ -31,11 +33,18 @@ export function useAutoEscolas(): UseAutoEscolasReturn {
   useEffect(() => {
     const buscar = async () => {
       try {
-        const pagina = await buscarTodasAutoEscolas(paginaAtual, ITENS_POR_PAGINA, busca);
+        const pagina = await buscarTodasAutoEscolas(
+          paginaAtual,
+          ITENS_POR_PAGINA,
+          busca,
+        );
         setAutoEscolas(pagina.content);
         setTotalElementos(pagina.totalElements);
-      } catch {
-        setErro("Sem permissão para acessar este recurso");
+      } catch (error) {
+        const mensagem = axios.isAxiosError(error)
+          ? error.response?.data?.mensagem
+          : null;
+        toast.error(mensagem ?? "Ocorreu um erro inesperado. Tente novamente.");
       } finally {
         setIsLoading(false);
       }
@@ -44,8 +53,12 @@ export function useAutoEscolas(): UseAutoEscolasReturn {
   }, [paginaAtual, busca]);
 
   return {
-    autoEscolas, paginaAtual, totalElementos,
-    isLoading, erro, busca,
+    autoEscolas,
+    paginaAtual,
+    totalElementos,
+    isLoading,
+    erro,
+    busca,
     setBusca: handleSetBusca,
     setPaginaAtual,
   };

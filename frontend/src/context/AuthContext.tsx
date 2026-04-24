@@ -5,9 +5,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { apiClient } from "../api/apiClient";
 import type { UsuarioResponse } from "../types/usuario-response";
 import type { LoginCredentials } from "../types/auth";
+import { authMe, authLogin, authLogout } from "../api/authApi";
 
 interface AuthContextParams {
   usuario: UsuarioResponse | null;
@@ -26,8 +26,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
   useEffect(() => {
     const verificarAutenticacao = async () => {
       try {
-        const response = await apiClient.get("/auth/me");
-        setUsuario(response.data);
+        setUsuario(await authMe());
       } catch (error) {
         setUsuario(null);
       } finally {
@@ -39,8 +38,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
 
   const login = async (credenciais: LoginCredentials) => {
     try {
-        const response = await apiClient.post('/auth/login', credenciais);
-        setUsuario(response.data);
+        setUsuario(await authLogin(credenciais));
         return true;
     } catch (error) {
         return false;
@@ -49,7 +47,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
-        await apiClient.post('/auth/logout');
+        await authLogout();
         setUsuario(null);
         return true;
     } catch (error) {
