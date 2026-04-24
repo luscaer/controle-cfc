@@ -2,17 +2,58 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { Login } from "./pages/Login";
 import { Registro } from "./pages/Registro";
-import { Dashboard } from "./pages/Dashboard";
+import { ProtectedRoute } from "./components/layouts/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
+import { AcessoNegado } from "./pages/AcessoNegado";
+import { DashboardLayout } from "./components/layouts/DashboardLayout";
+import { AutoEscolasDashboard } from "./pages/AutoEscolasDashboard";
+import { HomeRedirect } from "./components/layouts/HomeRedirect";
+import { Toaster } from "sonner";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/registro" element={<Registro />} />
-        <Route path="/" element={<Dashboard />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Toaster richColors position="top-right" />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<HomeRedirect />} />
+            <Route
+              path="auto-escolas"
+              element={
+                <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
+                  <AutoEscolasDashboard />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+          <Route
+            path="/registro"
+            element={
+              <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
+                <Registro />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/acesso-negado"
+            element={
+              <ProtectedRoute>
+                <AcessoNegado />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

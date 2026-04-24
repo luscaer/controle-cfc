@@ -1,9 +1,29 @@
+import { AuthLayout } from "../components/layouts/AuthLayout";
+import { FormularioLogin } from "./FormularioLogin";
+
 export function Login() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold text-blue-600">
-        Tela de Login
-      </h1>
-    </div>
+    <AuthLayout>
+          {/* Cabeçalho do form */}
+          <div className="mb-8">
+            <h1 className="text-xl font-semibold tracking-tight text-gray-900">
+              Bem-vindo de volta
+            </h1>
+            <p className="mt-1 text-sm text-gray-500">
+              Acesse sua conta para continuar
+            </p>
+          </div>
+
+          {/* Formulário */}
+          <FormularioLogin />
+
+          {/* Rodapé */}
+          <div className="mt-6 text-center text-xs text-gray-400">
+            Problemas para acessar?{" "}
+            <a href="#" className="text-primary-500 hover:underline">
+              Fale com o suporte
+            </a>
+          </div>
+    </AuthLayout>
   );
 }

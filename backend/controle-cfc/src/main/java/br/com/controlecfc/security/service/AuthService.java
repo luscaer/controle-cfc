@@ -4,6 +4,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
 import br.com.controlecfc.security.UsuarioPrincipal;
 import br.com.controlecfc.security.dto.LoginRequestDTO;
 import br.com.controlecfc.security.dto.LoginResponseDTO;
@@ -21,11 +22,13 @@ public class AuthService {
     }
 
     public LoginResponseDTO login(LoginRequestDTO request) {
-        UsuarioPrincipal usuario = (UsuarioPrincipal) authenticationManager
+        UsuarioPrincipal usuarioPrincipal = (UsuarioPrincipal) authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.senha())).getPrincipal();
 
-        String token = jwtService.generateToken(usuario);
+        String token = jwtService.generateToken(usuarioPrincipal);
 
-        return new LoginResponseDTO(token);
+        UsuarioResponseDTO usuario = UsuarioResponseDTO.fromPrincipal(usuarioPrincipal);
+
+        return new LoginResponseDTO(token, usuario);
     }
 }

@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary-50:  #EBF2FA;
+  --color-primary-100: #D1E2F4;
+  --color-primary-200: #A3C5E8;
+  --color-primary-300: #5A9AD4;
+  --color-primary-400: #2E7BBD;
+  --color-primary-500: #1B62A5;
+  --color-primary-600: #175490;
+  --color-primary-700: #12437A;
+  --color-primary-800: #0D3260;
+  --color-primary-900: #092147;
+  --color-primary-950: #051430;
+}
+
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50%       { transform: rotate(2deg); }
+}

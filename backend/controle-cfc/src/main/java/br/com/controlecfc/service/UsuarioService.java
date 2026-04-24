@@ -11,6 +11,8 @@ import br.com.controlecfc.domain.entity.AutoEscola;
 import br.com.controlecfc.domain.entity.Usuario;
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
+import br.com.controlecfc.exception.ConflitoException;
+import br.com.controlecfc.exception.RecursoNaoEncontradoException;
 import br.com.controlecfc.repository.AutoEscolaRepository;
 import br.com.controlecfc.repository.UsuarioRepository;
 
@@ -34,11 +36,11 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponseDTO criarUsuario(UsuarioRequestDTO request, UUID autoEscolaId) {
         if (usuarioRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("Já existe um usuário com esse e-mail!");
+            throw new ConflitoException("Já existe um usuário com esse e-mail!");
         }
 
         AutoEscola autoEscola = autoEscolaRepository.findById(autoEscolaId)
-                .orElseThrow(() -> new IllegalArgumentException("Auto escola não encontrada."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Auto escola não encontrada."));
 
         Usuario usuario = usuarioRepository.save(new Usuario(
                 request.nome(),
