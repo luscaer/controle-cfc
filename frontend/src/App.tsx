@@ -6,9 +6,10 @@ import { ProtectedRoute } from "./components/layouts/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { AcessoNegado } from "./pages/AcessoNegado";
 import { DashboardLayout } from "./components/layouts/DashboardLayout";
-import { AutoEscolasDashboard } from "./pages/AutoEscolasDashboard";
+import { AutoEscolasDashboard } from "./pages/autoescolas/AutoEscolasDashboard";
 import { HomeRedirect } from "./components/layouts/HomeRedirect";
 import { Toaster } from "sonner";
+import { AutoEscolaDetalhes } from "./pages/autoescolas/AutoEscolaDetalhes";
 
 function App() {
   return (
@@ -32,6 +33,14 @@ function App() {
                   <AutoEscolasDashboard />
                 </ProtectedRoute>
               }
+            />
+            <Route 
+                path="auto-escolas/:id"
+                element={
+                    <ProtectedRoute allowedRoles={["SUPER_ADMIN", "ADMINISTRADOR"]} >
+                        <AutoEscolaDetalhes></AutoEscolaDetalhes>
+                    </ProtectedRoute>
+                }
             />
           </Route>
           <Route
