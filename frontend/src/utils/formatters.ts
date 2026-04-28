@@ -13,6 +13,24 @@ export function aplicarMascaraCnpj(cnpj: string) {
   return cnpjLimpo;
 }
 
+export function aplicarMascaraTelefone(telefone: string) {
+  let telLimpo = telefone.replace(/\D/g, "");
+
+  if (telLimpo.length > 11) {
+    telLimpo = telLimpo.slice(0, 11);
+  }
+
+  telLimpo = telLimpo.replace(/^(\d{2})(\d)/g, "($1) $2");
+  
+  if (telLimpo.length <= 13) {
+    telLimpo = telLimpo.replace(/(\d{4})(\d)/, "$1-$2");
+  } else {
+    telLimpo = telLimpo.replace(/(\d{5})(\d)/, "$1-$2");
+  }
+
+  return telLimpo;
+}
+
 export function extrairIniciaisNome(nome: string) {
   const nomeLimpo = nome.trim().split(" ").filter(Boolean);
 

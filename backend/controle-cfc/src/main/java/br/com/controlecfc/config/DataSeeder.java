@@ -23,6 +23,9 @@ public class DataSeeder implements CommandLineRunner {
     
     @Value("${app.superadmin.email}")
     private String email;
+    
+    @Value("${app.superadmin.phone}")
+    private String telefone;
 
     @Value("${app.superadmin.password}")
     private String senha;
@@ -45,12 +48,13 @@ public class DataSeeder implements CommandLineRunner {
             return;
         }
 
-        AutoEscola autoEscola = new AutoEscola("SISTEMA CONTROLE CFC", "79.935.520/0001-46");
+        AutoEscola autoEscola = new AutoEscola("SISTEMA CONTROLE CFC", "79935520000146");
 
         autoEscolaRepository.save(autoEscola);
         usuarioRepository.save(new Usuario(
                 "Lucas Admin",
                 email,
+                telefone,
                 passwordEncoder.encode(senha),
                 PerfilUsuario.SUPER_ADMIN,
                 autoEscola));

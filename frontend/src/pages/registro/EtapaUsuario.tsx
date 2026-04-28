@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, User, Lock, ArrowLeft } from "lucide-react";
+import { ArrowRight, Mail, User, Lock, ArrowLeft, Phone } from "lucide-react";
 import { CabecalhoEtapa } from "../../components/ui/CabecalhoEtapa";
 import { CustomInput } from "../../components/ui/Input";
 import { CustomButton } from "../../components/ui/Button";
@@ -12,6 +12,7 @@ import type {
 } from "react-hook-form";
 import type { RegisterFormData } from "../../schemas/registerSchema";
 import { Spinner } from "../../components/ui/Spinner";
+import { aplicarMascaraTelefone } from "../../utils/formatters";
 
 interface EtapaUsuarioProps {
   register: UseFormRegister<RegisterFormData>;
@@ -89,6 +90,34 @@ export function EtapaUsuario({
         )}
       </div>
 
+      {/* Telefone */}
+      <div className="flex flex-col gap-1.5">
+        <label
+          className="text-xs font-medium uppercase tracking-wide text-gray-400"
+          htmlFor="telefone"
+        >
+          Número de Telefone
+        </label>
+        <div className="relative flex items-center">
+          <Phone className="absolute left-3 h-4 w-4 text-gray-400" />
+          <CustomInput
+            type="text"
+            id="telefone"
+            placeholder="(99) 9999-9999"
+            className="pl-9"
+            {...register("telefone", {
+                onChange: (evento) => {
+                    evento.target.value = aplicarMascaraTelefone(evento.target.value);
+                },
+            })}
+            hasError={!!erros.telefone}
+          />
+        </div>
+        {erros.telefone && (
+          <p className="text-xs text-red-600">{erros.telefone.message}</p>
+        )}
+      </div>
+
       {/* Senha + Confirmação lado a lado */}
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1.5">
@@ -154,7 +183,14 @@ export function EtapaUsuario({
         <PerfilSelector
           value={watch("perfilUsuario")}
           onChange={(novoPerfil) => setValue("perfilUsuario", novoPerfil)}
+          hasError={!!erros.perfilUsuario}
         />
+
+        {erros.perfilUsuario && (
+          <p className="text-xs text-red-600">
+            {erros.perfilUsuario.message}
+          </p>
+        )}
       </div>
 
       {/* Ações */}

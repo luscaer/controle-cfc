@@ -23,6 +23,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -40,6 +41,11 @@ public class Usuario {
     @Email
     @Column(nullable = false, unique = true)
     private String email;
+
+    @NotBlank
+    @Pattern(regexp = "^\\d{10,11}$", message = "O telefone deve ter 10 ou 11 dígitos (apenas números)")
+    @Column(length = 11)
+    private String telefone;
 
     @Column(nullable = false)
     private String senha;
@@ -74,9 +80,10 @@ public class Usuario {
     protected Usuario() {
     }
 
-    public Usuario(String nome, String email, String senha, PerfilUsuario perfilUsuario, AutoEscola autoEscola) {
+    public Usuario(String nome, String email, String telefone, String senha, PerfilUsuario perfilUsuario, AutoEscola autoEscola) {
         this.nome = nome;
         this.email = email;
+        this.telefone = telefone;
         this.senha = senha;
         this.perfilUsuario = perfilUsuario;
         this.ativo = true;
@@ -93,6 +100,10 @@ public class Usuario {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getTelefone() {
+        return telefone;
     }
 
     public String getSenha() {
@@ -133,6 +144,10 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public void alterarSenha(String novaSenhaHasheada) {

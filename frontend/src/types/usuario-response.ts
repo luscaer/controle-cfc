@@ -4,6 +4,7 @@ export interface UsuarioResponse {
   id: string;
   nome: string;
   email: string;
+  telefone: string;
   perfilUsuario: PerfilUsuario;
   ativo: boolean;
   dataCriacao: string;

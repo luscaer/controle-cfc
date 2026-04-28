@@ -10,8 +10,9 @@ export const superRegistroInicial = async (dados: RegisterFormData) => {
     requestUsuario: {
       nome: dados.nomeUsuario,
       email: dados.email,
+      telefone: dados.telefone,
       senha: dados.senha,
-      perfilUsuario: "INSTRUTOR",
+      perfilUsuario: dados.perfilUsuario,
     },
   };
 

@@ -1,4 +1,4 @@
-import type { LoginCredentials } from "../types/auth";
+import type { LoginFormData } from "../schemas/authSchema";
 import type { UsuarioResponse } from "../types/usuario-response";
 import { apiClient } from "./apiClient";
 
@@ -7,7 +7,7 @@ export const authMe = async (): Promise<UsuarioResponse> => {
   return response.data;
 };
 
-export const authLogin = async (credenciais: LoginCredentials): Promise<UsuarioResponse> => {
+export const authLogin = async (credenciais: LoginFormData): Promise<UsuarioResponse> => {
   const response = await apiClient.post<UsuarioResponse>("/auth/login", credenciais);
   return response.data;
 };

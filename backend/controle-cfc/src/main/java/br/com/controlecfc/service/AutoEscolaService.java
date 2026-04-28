@@ -37,8 +37,13 @@ public class AutoEscolaService {
         if (busca == null || busca.trim().isEmpty()) {
             paginaDeAutoEscolas = autoEscolaRepository.findAll(pageable);
         } else {
-            paginaDeAutoEscolas = autoEscolaRepository.findByNomeContainingIgnoreCaseOrCnpjContaining(busca, busca,
-                    pageable);
+            String buscaTratada = busca.trim();
+
+            if (buscaTratada.matches("[0-9\\.\\-\\/\\(\\)\\s]+")) {
+                buscaTratada = buscaTratada.replaceAll("\\D", "");
+            }
+
+            paginaDeAutoEscolas = autoEscolaRepository.findByNomeContainingIgnoreCaseOrCnpjContaining(busca, buscaTratada, pageable);
         }
 
         return paginaDeAutoEscolas.map(autoEscola -> AutoEscolaResponseDTO.fromEntity(autoEscola));

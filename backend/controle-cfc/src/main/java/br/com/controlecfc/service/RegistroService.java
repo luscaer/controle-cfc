@@ -25,6 +25,7 @@ public class RegistroService {
         UsuarioRequestDTO usuarioRequest = new UsuarioRequestDTO(
                 request.requestUsuario().nome(),
                 request.requestUsuario().email(),
+                request.requestUsuario().telefone(),
                 request.requestUsuario().senha(),
                 PerfilUsuario.ADMINISTRADOR);
 
@@ -38,6 +39,7 @@ public class RegistroService {
         UsuarioRequestDTO usuarioRequest = new UsuarioRequestDTO(
                 request.requestUsuario().nome(),
                 request.requestUsuario().email(),
+                request.requestUsuario().telefone(),
                 request.requestUsuario().senha(),
                 request.requestUsuario().perfilUsuario());
 

@@ -6,14 +6,14 @@ import {
   type ReactNode,
 } from "react";
 import type { UsuarioResponse } from "../types/usuario-response";
-import type { LoginCredentials } from "../types/auth";
 import { authMe, authLogin, authLogout } from "../api/authApi";
+import type { LoginFormData } from "../schemas/authSchema";
 
 interface AuthContextParams {
   usuario: UsuarioResponse | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (credentials: LoginCredentials) => Promise<boolean>;
+  login: (credentials: LoginFormData) => Promise<boolean>;
   logout: () => Promise<boolean>;
 }
 
@@ -36,7 +36,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
     verificarAutenticacao();
   }, []);
 
-  const login = async (credenciais: LoginCredentials) => {
+  const login = async (credenciais: LoginFormData) => {
     try {
         setUsuario(await authLogin(credenciais));
         return true;

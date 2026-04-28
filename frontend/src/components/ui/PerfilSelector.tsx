@@ -3,6 +3,7 @@ import type { PerfilSelecao } from "../../types/perfil-usuario";
 
 interface PerfilSelectorProps {
     value: PerfilSelecao;
+    hasError?: boolean;
     onChange: (perfil: PerfilSelecao) => void;
 }
 
@@ -21,7 +22,7 @@ const opcoes: { value: PerfilSelecao; label: string; descricao: string; icon: Re
   },
 ];
 
-export function PerfilSelector({ value, onChange }: PerfilSelectorProps) {
+export function PerfilSelector({ value, onChange, hasError }: PerfilSelectorProps) {
   return (
     <div className="grid grid-cols-2 gap-2">
       {opcoes.map((opcao) => {
@@ -36,7 +37,9 @@ export function PerfilSelector({ value, onChange }: PerfilSelectorProps) {
               transition-all
               ${selecionado
                 ? "border-primary-500 bg-blue-50 text-primary-500"
-                : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300"
+                : hasError
+                    ? "border-red-300 bg-red-50 text-red-500"
+                    : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300"
               }
             `}
           >

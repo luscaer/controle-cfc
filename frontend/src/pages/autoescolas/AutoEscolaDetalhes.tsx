@@ -1,8 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAutoEscola } from "../../hooks/useAutoEscola";
 import { LoadingScreen } from "../../components/ui/LoadingScreen";
-import { CustomButton } from "../../components/ui/Button";
-import { CustomInput } from "../../components/ui/Input";
 import { Check, ChevronRight, Pencil, Power, X } from "lucide-react";
 import { aplicarMascaraCnpj } from "../../utils/formatters";
 import { useState } from "react";
@@ -22,7 +20,6 @@ export function AutoEscolaDetalhes() {
     register,
     reset,
     handleSubmit,
-    formState: { errors },
   } = useAutoEscola(id);
 
   if (isLoading) return <LoadingScreen></LoadingScreen>;

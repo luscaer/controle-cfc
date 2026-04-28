@@ -64,6 +64,7 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.save(new Usuario(
                 request.nome(),
                 request.email(),
+                request.telefone(),
                 passwordEncoder.encode(request.senha()),
                 request.perfilUsuario(),
                 autoEscola));
