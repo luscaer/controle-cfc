@@ -1,19 +1,26 @@
+import type { useRegistroForm } from "../hooks/useRegistro";
 import { EtapaAutoEscola } from "./registro/EtapaAutoEscola";
 import { EtapaUsuario } from "./registro/EtapaUsuario";
-import { useRegistroForm } from "../hooks/useRegistro";
 
+type HookRegistro = ReturnType<typeof useRegistroForm>;
 interface FormularioRegistroProps {
-  etapa: number;
-  setEtapa: React.Dispatch<React.SetStateAction<number>>;
+  form: HookRegistro;
 }
 
-export function FormularioRegistro({ etapa, setEtapa }: FormularioRegistroProps) {
+export function FormularioRegistro({ form }: FormularioRegistroProps) {
   const {
-    register, trigger, watch, setValue,
+    etapa,
+    register,
+    trigger,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
-    handleSubmit, registrar,
-    avancarEtapa, retrocederEtapa, onCancelar,
-  } = useRegistroForm(etapa, setEtapa);
+    handleSubmit,
+    registrar,
+    avancarEtapa,
+    retrocederEtapa,
+    onCancelar
+  } = form;
 
   return (
     <form onSubmit={handleSubmit(registrar)}>

@@ -6,5 +6,9 @@ export interface UsuarioResponse {
   email: string;
   perfilUsuario: PerfilUsuario;
   ativo: boolean;
+  dataCriacao: string;
+  dataAtualizacao: string;
+  usuarioCriador: string;
+  usuarioModificador: string;
   autoEscolaId: string;
 }

@@ -12,7 +12,7 @@ import { authMe, authLogin, authLogout } from "../api/authApi";
 interface AuthContextParams {
   usuario: UsuarioResponse | null;
   isLoading: boolean;
-  isAuthenticaded: boolean;
+  isAuthenticated: boolean;
   login: (credentials: LoginCredentials) => Promise<boolean>;
   logout: () => Promise<boolean>;
 }
@@ -55,12 +55,12 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
     }
   };
 
-  const isAuthenticaded = usuario !== null;
+  const isAuthenticated = usuario !== null;
 
   const value = {
     usuario,
     isLoading,
-    isAuthenticaded,
+    isAuthenticated,
     login,
     logout,
   };

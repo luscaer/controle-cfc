@@ -25,6 +25,7 @@ export function useAutoEscola(id: string | undefined) {
       try {
         const response = await buscarAutoEscola(id);
         setAutoEscola(response);
+        form.reset(response)
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const mensagem = error.response?.data?.mensagem;
@@ -47,11 +48,13 @@ export function useAutoEscola(id: string | undefined) {
       setAutoEscola(response);
       form.reset(response);
       toast.success("Dados atualizados com sucesso!");
+      return true;
     } catch (error) {
       const mensagem = axios.isAxiosError(error)
         ? error.response?.data?.mensagem
         : null;
       toast.error(mensagem ?? "Ocorreu um erro inesperado. Tente novamente.");
+      return false;
     } finally {
       setIsSubmitting(false);
     }

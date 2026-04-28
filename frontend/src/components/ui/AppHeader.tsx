@@ -34,11 +34,7 @@ export function AppHeader({ sidebarAberta, onToggleSidebar }: AppHeaderProps) {
         </button>
 
         <div className="hidden sm:block h-5 w-px bg-gray-200" />
-
-        {/* Breadcrumb — pode virar prop futuramente */}
-        <div className="hidden sm:block">
-          <Breadcrumb />
-        </div>
+        
       </div>
 
       {/* Lado direito — notificações + usuário */}
@@ -56,19 +52,6 @@ export function AppHeader({ sidebarAberta, onToggleSidebar }: AppHeaderProps) {
       </div>
 
     </header>
-  );
-}
-
-function Breadcrumb() {
-  return (
-    <div className="flex items-center gap-1.5 text-sm text-gray-400">
-      <span>Início</span>
-      <svg className="h-3 w-3" viewBox="0 0 13 13" fill="none"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-        <path d="M4 2l5 4.5L4 11" />
-      </svg>
-      <span className="font-medium text-gray-800">Dashboard</span>
-    </div>
   );
 }
 

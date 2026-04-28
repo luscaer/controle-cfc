@@ -1,9 +1,7 @@
-// src/pages/AutoEscolasDashboard.tsx
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { useAutoEscolas } from "../../hooks/useAutoEscolas";
 import { LoadingScreen } from "../../components/ui/LoadingScreen";
-import { ErroAcesso } from "../../components/ui/ErroAcesso";
 import { TabelaAutoEscolas } from "../../components/autoescolas/TabelaAutoEscolas";
 import { BarraBusca } from "../../components/autoescolas/BarraBusca";
 import LogoIcon from "../../assets/logo.svg?react";
@@ -12,12 +10,12 @@ const ITENS_POR_PAGINA = 10;
 
 export function AutoEscolasDashboard() {
   const navigate = useNavigate();
+
   const {
     autoEscolas,
     paginaAtual,
     totalElementos,
     isLoading,
-    erro,
     busca,
     setBusca,
     setPaginaAtual,
@@ -27,7 +25,6 @@ export function AutoEscolasDashboard() {
     return (
       <LoadingScreen logo={<LogoIcon className="h-full w-full text-white" />} />
     );
-  if (erro) return <ErroAcesso mensagem={erro} />;
 
   return (
     <div className="p-6">

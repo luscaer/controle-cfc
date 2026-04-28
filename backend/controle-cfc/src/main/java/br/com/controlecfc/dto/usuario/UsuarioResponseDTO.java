@@ -7,29 +7,27 @@ import br.com.controlecfc.domain.entity.Usuario;
 import br.com.controlecfc.domain.enums.PerfilUsuario;
 
 public record UsuarioResponseDTO(
-    UUID id,
-    String nome,
-    String email,
-    PerfilUsuario perfilUsuario,
-    boolean ativo,
-    LocalDateTime dataCriacao,
-    LocalDateTime dataAtualizacao,
-    String usuarioCriador,
-    String usuarioModificador,
-    UUID autoEscolaId
-) {
+        UUID id,
+        String nome,
+        String email,
+        PerfilUsuario perfilUsuario,
+        boolean ativo,
+        LocalDateTime dataCriacao,
+        LocalDateTime dataAtualizacao,
+        String usuarioCriador,
+        String usuarioModificador,
+        UUID autoEscolaId) {
     public static UsuarioResponseDTO fromEntity(Usuario usuario) {
         return new UsuarioResponseDTO(
-            usuario.getId(),
-            usuario.getNome(),
-            usuario.getEmail(),
-            usuario.getPerfilUsuario(),
-            usuario.isAtivo(),
-            usuario.getDataCriacao(),
-            usuario.getDataAtualizacao(),
-            usuario.getUsuarioCriador(),
-            usuario.getUsuarioModificador(),
-            usuario.getAutoEscola().getId()
-        );
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getPerfilUsuario(),
+                usuario.isAtivo(),
+                usuario.getDataCriacao(),
+                usuario.getDataAtualizacao(),
+                usuario.getUsuarioCriador(),
+                usuario.getUsuarioModificador(),
+                usuario.getAutoEscola().getId());
     }
 }

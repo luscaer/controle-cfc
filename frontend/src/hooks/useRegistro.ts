@@ -1,18 +1,21 @@
 import { useForm } from "react-hook-form";
-import { RegisterValidatorSchema, type RegisterFormData } from "../schemas/registerSchema";
+import {
+  RegisterValidatorSchema,
+  type RegisterFormData,
+} from "../schemas/registerSchema";
 import { useNavigate } from "react-router-dom";
 import { superRegistroInicial } from "../api/registroApi";
 import { toast } from "sonner";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 const CAMPOS_ETAPA_1 = ["nomeAutoEscola", "cnpj"] as const;
 
-export function useRegistroForm(
-  etapa: number,
-  setEtapa: React.Dispatch<React.SetStateAction<number>>
-) {
+export function useRegistroForm() {
   const navigate = useNavigate();
+
+  const [etapa, setEtapa] = useState<number>(1);
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(RegisterValidatorSchema),
@@ -41,6 +44,7 @@ export function useRegistroForm(
 
   return {
     ...form,
+    etapa,
     avancarEtapa,
     retrocederEtapa,
     registrar,
