@@ -11,7 +11,9 @@ public record AutoEscolaResponseDTO(
         String cnpj,
         boolean ativo,
         LocalDateTime dataCriacao,
-        LocalDateTime dataAtualizacao) {
+        LocalDateTime dataAtualizacao,
+        String usuarioCriador,
+        String usuarioModificador) {
     public static AutoEscolaResponseDTO fromEntity(AutoEscola autoEscola) {
         return new AutoEscolaResponseDTO(
                 autoEscola.getId(),
@@ -19,6 +21,8 @@ public record AutoEscolaResponseDTO(
                 autoEscola.getCnpj(),
                 autoEscola.isAtivo(),
                 autoEscola.getDataCriacao(),
-                autoEscola.getDataAtualizacao());
+                autoEscola.getDataAtualizacao(),
+                autoEscola.getUsuarioCriador(),
+                autoEscola.getUsuarioModificador());
     }
 }

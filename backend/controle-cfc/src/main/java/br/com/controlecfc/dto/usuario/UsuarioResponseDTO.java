@@ -14,6 +14,8 @@ public record UsuarioResponseDTO(
     boolean ativo,
     LocalDateTime dataCriacao,
     LocalDateTime dataAtualizacao,
+    String usuarioCriador,
+    String usuarioModificador,
     UUID autoEscolaId
 ) {
     public static UsuarioResponseDTO fromEntity(Usuario usuario) {
@@ -25,6 +27,8 @@ public record UsuarioResponseDTO(
             usuario.isAtivo(),
             usuario.getDataCriacao(),
             usuario.getDataAtualizacao(),
+            usuario.getUsuarioCriador(),
+            usuario.getUsuarioModificador(),
             usuario.getAutoEscola().getId()
         );
     }

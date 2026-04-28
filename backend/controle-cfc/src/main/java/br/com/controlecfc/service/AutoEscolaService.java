@@ -49,13 +49,7 @@ public class AutoEscolaService {
 
         AutoEscola autoEscola = this.findById(id);
 
-        return new AutoEscolaResponseDTO(
-                autoEscola.getId(),
-                autoEscola.getNome(),
-                autoEscola.getCnpj(),
-                autoEscola.isAtivo(),
-                autoEscola.getDataCriacao(),
-                autoEscola.getDataAtualizacao());
+        return AutoEscolaResponseDTO.fromEntity(autoEscola);
     }
 
     @Transactional

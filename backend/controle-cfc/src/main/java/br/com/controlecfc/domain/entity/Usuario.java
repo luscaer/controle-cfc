@@ -5,10 +5,14 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import br.com.controlecfc.domain.enums.PerfilUsuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +25,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "usuario")
 public class Usuario {
     @Id
@@ -53,6 +58,14 @@ public class Usuario {
     @UpdateTimestamp
     @Column(name = "data_atualizacao", updatable = true)
     private LocalDateTime dataAtualizacao;
+
+    @CreatedBy
+    @Column(name = "criado_por", updatable = false)
+    private String usuarioCriador;
+
+    @LastModifiedBy
+    @Column(name = "modificado_por", updatable = true)
+    private String usuarioModificador;
 
     @ManyToOne
     @JoinColumn(name = "auto_escola_id")
@@ -100,6 +113,14 @@ public class Usuario {
 
     public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
+    }
+
+    public String getUsuarioCriador() {
+        return usuarioCriador;
+    }
+
+    public String getUsuarioModificador() {
+        return usuarioModificador;
     }
 
     public AutoEscola getAutoEscola() {

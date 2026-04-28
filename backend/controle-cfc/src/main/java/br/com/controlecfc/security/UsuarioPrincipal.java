@@ -47,10 +47,6 @@ public class UsuarioPrincipal implements UserDetails {
         return this.usuario.getId();
     }
 
-    public String getNome() {
-        return this.usuario.getNome();
-    }
-
     public PerfilUsuario getPerfil() {
         return this.usuario.getPerfilUsuario();
     }
