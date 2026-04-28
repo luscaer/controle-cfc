@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.controlecfc.domain.entity.AutoEscola;
 import br.com.controlecfc.domain.entity.Usuario;
+import br.com.controlecfc.domain.enums.PerfilUsuario;
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
+import br.com.controlecfc.exception.AcessoNegadoException;
 import br.com.controlecfc.exception.ConflitoException;
 import br.com.controlecfc.exception.RecursoNaoEncontradoException;
 import br.com.controlecfc.repository.AutoEscolaRepository;
@@ -35,6 +37,21 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public List<UsuarioResponseDTO> findAllByAutoEscolaId() {
+        List<Usuario> usuarios = usuarioRepository.findAllByAutoEscolaId(getTenantId());
+
+        return usuarios.stream()
+                .map(usuario -> UsuarioResponseDTO.fromEntity(usuario))
+                .toList();
+    }
+
+    public UsuarioResponseDTO buscarUsuarioPeloId(UUID id) {
+        Usuario usuario = this.findById(id);
+        validarPermissao(usuario.getAutoEscola().getId());
+
+        return UsuarioResponseDTO.fromEntity(usuario);
+    }
+
     @Transactional
     public UsuarioResponseDTO criarUsuario(UsuarioRequestDTO request, UUID autoEscolaId) {
         if (usuarioRepository.existsByEmail(request.email())) {
@@ -51,13 +68,7 @@ public class UsuarioService {
                 request.perfilUsuario(),
                 autoEscola));
 
-        return new UsuarioResponseDTO(
-                usuario.getId(),
-                usuario.getNome(),
-                usuario.getEmail(),
-                usuario.getPerfilUsuario(),
-                usuario.isAtivo(),
-                usuario.getAutoEscola().getId());
+        return UsuarioResponseDTO.fromEntity(usuario);
     }
 
     @Transactional
@@ -65,23 +76,23 @@ public class UsuarioService {
         return criarUsuario(request, getTenantId());
     }
 
-    public List<UsuarioResponseDTO> findAllByAutoEscolaId() {
-        List<Usuario> usuarios = usuarioRepository.findAllByAutoEscolaId(getTenantId());
-
-        return usuarios.stream()
-                .map(usuario -> new UsuarioResponseDTO(
-                        usuario.getId(),
-                        usuario.getNome(),
-                        usuario.getEmail(),
-                        usuario.getPerfilUsuario(),
-                        usuario.isAtivo(),
-                        usuario.getAutoEscola().getId()))
-                .toList();
-    }
-
     private UUID getTenantId() {
         UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
         return usuarioLogado.getAutoEscolaId();
+    }
+
+    private Usuario findById(UUID id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário inexistente."));
+    }
+
+    private void validarPermissao(UUID idSolicitado) {
+        UsuarioPrincipal usuarioLogado = securityUtils.getUsuarioLogado();
+
+        if (usuarioLogado.getPerfil() == PerfilUsuario.ADMINISTRADOR
+                && !idSolicitado.equals(usuarioLogado.getAutoEscolaId())) {
+            throw new AcessoNegadoException("Você não tem permissão para acessar dados de outra Auto Escola.");
+        }
     }
 
 }

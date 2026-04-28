@@ -1,6 +1,10 @@
 package br.com.controlecfc.domain.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import br.com.controlecfc.domain.enums.PerfilUsuario;
 import jakarta.persistence.Column;
@@ -42,6 +46,14 @@ public class Usuario {
     @Column(nullable = false)
     private boolean ativo;
 
+    @CreationTimestamp
+    @Column(name = "data_criacao", nullable = false, updatable = false)
+    private LocalDateTime dataCriacao;
+
+    @UpdateTimestamp
+    @Column(name = "data_atualizacao", updatable = true)
+    private LocalDateTime dataAtualizacao;
+
     @ManyToOne
     @JoinColumn(name = "auto_escola_id")
     private AutoEscola autoEscola;
@@ -66,43 +78,55 @@ public class Usuario {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getSenha() {
         return senha;
     }
 
-    public void alterarSenha(String novaSenhaHasheada) {
-        this.senha = novaSenhaHasheada;
-    }
-
     public PerfilUsuario getPerfilUsuario() {
         return perfilUsuario;
-    }
-
-    public void setPerfilUsuario(PerfilUsuario perfilUsuario) {
-        this.perfilUsuario = perfilUsuario;
     }
 
     public boolean isAtivo() {
         return ativo;
     }
 
-    public void desativar() {
-        this.ativo = false;
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public LocalDateTime getDataAtualizacao() {
+        return dataAtualizacao;
     }
 
     public AutoEscola getAutoEscola() {
         return autoEscola;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void alterarSenha(String novaSenhaHasheada) {
+        this.senha = novaSenhaHasheada;
+    }
+
+    public void setPerfilUsuario(PerfilUsuario perfilUsuario) {
+        this.perfilUsuario = perfilUsuario;
+    }
+
+    public void ativar() {
+        this.ativo = true;
+    }
+
+    public void desativar() {
+        this.ativo = false;
     }
 }

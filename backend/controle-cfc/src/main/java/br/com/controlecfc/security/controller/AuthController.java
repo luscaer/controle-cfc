@@ -16,6 +16,7 @@ import br.com.controlecfc.security.UsuarioPrincipal;
 import br.com.controlecfc.security.dto.LoginRequestDTO;
 import br.com.controlecfc.security.dto.LoginResponseDTO;
 import br.com.controlecfc.security.service.AuthService;
+import br.com.controlecfc.service.UsuarioService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
@@ -29,7 +30,7 @@ public class AuthController {
     private final AuthService authService;
     private final SecurityUtils securityUtils;
 
-    public AuthController(AuthService authService, SecurityUtils securityUtils) {
+    public AuthController(AuthService authService, UsuarioService usuarioService, SecurityUtils securityUtils) {
         this.authService = authService;
         this.securityUtils = securityUtils;
     }
@@ -38,7 +39,7 @@ public class AuthController {
     public ResponseEntity<UsuarioResponseDTO> getUser() {
         UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
 
-        UsuarioResponseDTO response = UsuarioResponseDTO.fromPrincipal(usuarioLogado);
+        UsuarioResponseDTO response = authService.buscarUsuarioPeloId(usuarioLogado.getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

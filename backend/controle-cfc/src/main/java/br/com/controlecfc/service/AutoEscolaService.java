@@ -41,12 +41,7 @@ public class AutoEscolaService {
                     pageable);
         }
 
-        return paginaDeAutoEscolas.map(autoEscola -> new AutoEscolaResponseDTO(
-                autoEscola.getId(),
-                autoEscola.getNome(),
-                autoEscola.getCnpj(),
-                autoEscola.isAtivo(),
-                autoEscola.getDataCriacao()));
+        return paginaDeAutoEscolas.map(autoEscola -> AutoEscolaResponseDTO.fromEntity(autoEscola));
     }
 
     public AutoEscolaResponseDTO buscarAutoEscolaPeloId(UUID id) {
@@ -59,7 +54,8 @@ public class AutoEscolaService {
                 autoEscola.getNome(),
                 autoEscola.getCnpj(),
                 autoEscola.isAtivo(),
-                autoEscola.getDataCriacao());
+                autoEscola.getDataCriacao(),
+                autoEscola.getDataAtualizacao());
     }
 
     @Transactional
@@ -70,12 +66,7 @@ public class AutoEscolaService {
 
         AutoEscola autoEscola = autoEscolaRepository.save(new AutoEscola(request.nome(), request.cnpj()));
 
-        return new AutoEscolaResponseDTO(
-                autoEscola.getId(),
-                autoEscola.getNome(),
-                autoEscola.getCnpj(),
-                autoEscola.isAtivo(),
-                autoEscola.getDataCriacao());
+        return AutoEscolaResponseDTO.fromEntity(autoEscola);
     }
 
     @Transactional
@@ -88,12 +79,7 @@ public class AutoEscolaService {
 
         AutoEscola autoEscolaAtualizada = autoEscolaRepository.save(autoEscola);
 
-        return new AutoEscolaResponseDTO(
-                autoEscolaAtualizada.getId(),
-                autoEscolaAtualizada.getNome(),
-                autoEscolaAtualizada.getCnpj(),
-                autoEscolaAtualizada.isAtivo(),
-                autoEscolaAtualizada.getDataCriacao());
+        return AutoEscolaResponseDTO.fromEntity(autoEscolaAtualizada);
 
     }
 
@@ -123,7 +109,8 @@ public class AutoEscolaService {
     private void validarPermissao(UUID idSolicitado) {
         UsuarioPrincipal usuarioLogado = securityUtils.getUsuarioLogado();
 
-        if(usuarioLogado.getPerfil() == PerfilUsuario.ADMINISTRADOR && !idSolicitado.equals(usuarioLogado.getAutoEscolaId())) {
+        if (usuarioLogado.getPerfil() == PerfilUsuario.ADMINISTRADOR
+                && !idSolicitado.equals(usuarioLogado.getAutoEscolaId())) {
             throw new AcessoNegadoException("Você não tem permissão para acessar dados de outra Auto Escola.");
         }
     }
