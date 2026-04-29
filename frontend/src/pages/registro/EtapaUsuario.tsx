@@ -13,6 +13,7 @@ import type {
 import type { RegisterFormData } from "../../schemas/registerSchema";
 import { Spinner } from "../../components/ui/Spinner";
 import { aplicarMascaraTelefone } from "../../utils/formatters";
+import { useState } from "react";
 
 interface EtapaUsuarioProps {
   register: UseFormRegister<RegisterFormData>;
@@ -33,6 +34,8 @@ export function EtapaUsuario({
   isSubmitting,
   onVoltar,
 }: EtapaUsuarioProps) {
+  useState<boolean>(false);
+
   return (
     <div className="flex flex-col gap-4">
       <CabecalhoEtapa
@@ -50,17 +53,16 @@ export function EtapaUsuario({
         >
           Nome completo
         </label>
-        <div className="relative flex items-center">
-          <User className="absolute left-3 h-4 w-4 text-gray-400" />
-          <CustomInput
-            type="text"
-            id="nome-usuario"
-            placeholder="João Silva"
-            className="pl-9"
-            {...register("nomeUsuario")}
-            hasError={!!erros.nomeUsuario}
-          />
-        </div>
+
+        <CustomInput
+          iconLeft={<User className="h-4 w-4 text-gray-400" />}
+          type="text"
+          id="nome-usuario"
+          placeholder="João Silva"
+          {...register("nomeUsuario")}
+          hasError={!!erros.nomeUsuario}
+        ></CustomInput>
+
         {erros.nomeUsuario && (
           <p className="text-xs text-red-600">{erros.nomeUsuario.message}</p>
         )}
@@ -74,17 +76,16 @@ export function EtapaUsuario({
         >
           E-mail
         </label>
-        <div className="relative flex items-center">
-          <Mail className="absolute left-3 h-4 w-4 text-gray-400" />
-          <CustomInput
-            type="text"
-            id="email"
-            placeholder="joao@autoescola.com"
-            className="pl-9"
-            {...register("email")}
-            hasError={!!erros.email}
-          />
-        </div>
+
+        <CustomInput
+          iconLeft={<Mail className="h-4 w-4 text-gray-400" />}
+          type="email"
+          id="email"
+          placeholder="joao@autoescola.com"
+          {...register("email")}
+          hasError={!!erros.email}
+        ></CustomInput>
+
         {erros.email && (
           <p className="text-xs text-red-600">{erros.email.message}</p>
         )}
@@ -98,21 +99,20 @@ export function EtapaUsuario({
         >
           Número de Telefone
         </label>
-        <div className="relative flex items-center">
-          <Phone className="absolute left-3 h-4 w-4 text-gray-400" />
-          <CustomInput
-            type="text"
-            id="telefone"
-            placeholder="(99) 9999-9999"
-            className="pl-9"
-            {...register("telefone", {
-                onChange: (evento) => {
-                    evento.target.value = aplicarMascaraTelefone(evento.target.value);
-                },
-            })}
-            hasError={!!erros.telefone}
-          />
-        </div>
+
+        <CustomInput
+          iconLeft={<Phone className="h-4 w-4 text-gray-400" />}
+          type="text"
+          id="telefone"
+          placeholder="(99) 9999-9999"
+          {...register("telefone", {
+            onChange: (evento) => {
+              evento.target.value = aplicarMascaraTelefone(evento.target.value);
+            },
+          })}
+          hasError={!!erros.telefone}
+        ></CustomInput>
+
         {erros.telefone && (
           <p className="text-xs text-red-600">{erros.telefone.message}</p>
         )}
@@ -127,19 +127,18 @@ export function EtapaUsuario({
           >
             Senha
           </label>
-          <div className="relative flex items-center">
-            <Lock className="absolute left-3 h-4 w-4 text-gray-400" />
-            <CustomInput
-              type="password"
-              id="senha"
-              placeholder="••••••••"
-              className="pl-9"
-              {...register("senha", {
-                onChange: () => trigger("confirmacaoSenha"),
-              })}
-              hasError={!!erros.senha}
-            />
-          </div>
+
+          <CustomInput
+            iconLeft={<Lock className="h-4 w-4 text-gray-400" />}
+            type="password"
+            id="senha"
+            placeholder="••••••••"
+            {...register("senha", {
+              onChange: () => trigger("confirmacaoSenha"),
+            })}
+            hasError={!!erros.senha}
+            showToggle={true}
+          ></CustomInput>
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -149,19 +148,18 @@ export function EtapaUsuario({
           >
             Confirmar
           </label>
-          <div className="relative flex items-center">
-            <Lock className="absolute left-3 h-4 w-4 text-gray-400" />
-            <CustomInput
-              type="password"
-              id="confirmacao-senha"
-              placeholder="••••••••"
-              className="pl-9"
-              {...register("confirmacaoSenha", {
-                onChange: () => trigger("confirmacaoSenha"),
-              })}
-              hasError={!!erros.confirmacaoSenha}
-            />
-          </div>
+
+          <CustomInput
+            iconLeft={<Lock className="h-4 w-4 text-gray-400" />}
+            type="password"
+            id="senha"
+            placeholder="••••••••"
+            {...register("confirmacaoSenha", {
+              onChange: () => trigger("confirmacaoSenha"),
+            })}
+            hasError={!!erros.confirmacaoSenha}
+            showToggle={true}
+          ></CustomInput>
         </div>
       </div>
 
@@ -187,9 +185,7 @@ export function EtapaUsuario({
         />
 
         {erros.perfilUsuario && (
-          <p className="text-xs text-red-600">
-            {erros.perfilUsuario.message}
-          </p>
+          <p className="text-xs text-red-600">{erros.perfilUsuario.message}</p>
         )}
       </div>
 

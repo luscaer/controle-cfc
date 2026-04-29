@@ -14,8 +14,8 @@ import { AutoEscolaDetalhes } from "./pages/autoescolas/AutoEscolaDetalhes";
 function App() {
   return (
     <AuthProvider>
+      <Toaster richColors position="top-right" />
       <BrowserRouter>
-        <Toaster richColors position="top-right" />
         <Routes>
           <Route
             path="/"

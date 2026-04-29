@@ -109,7 +109,7 @@ export function AutoEscolaDetalhes() {
                 <button
                   onClick={salvar}
                   disabled={isSubmitting}
-                  className="flex items-center gap-1 rounded-lg bg-[#1B62A5] px-2.5 py-1.5 text-xs text-white hover:bg-[#185490] disabled:opacity-60"
+                  className="flex items-center gap-1 rounded-lg bg-primary-500 px-2.5 py-1.5 text-xs text-white hover:bg-[#185490] disabled:opacity-60"
                 >
                   {isSubmitting ? <Spinner size={12} /> : <Check size={12} />}
                   Salvar
@@ -141,7 +141,7 @@ export function AutoEscolaDetalhes() {
                 </label>
                 <input
                   {...register("nome", { required: true })}
-                  className="h-9 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm outline-none transition focus:border-[#1B62A5] focus:ring-2 focus:ring-[#1B62A5]/10"
+                  className="h-9 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10"
                 />
               </div>
               <div className="flex flex-col gap-1.5">

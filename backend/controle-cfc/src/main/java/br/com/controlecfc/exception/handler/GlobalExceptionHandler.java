@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,6 +24,12 @@ public class GlobalExceptionHandler {
         ErroResponseDTO erro = new ErroResponseDTO(exception.getStatus().value(), exception.getMessage(),
                 LocalDateTime.now());
         return ResponseEntity.status(exception.getStatus()).body(erro);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErroResponseDTO> handleCredenciaisInvalidas(BadCredentialsException exception) {
+        ErroResponseDTO erro = new ErroResponseDTO(401, "E-mail ou senha inválidos.", LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erro);
     }
 
     @ExceptionHandler(DisabledException.class)

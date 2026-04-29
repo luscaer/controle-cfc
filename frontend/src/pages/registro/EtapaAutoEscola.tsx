@@ -36,17 +36,16 @@ export function EtapaAutoEscola({
         >
           Nome
         </label>
-        <div className="relative flex items-center">
-          <User className="absolute left-3 h-4 w-4 text-gray-400" />
-          <CustomInput
-            type="text"
-            id="nome-autoescola"
-            placeholder="Auto Escola Exemplo"
-            className="pl-9"
-            {...register("nomeAutoEscola")}
-            hasError={!!erros.nomeAutoEscola}
-          />
-        </div>
+
+        <CustomInput
+          iconLeft={<User className="h-4 w-4 text-gray-400" />}
+          type="text"
+          id="nome-autoescola"
+          placeholder="Auto Escola Exemplo"
+          {...register("nomeAutoEscola")}
+          hasError={!!erros.nomeAutoEscola}
+        ></CustomInput>
+
         {erros.nomeAutoEscola && (
           <p className="text-xs text-red-600">{erros.nomeAutoEscola.message}</p>
         )}
@@ -60,21 +59,20 @@ export function EtapaAutoEscola({
         >
           CNPJ
         </label>
-        <div className="relative flex items-center">
-          <Building className="absolute left-3 h-4 w-4 text-gray-400" />
-          <CustomInput
-            type="text"
-            id="cnpj"
-            placeholder="00.000.000/0000-00"
-            className="pl-9"
-            hasError={!!erros.cnpj}
-            {...register("cnpj", {
-              onChange: (evento) => {
-                evento.target.value = aplicarMascaraCnpj(evento.target.value);
-              },
-            })}
-          />
-        </div>
+
+        <CustomInput
+          iconLeft={<Building className="h-4 w-4 text-gray-400" />}
+          type="text"
+          id="cnpj"
+          placeholder="00.000.000/0000-00"
+          {...register("cnpj", {
+            onChange: (evento) => {
+              evento.target.value = aplicarMascaraCnpj(evento.target.value);
+            },
+          })}
+          hasError={!!erros.cnpj}
+        ></CustomInput>
+
         {erros.cnpj && (
           <p className="text-xs text-red-600">{erros.cnpj.message}</p>
         )}

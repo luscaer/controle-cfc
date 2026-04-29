@@ -41,7 +41,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
         setUsuario(await authLogin(credenciais));
         return true;
     } catch (error) {
-        return false;
+        throw error;
     }
   };
 
