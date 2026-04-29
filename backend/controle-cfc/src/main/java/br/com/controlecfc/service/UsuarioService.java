@@ -12,6 +12,7 @@ import br.com.controlecfc.domain.entity.Usuario;
 import br.com.controlecfc.domain.enums.PerfilUsuario;
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
+import br.com.controlecfc.dto.usuario.UsuarioResumedResponseDTO;
 import br.com.controlecfc.exception.AcessoNegadoException;
 import br.com.controlecfc.exception.ConflitoException;
 import br.com.controlecfc.exception.RecursoNaoEncontradoException;
@@ -37,11 +38,13 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<UsuarioResponseDTO> findAllByAutoEscolaId() {
-        List<Usuario> usuarios = usuarioRepository.findAllByAutoEscolaId(getTenantId());
+    // --- MÉTODOS DE CONTEXTO (TENANT / AUTOESCOLA) ---
+    // Usados por Administradores da própria unidade
 
-        return usuarios.stream()
-                .map(usuario -> UsuarioResponseDTO.fromEntity(usuario))
+    public List<UsuarioResponseDTO> findAllByAutoEscolaId() {
+        return usuarioRepository.findAllByAutoEscolaId(getTenantId())
+                .stream()
+                .map(UsuarioResponseDTO::fromEntity)
                 .toList();
     }
 
@@ -50,6 +53,22 @@ public class UsuarioService {
         validarPermissao(usuario.getAutoEscola().getId());
 
         return UsuarioResponseDTO.fromEntity(usuario);
+    }
+
+    @Transactional
+    public UsuarioResponseDTO criarUsuario(UsuarioRequestDTO request) {
+        return criarUsuario(request, getTenantId());
+    }
+
+    // --- MÉTODOS GLOBAIS (SUPER ADMIN) ---
+    // Usados para suporte ou gestão centralizada
+
+    public List<UsuarioResumedResponseDTO> findAllByAutoEscolaIdAndPerfilUsuario(UUID autoEscolaId, PerfilUsuario perfilUsuario) {
+        List<Usuario> usuarios = usuarioRepository.findAllByAutoEscolaIdAndPerfilUsuario(autoEscolaId, perfilUsuario);
+
+        return usuarios.stream()
+                .map(usuario -> UsuarioResumedResponseDTO.fromEntity(usuario))
+                .toList();
     }
 
     @Transactional
@@ -72,10 +91,7 @@ public class UsuarioService {
         return UsuarioResponseDTO.fromEntity(usuario);
     }
 
-    @Transactional
-    public UsuarioResponseDTO criarUsuario(UsuarioRequestDTO request) {
-        return criarUsuario(request, getTenantId());
-    }
+    // --- LÓGICA DE NEGÓCIO PRIVADA (REUTILIZAÇÃO) ---
 
     private UUID getTenantId() {
         UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
@@ -90,7 +106,7 @@ public class UsuarioService {
     private void validarPermissao(UUID idSolicitado) {
         UsuarioPrincipal usuarioLogado = securityUtils.getUsuarioLogado();
 
-        if (usuarioLogado.getPerfil() == PerfilUsuario.ADMINISTRADOR
+        if (usuarioLogado.getPerfil() != PerfilUsuario.SUPER_ADMIN
                 && !idSolicitado.equals(usuarioLogado.getAutoEscolaId())) {
             throw new AcessoNegadoException("Você não tem permissão para acessar dados de outra Auto Escola.");
         }

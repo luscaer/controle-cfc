@@ -13,3 +13,11 @@ export interface UsuarioResponse {
   usuarioModificador: string;
   autoEscolaId: string;
 }
+
+export interface UsuarioResumedResponse {
+  id: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  ativo: boolean;
+}

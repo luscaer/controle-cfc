@@ -31,6 +31,9 @@ public class AutoEscolaService {
         this.securityUtils = securityUtils;
     }
 
+    // --- MÉTODOS GLOBAIS (SUPER ADMIN) ---
+    // Usados para suporte ou gestão centralizada
+
     public Page<AutoEscolaResponseDTO> buscarTodasAutoEscolas(String busca, Pageable pageable) {
         Page<AutoEscola> paginaDeAutoEscolas;
 
@@ -47,14 +50,6 @@ public class AutoEscolaService {
         }
 
         return paginaDeAutoEscolas.map(autoEscola -> AutoEscolaResponseDTO.fromEntity(autoEscola));
-    }
-
-    public AutoEscolaResponseDTO buscarAutoEscolaPeloId(UUID id) {
-        validarPermissao(id);
-
-        AutoEscola autoEscola = this.findById(id);
-
-        return AutoEscolaResponseDTO.fromEntity(autoEscola);
     }
 
     @Transactional
@@ -82,6 +77,17 @@ public class AutoEscolaService {
 
     }
 
+    // --- MÉTODOS DE CONTEXTO (TENANT / AUTOESCOLA) ---
+    // Usados por Administradores da própria unidade
+
+    public AutoEscolaResponseDTO buscarAutoEscolaPeloId(UUID id) {
+        validarPermissao(id);
+
+        AutoEscola autoEscola = this.findById(id);
+
+        return AutoEscolaResponseDTO.fromEntity(autoEscola);
+    }
+
     @Transactional
     public void desativarAutoEscola(UUID id) {
         AutoEscola autoEscola = findById(id);
@@ -99,6 +105,8 @@ public class AutoEscolaService {
 
         autoEscolaRepository.save(autoEscola);
     }
+
+    // --- LÓGICA DE NEGÓCIO PRIVADA (REUTILIZAÇÃO) ---
 
     private AutoEscola findById(UUID id) {
         return autoEscolaRepository.findById(id)

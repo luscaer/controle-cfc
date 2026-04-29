@@ -5,6 +5,7 @@ import { Check, ChevronRight, Pencil, Power, X } from "lucide-react";
 import { aplicarMascaraCnpj } from "../../utils/formatters";
 import { useState } from "react";
 import { Spinner } from "../../components/ui/Spinner";
+import { TabelaUsuariosPorPefil } from "../../components/usuarios/TabelaUsuariosPorPerfil";
 
 export function AutoEscolaDetalhes() {
   const { id } = useParams();
@@ -13,6 +14,7 @@ export function AutoEscolaDetalhes() {
 
   const {
     autoEscola,
+    usuariosPorPerfil,
     isLoading,
     isSubmitting,
     handleUpdate,
@@ -190,6 +192,10 @@ export function AutoEscolaDetalhes() {
           </div>
         </div>
       </div>
+
+      {/* Administradores e Contato */}
+      <TabelaUsuariosPorPefil usuarios={usuariosPorPerfil}></TabelaUsuariosPorPefil>
+
       {/* Zona de risco */}
       <div className="rounded-xl border border-red-100 bg-white p-5">
         <h2 className="mb-3 text-xs font-medium uppercase tracking-wide text-red-500">

@@ -19,6 +19,9 @@ public class RegistroService {
         this.usuarioService = usuarioService;
     }
 
+    // --- MÉTODOS DE CONTEXTO (TENANT / AUTOESCOLA) ---
+    // Usados por Administradores da própria unidade
+
     @Transactional
     public void registroInicial(RegistroContaRequestDTO request) {
         AutoEscolaResponseDTO autoEscolaResponse = this.autoEscolaService.criarAutoEscola(request.requestAutoEscola());
@@ -31,6 +34,9 @@ public class RegistroService {
 
         this.usuarioService.criarUsuario(usuarioRequest, autoEscolaResponse.id());
     }
+
+    // --- MÉTODOS GLOBAIS (SUPER ADMIN) ---
+    // Usados para suporte ou gestão centralizada
 
     @Transactional
     public void superRegistroInicial(RegistroContaRequestDTO request) {

@@ -9,11 +9,14 @@ import {
 } from "../schemas/autoEscolaSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { UsuarioResumedResponse } from "../types/usuario-response";
+import { buscarUsuariosPelaAutoEscolaEPeloPerfil } from "../api/usuarioApi";
 
 export function useAutoEscola(id: string | undefined) {
   const [autoEscola, setAutoEscola] = useState<AutoEscolaResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [usuariosPorPerfil, setUsuariosPorPerfil] = useState<UsuarioResumedResponse[]>([]);
 
   const form = useForm<AutoEscolaFormData>({
     resolver: zodResolver(AutoEscolaValidatorSchema),
@@ -23,9 +26,10 @@ export function useAutoEscola(id: string | undefined) {
   useEffect(() => {
     const buscarAutoEscolaPeloId = async () => {
       try {
-        const response = await buscarAutoEscola(id);
-        setAutoEscola(response);
-        form.reset(response)
+        const [resAutoEscola, resUsuarios] = await Promise.all([buscarAutoEscola(id), buscarUsuariosPelaAutoEscolaEPeloPerfil(id, "ADMINISTRADOR")])
+        setAutoEscola(resAutoEscola);
+        setUsuariosPorPerfil(resUsuarios);
+        form.reset(resAutoEscola)
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const mensagem = error.response?.data?.mensagem;
@@ -83,6 +87,6 @@ export function useAutoEscola(id: string | undefined) {
     }
   };
 
-  return { autoEscola, isLoading, isSubmitting, handleUpdate, handleUpdateStatus, ...form };
+  return { autoEscola, usuariosPorPerfil, isLoading, isSubmitting, handleUpdate, handleUpdateStatus, ...form };
 
 }
