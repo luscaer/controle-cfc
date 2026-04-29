@@ -1,4 +1,5 @@
-import type { UsuarioResumedResponse } from "../types/usuario-response";
+import type { UsuarioUpdateData } from "../schemas/usuarioSchema";
+import type { UsuarioResponse, UsuarioResumedResponse } from "../types/usuario-response";
 import { apiClient } from "./apiClient";
 
 export const buscarUsuariosPelaAutoEscolaEPeloPerfil = async (
@@ -10,3 +11,10 @@ export const buscarUsuariosPelaAutoEscolaEPeloPerfil = async (
   );
   return response.data;
 };
+
+export const atualizarMeuUsuario = async (usuario: UsuarioUpdateData): Promise<UsuarioResponse> => {
+    const response  = await apiClient.put<UsuarioResponse>(
+        `/v1/usuarios/me`, usuario
+    );
+    return response.data;
+}

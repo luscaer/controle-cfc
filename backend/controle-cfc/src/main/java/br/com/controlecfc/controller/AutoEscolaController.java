@@ -1,6 +1,5 @@
 package br.com.controlecfc.controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;

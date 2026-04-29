@@ -13,6 +13,7 @@ import br.com.controlecfc.domain.enums.PerfilUsuario;
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResumedResponseDTO;
+import br.com.controlecfc.dto.usuario.UsuarioUpdateRequestDTO;
 import br.com.controlecfc.exception.AcessoNegadoException;
 import br.com.controlecfc.exception.ConflitoException;
 import br.com.controlecfc.exception.RecursoNaoEncontradoException;
@@ -60,10 +61,21 @@ public class UsuarioService {
         return criarUsuario(request, getTenantId());
     }
 
+    @Transactional
+    public UsuarioResponseDTO atualizarMeuUsuario(UsuarioUpdateRequestDTO request) {
+        Usuario usuario = findById(getId());
+
+        usuario.setNome(request.nome());
+        usuario.setTelefone(request.telefone());
+
+        return UsuarioResponseDTO.fromEntity(usuario);
+    }
+
     // --- MÉTODOS GLOBAIS (SUPER ADMIN) ---
     // Usados para suporte ou gestão centralizada
 
-    public List<UsuarioResumedResponseDTO> findAllByAutoEscolaIdAndPerfilUsuario(UUID autoEscolaId, PerfilUsuario perfilUsuario) {
+    public List<UsuarioResumedResponseDTO> findAllByAutoEscolaIdAndPerfilUsuario(UUID autoEscolaId,
+            PerfilUsuario perfilUsuario) {
         List<Usuario> usuarios = usuarioRepository.findAllByAutoEscolaIdAndPerfilUsuario(autoEscolaId, perfilUsuario);
 
         return usuarios.stream()
@@ -96,6 +108,11 @@ public class UsuarioService {
     private UUID getTenantId() {
         UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
         return usuarioLogado.getAutoEscolaId();
+    }
+
+    private UUID getId() {
+        UsuarioPrincipal usuarioLogado = this.securityUtils.getUsuarioLogado();
+        return usuarioLogado.getId();
     }
 
     private Usuario findById(UUID id) {

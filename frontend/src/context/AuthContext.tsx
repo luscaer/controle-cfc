@@ -8,6 +8,8 @@ import {
 import type { UsuarioResponse } from "../types/usuario-response";
 import { authMe, authLogin, authLogout } from "../api/authApi";
 import type { LoginFormData } from "../schemas/authSchema";
+import type { UsuarioUpdateData } from "../schemas/usuarioSchema";
+import { atualizarMeuUsuario } from "../api/usuarioApi";
 
 interface AuthContextParams {
   usuario: UsuarioResponse | null;
@@ -15,6 +17,7 @@ interface AuthContextParams {
   isAuthenticated: boolean;
   login: (credentials: LoginFormData) => Promise<boolean>;
   logout: () => Promise<boolean>;
+  updateMyUser: (usuario: UsuarioUpdateData) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextParams | null>(null);
@@ -55,6 +58,14 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateMyUser = async (usuario: UsuarioUpdateData) => {
+    try {
+        setUsuario(await atualizarMeuUsuario(usuario))
+    } catch (error) {
+        throw error;
+    }
+  }
+
   const isAuthenticated = usuario !== null;
 
   const value = {
@@ -63,6 +74,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
     isAuthenticated,
     login,
     logout,
+    updateMyUser
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

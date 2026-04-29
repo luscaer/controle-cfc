@@ -1,8 +1,16 @@
-import { Bell, PanelLeftClose, PanelLeftOpen, UserCog, Building, LogOut } from "lucide-react";
+import {
+  Bell,
+  PanelLeftClose,
+  PanelLeftOpen,
+  UserCog,
+  Building,
+  LogOut,
+} from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import LogoIcon from "../../assets/logo.svg?react";
 import { useAuth } from "../../context/AuthContext";
 import { extrairIniciaisNome } from "../../utils/formatters";
+import { SlideOverPerfil } from "../usuarios/SlideOverPerfil";
 
 interface AppHeaderProps {
   sidebarAberta: boolean;
@@ -17,7 +25,6 @@ export function AppHeader({ sidebarAberta, onToggleSidebar }: AppHeaderProps) {
 
   return (
     <header className="flex h-14 w-full flex-none items-center justify-between border-b border-gray-200 bg-white px-4">
-
       {/* Lado esquerdo — logo + toggle + breadcrumb */}
       <div className="flex items-center gap-2.5">
         <LogoIcon className="h-6 w-auto text-primary-500" />
@@ -27,19 +34,18 @@ export function AppHeader({ sidebarAberta, onToggleSidebar }: AppHeaderProps) {
           className="flex h-8 w-8 items-center justify-center rounded-lg text-primary-500 transition-colors hover:bg-primary-500/10"
           title={sidebarAberta ? "Fechar menu" : "Abrir menu"}
         >
-          {sidebarAberta
-            ? <PanelLeftClose size={18} />
-            : <PanelLeftOpen  size={18} />
-          }
+          {sidebarAberta ? (
+            <PanelLeftClose size={18} />
+          ) : (
+            <PanelLeftOpen size={18} />
+          )}
         </button>
 
         <div className="hidden sm:block h-5 w-px bg-gray-200" />
-        
       </div>
 
       {/* Lado direito — notificações + usuário */}
       <div className="flex items-center gap-2">
-
         <button className="relative flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-100">
           <Bell size={17} />
           {/* Remova esse span quando não houver notificações */}
@@ -48,9 +54,12 @@ export function AppHeader({ sidebarAberta, onToggleSidebar }: AppHeaderProps) {
 
         <div className="h-5 w-px bg-gray-200" />
 
-        <UserCard iniciais={iniciais} nome={usuario.nome} perfil={usuario.perfilUsuario} />
+        <UserCard
+          iniciais={iniciais}
+          nome={usuario.nome}
+          perfil={usuario.perfilUsuario}
+        />
       </div>
-
     </header>
   );
 }
@@ -63,6 +72,7 @@ interface UserCardProps {
 
 function UserCard({ iniciais, nome, perfil }: UserCardProps) {
   const [aberto, setAberto] = useState(false);
+  const [slideOverAberto, setSlideOverAberto] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { logout } = useAuth();
 
@@ -78,7 +88,6 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
 
   return (
     <div className="relative" ref={menuRef}>
-
       {/* Trigger */}
       <button
         onClick={() => setAberto((v) => !v)}
@@ -95,8 +104,12 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
 
         {/* Info */}
         <div className="hidden flex-col sm:flex">
-          <span className="text-xs font-medium leading-[1.3] text-gray-900">{nome}</span>
-          <span className="text-[11px] leading-[1.3] text-gray-500">{perfil}</span>
+          <span className="text-xs font-medium leading-[1.3] text-gray-900">
+            {nome}
+          </span>
+          <span className="text-[11px] leading-[1.3] text-gray-500">
+            {perfil}
+          </span>
         </div>
 
         {/* Online dot */}
@@ -105,8 +118,11 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
         {/* Chevron */}
         <svg
           className={`h-3 w-3 shrink-0 text-gray-400 transition-transform ${aberto ? "rotate-180" : ""}`}
-          viewBox="0 0 12 12" fill="none" stroke="currentColor"
-          strokeWidth="1.5" strokeLinecap="round"
+          viewBox="0 0 12 12"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
         >
           <path d="M2 4l4 4 4-4" />
         </svg>
@@ -115,14 +131,21 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
       {/* Dropdown */}
       {aberto && (
         <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-52 rounded-xl border border-gray-100 bg-white p-1 shadow-lg">
-
           {/* Cabeçalho do dropdown */}
           <div className="border-b border-gray-100 px-2.5 py-2 mb-1">
             <p className="text-xs font-medium text-gray-900">{nome}</p>
             <p className="text-[11px] text-gray-500">{perfil}</p>
           </div>
 
-          <MenuItem icon={<UserCog size={14} />}>Meus dados</MenuItem>
+          <MenuItem
+            icon={<UserCog size={14} />}
+            onClick={() => {
+              setSlideOverAberto(true);
+              setAberto(false);
+            }}
+          >
+            Meus dados
+          </MenuItem>
           <MenuItem icon={<Building size={14} />}>Dados da autoescola</MenuItem>
 
           <div className="my-1 border-t border-gray-100" />
@@ -136,6 +159,11 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
           </MenuItem>
         </div>
       )}
+
+      <SlideOverPerfil
+        aberto={slideOverAberto}
+        onFechar={() => setSlideOverAberto(false)}
+      ></SlideOverPerfil>
     </div>
   );
 }
@@ -147,7 +175,12 @@ interface MenuItemProps {
   variant?: "default" | "danger";
 }
 
-function MenuItem({ icon, children, onClick, variant = "default" }: MenuItemProps) {
+function MenuItem({
+  icon,
+  children,
+  onClick,
+  variant = "default",
+}: MenuItemProps) {
   return (
     <button
       onClick={onClick}

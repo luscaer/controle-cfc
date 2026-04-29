@@ -71,9 +71,7 @@ public class AutoEscolaService {
 
         autoEscola.setNome(request.nome());
 
-        AutoEscola autoEscolaAtualizada = autoEscolaRepository.save(autoEscola);
-
-        return AutoEscolaResponseDTO.fromEntity(autoEscolaAtualizada);
+        return AutoEscolaResponseDTO.fromEntity(autoEscola);
 
     }
 
