@@ -77,8 +77,7 @@ public class Usuario {
     @JoinColumn(name = "auto_escola_id")
     private AutoEscola autoEscola;
 
-    protected Usuario() {
-    }
+    protected Usuario() {}
 
     public Usuario(String nome, String email, String telefone, String senha, PerfilUsuario perfilUsuario, AutoEscola autoEscola) {
         this.nome = nome;

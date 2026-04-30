@@ -48,8 +48,7 @@ public class AutoEscola {
     @Column(name = "modificado_por", updatable = true)
     private String usuarioModificador;
 
-    protected AutoEscola() {
-    }
+    protected AutoEscola() {}
 
     public AutoEscola(String nome, String cnpj) {
         this.nome = nome;

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f6f9fc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff; margin-top: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <!-- Header com Logo -->
+        <tr>
+            <td align="center" style="padding: 40px 0 20px 0; background-color: #1a202c;">
+                <img src="cid:logo-controle-cfc" alt="Controle CFC Logo" width="180" style="display: block;" />
+            </td>
+        </tr>
+        
+        <!-- Conteúdo -->
+        <tr>
+            <td style="padding: 40px 30px;">
+                <h2 style="color: #1a202c; font-size: 24px; margin-bottom: 20px;">Recuperar sua senha</h2>
+                <p style="color: #4a5568; font-size: 16px; line-height: 1.6;">
+                    Olá, <strong th:text="${nomeUsuario}">Usuário</strong>!
+                </p>
+                <p style="color: #4a5568; font-size: 16px; line-height: 1.6;">
+                    Recebemos uma solicitação para redefinir a senha da sua conta no <strong>Controle CFC</strong>. Clique no botão abaixo para escolher uma nova senha:
+                </p>
+                
+                <!-- Botão CTA -->
+                <table border="0" cellpadding="0" cellspacing="0" style="margin: 30px auto;">
+                    <tr>
+                        <td align="center" bgcolor="#3182ce" style="border-radius: 5px;">
+                            <a th:href="${linkRedefinicao}" style="padding: 15px 25px; color: #ffffff; text-decoration: none; font-weight: bold; display: inline-block;">
+                                REDEFINIR SENHA
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                
+                <p style="color: #718096; font-size: 14px; line-height: 1.6;">
+                    Se o botão não funcionar, copie e cole o link abaixo no seu navegador:<br>
+                    <span th:text="${linkRedefinicao}" style="color: #3182ce; word-break: break-all;"></span>
+                </p>
+            </td>
+        </tr>
+        
+        <!-- Rodapé -->
+        <tr>
+            <td style="padding: 20px 30px; background-color: #edf2f7; color: #718096; font-size: 12px; text-align: center;">
+                <p>Este é um e-mail automático, por favor não responda.</p>
+                <p>&copy; 2026 Controle CFC - Gestão Inteligente para Autoescolas.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
