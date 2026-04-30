@@ -25,8 +25,9 @@ export function useAutoEscola(id: string | undefined) {
 
   useEffect(() => {
     const buscarAutoEscolaPeloId = async () => {
+      if (!id) return;
       try {
-        const [resAutoEscola, resUsuarios] = await Promise.all([buscarAutoEscola(id), buscarUsuariosPelaAutoEscolaEPeloPerfil(id, "ADMINISTRADOR")])
+        const [resAutoEscola, resUsuarios] = await Promise.all([buscarAutoEscola(id as string), buscarUsuariosPelaAutoEscolaEPeloPerfil(id as string, "ADMINISTRADOR")])
         setAutoEscola(resAutoEscola);
         setUsuariosPorPerfil(resUsuarios);
         form.reset(resAutoEscola)
@@ -65,16 +66,16 @@ export function useAutoEscola(id: string | undefined) {
   };
 
   const handleUpdateStatus = async () => {
-    if (!id) return;
+    if (!id || !autoEscola) return;
     try {
       setIsSubmitting(true);
       if (!autoEscola.ativo) {
         await ativarAutoEscola(id);
-        setAutoEscola({ ...autoEscola, ativo: true })
+        setAutoEscola({ ...autoEscola, ativo: true } as AutoEscolaResponse);
         toast.success("AutoEscola ativada com sucesso!");
       } else {
         await desativarAutoEscola(id);
-        setAutoEscola({ ...autoEscola, ativo: false })
+        setAutoEscola({ ...autoEscola, ativo: false } as AutoEscolaResponse);
         toast.success("AutoEscola desativada com sucesso!");
       }
     } catch (error) {

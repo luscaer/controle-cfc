@@ -27,7 +27,7 @@ export function AutoEscolasDashboard() {
     );
 
   return (
-    <div className="p-6">
+    <div className="p-6 animate-fade-in">
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-lg font-semibold text-gray-900">Autoescolas</h1>

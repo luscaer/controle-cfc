@@ -20,7 +20,7 @@ export function EtapaAutoEscola({
   onAvancar,
 }: EtapaAutoEscolaProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 animate-fade-in-up">
       <CabecalhoEtapa
         etapa={1}
         total={2}

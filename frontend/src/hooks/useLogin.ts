@@ -23,11 +23,6 @@ export function useLogin() {
       await login(dados);
       navigate("/");
     } catch (error) {
-      console.log("ERRO COMPLETO DO AXIOS:", error);
-
-      if (axios.isAxiosError(error)) {
-        console.log("DADOS DA RESPOSTA:", error.response?.data);
-      }
       const mensagem = axios.isAxiosError(error)
         ? error.response?.data?.mensagem
         : null;

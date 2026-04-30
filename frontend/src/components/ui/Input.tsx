@@ -37,9 +37,11 @@ export const CustomInput = forwardRef(function CustomInput(
           iconLeft && "pl-10",
           showToggle && "pr-10",
 
-          hasError
-            ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-900 placeholder-red-300 bg-red-50"
-            : "border-gray-300 focus:ring-[#1C5B9E] focus:border-[#1C5B9E] text-gray-900 placeholder-gray-400 bg-white",
+          rest.disabled
+            ? "border-gray-200 bg-gray-50 text-gray-500 cursor-not-allowed"
+            : hasError
+              ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-900 placeholder-red-300 bg-red-50"
+              : "border-gray-300 focus:ring-[#1C5B9E] focus:border-[#1C5B9E] text-gray-900 placeholder-gray-400 bg-white",
         )}
         {...rest}
         type={tipoReal}

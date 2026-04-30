@@ -43,7 +43,7 @@ export function AutoEscolaDetalhes() {
   });
 
   return (
-    <div className="flex flex-col gap-10 p-6 max-w-3xl mx-auto">
+    <div className="flex flex-col gap-10 p-6 max-w-3xl mx-auto animate-fade-in-up">
       {/* Breadcrumb */}
       <div className="mb-5 flex items-center gap-1.5 text-xs text-gray-400">
         <button

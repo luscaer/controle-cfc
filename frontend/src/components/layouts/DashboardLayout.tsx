@@ -14,12 +14,12 @@ export function DashboardLayout() {
     const handleResize = (evento: MediaQueryListEvent) => {
       setSidebarAberta(evento.matches);
     };
-    mediaQuery.addEventListener("resize", handleResize);
-    return () => mediaQuery.removeEventListener("resize", handleResize);
+    mediaQuery.addEventListener("change", handleResize);
+    return () => mediaQuery.removeEventListener("change", handleResize);
   }, []);
 
   return (
-    <div className="flex h-screen flex-col bg-slate-50">
+    <div className="flex h-screen flex-col bg-slate-50 animate-fade-in">
       <AppHeader
         sidebarAberta={sidebarAberta}
         onToggleSidebar={() => setSidebarAberta((v) => !v)}

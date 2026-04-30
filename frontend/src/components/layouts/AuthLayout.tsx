@@ -9,7 +9,7 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ children, aside }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-full animate-fade-in">
       <div className="relative hidden lg:flex w-1/2 flex-col justify-between bg-primary-500 p-10 overflow-hidden">
         <HeroBackground />
         

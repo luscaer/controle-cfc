@@ -11,6 +11,7 @@ import LogoIcon from "../../assets/logo.svg?react";
 import { useAuth } from "../../context/AuthContext";
 import { extrairIniciaisNome } from "../../utils/formatters";
 import { SlideOverPerfil } from "../usuarios/SlideOverPerfil";
+import { SlideOverAutoEscola } from "../autoescolas/SlideOverAutoEscola";
 
 interface AppHeaderProps {
   sidebarAberta: boolean;
@@ -73,8 +74,11 @@ interface UserCardProps {
 function UserCard({ iniciais, nome, perfil }: UserCardProps) {
   const [aberto, setAberto] = useState(false);
   const [slideOverAberto, setSlideOverAberto] = useState(false);
+  const [slideOverAutoEscolaAberto, setSlideOverAutoEscolaAberto] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { logout } = useAuth();
+  const { usuario, logout } = useAuth();
+
+  if (!usuario) return null;
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -146,7 +150,17 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
           >
             Meus dados
           </MenuItem>
-          <MenuItem icon={<Building size={14} />}>Dados da autoescola</MenuItem>
+          {["SUPER_ADMIN", "ADMINISTRADOR"].includes(usuario.perfilUsuario) && usuario.autoEscolaId && (
+            <MenuItem
+              icon={<Building size={14} />}
+              onClick={() => {
+                setSlideOverAutoEscolaAberto(true);
+                setAberto(false);
+              }}
+            >
+              Dados da autoescola
+            </MenuItem>
+          )}
 
           <div className="my-1 border-t border-gray-100" />
 
@@ -163,7 +177,15 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
       <SlideOverPerfil
         aberto={slideOverAberto}
         onFechar={() => setSlideOverAberto(false)}
-      ></SlideOverPerfil>
+      />
+
+      {usuario.autoEscolaId && (
+        <SlideOverAutoEscola
+          id={usuario.autoEscolaId}
+          aberto={slideOverAutoEscolaAberto}
+          onFechar={() => setSlideOverAutoEscolaAberto(false)}
+        />
+      )}
     </div>
   );
 }

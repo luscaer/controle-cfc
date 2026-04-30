@@ -37,7 +37,7 @@ export function EtapaUsuario({
   useState<boolean>(false);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 animate-fade-in-up">
       <CabecalhoEtapa
         etapa={2}
         total={2}
