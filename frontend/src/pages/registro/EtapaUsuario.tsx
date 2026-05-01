@@ -152,7 +152,7 @@ export function EtapaUsuario({
           <CustomInput
             iconLeft={<Lock className="h-4 w-4 text-gray-400" />}
             type="password"
-            id="senha"
+            id="confirmacao-senha"
             placeholder="••••••••"
             {...register("confirmacaoSenha", {
               onChange: () => trigger("confirmacaoSenha"),

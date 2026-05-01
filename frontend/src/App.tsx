@@ -10,6 +10,8 @@ import { AutoEscolasDashboard } from "./pages/autoescolas/AutoEscolasDashboard";
 import { HomeRedirect } from "./components/layouts/HomeRedirect";
 import { Toaster } from "sonner";
 import { AutoEscolaDetalhes } from "./pages/autoescolas/AutoEscolaDetalhes";
+import { EsqueciSenha } from "./pages/EsqueciSenha";
+import { RedefinirSenha } from "./pages/RedefinirSenha";
 
 function App() {
   return (
@@ -60,6 +62,8 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+          <Route path="/redefinir-senha" element={<RedefinirSenha />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

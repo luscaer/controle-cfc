@@ -3,12 +3,13 @@ import { CustomButton } from "../components/ui/Button";
 import { LockIcon, MailIcon } from "lucide-react";
 import { Spinner } from "../components/ui/Spinner";
 import { useLogin } from "../hooks/useLogin";
+import { Link } from "react-router-dom";
 
 export function FormularioLogin() {
   const {
     register,
     handleSubmit,
-    formState: {errors, isSubmitting},
+    formState: { errors, isSubmitting },
     aoSubmeter,
   } = useLogin();
 
@@ -62,11 +63,12 @@ export function FormularioLogin() {
       </div>
 
       {/* Esqueceu a senha */}
-      <div className="text-right -mt-1">
-        <a href="#" className="text-xs text-primary-500 hover:underline">
-          Esqueceu a senha?
-        </a>
-      </div>
+      <Link
+        to="/esqueci-senha"
+        className="text-right -mt-1 text-xs text-primary-500 hover:underline"
+      >
+        Esqueceu a senha?
+      </Link>
 
       <CustomButton
         type="submit"

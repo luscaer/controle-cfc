@@ -36,7 +36,7 @@ public class EmailService {
             context.setVariable("nomeUsuario", nome);
             context.setVariable("linkRedefinicao", urlFrontend + "/redefinir-senha?token=" + token);
 
-            String corpoHtml = templateEngine.process("email-recuperacao", context);
+            String corpoHtml = templateEngine.process("email-redefinicao-senha", context);
 
             helper.setTo(destinatario);
             helper.setFrom("nao-responda@controlecfc.com.br");
@@ -44,10 +44,15 @@ public class EmailService {
 
             helper.setText(corpoHtml, true);
 
-            ClassPathResource image = new ClassPathResource("static/images/logo-separado-branco.jpg");
+            ClassPathResource logo = new ClassPathResource("static/images/logo-completo-branco.jpg");
+            ClassPathResource icone = new ClassPathResource("static/images/icone-chave.png");
 
-            if (image.exists()) {
-                helper.addInline("logo-controle-cfc", image);
+            if (logo.exists()) {
+                helper.addInline("logo-controle-cfc", logo);
+            }
+
+            if (icone.exists()) {
+                helper.addInline("icone-chave", icone);
             }
 
             mailSender.send(mimeMessage);

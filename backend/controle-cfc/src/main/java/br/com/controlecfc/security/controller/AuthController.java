@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.controlecfc.dto.recuperacaoSenha.EsqueciSenhaRequestDTO;
+import br.com.controlecfc.dto.recuperacaoSenha.RedefinirSenhaRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
 import br.com.controlecfc.security.SecurityUtils;
 import br.com.controlecfc.security.UsuarioPrincipal;
 import br.com.controlecfc.security.dto.LoginRequestDTO;
 import br.com.controlecfc.security.dto.LoginResponseDTO;
 import br.com.controlecfc.security.service.AuthService;
+import br.com.controlecfc.service.RecuperacaoSenhaService;
 import br.com.controlecfc.service.UsuarioService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -30,9 +33,12 @@ public class AuthController {
     private final AuthService authService;
     private final SecurityUtils securityUtils;
 
-    public AuthController(AuthService authService, UsuarioService usuarioService, SecurityUtils securityUtils) {
+    private final RecuperacaoSenhaService recuperacaoSenhaService;
+
+    public AuthController(AuthService authService, UsuarioService usuarioService, SecurityUtils securityUtils, RecuperacaoSenhaService recuperacaoSenhaService) {
         this.authService = authService;
         this.securityUtils = securityUtils;
+        this.recuperacaoSenhaService = recuperacaoSenhaService;
     }
 
     @GetMapping("/me")
@@ -75,6 +81,18 @@ public class AuthController {
         response.addHeader("Set-Cookie", cookie.toString());
 
         return ResponseEntity.status(HttpStatus.OK).body(loginResult.usuario());
+    }
+
+    @PostMapping("/esqueci-senha")
+    public ResponseEntity<Void> esqueciSenha(@Valid @RequestBody EsqueciSenhaRequestDTO request) {
+        recuperacaoSenhaService.solicitarRecuperacao(request.email());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<Void> redefinirSenha(@Valid @RequestBody RedefinirSenhaRequestDTO request) {
+        recuperacaoSenhaService.redefinirSenha(request.token(), request.senha());
+        return ResponseEntity.ok().build();
     }
 
 }

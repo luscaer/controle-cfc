@@ -12,7 +12,6 @@ import br.com.controlecfc.exception.RecursoNaoEncontradoException;
 import br.com.controlecfc.exception.TokenRecuperacaoInvalidoException;
 import br.com.controlecfc.repository.RecuperacaoSenhaRepository;
 import br.com.controlecfc.repository.UsuarioRepository;
-import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
 @Service
