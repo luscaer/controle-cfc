@@ -6,15 +6,18 @@ import { ProtectedRoute } from "./components/layouts/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { AcessoNegado } from "./pages/AcessoNegado";
 import { DashboardLayout } from "./components/layouts/DashboardLayout";
-import { AutoEscolasDashboard } from "./pages/AutoEscolasDashboard";
+import { AutoEscolasDashboard } from "./pages/autoescolas/AutoEscolasDashboard";
 import { HomeRedirect } from "./components/layouts/HomeRedirect";
 import { Toaster } from "sonner";
+import { AutoEscolaDetalhes } from "./pages/autoescolas/AutoEscolaDetalhes";
+import { EsqueciSenha } from "./pages/EsqueciSenha";
+import { RedefinirSenha } from "./pages/RedefinirSenha";
 
 function App() {
   return (
     <AuthProvider>
+      <Toaster richColors position="top-right" />
       <BrowserRouter>
-        <Toaster richColors position="top-right" />
         <Routes>
           <Route
             path="/"
@@ -32,6 +35,14 @@ function App() {
                   <AutoEscolasDashboard />
                 </ProtectedRoute>
               }
+            />
+            <Route 
+                path="auto-escolas/:id"
+                element={
+                    <ProtectedRoute allowedRoles={["SUPER_ADMIN", "ADMINISTRADOR"]} >
+                        <AutoEscolaDetalhes></AutoEscolaDetalhes>
+                    </ProtectedRoute>
+                }
             />
           </Route>
           <Route
@@ -51,6 +62,8 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+          <Route path="/redefinir-senha" element={<RedefinirSenha />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

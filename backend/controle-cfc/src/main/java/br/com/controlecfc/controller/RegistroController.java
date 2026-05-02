@@ -28,17 +28,10 @@ public class RegistroController {
         return ResponseEntity.status(HttpStatus.CREATED).body("");
     }
 
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
-    @PostMapping("")
-    public ResponseEntity<String> registro(@Valid @RequestBody RegistroContaRequestDTO request) {
-        this.registroService.registro(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("");
-    }
-
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PostMapping("/super")
-    public ResponseEntity<String> superRegistro(@Valid @RequestBody RegistroContaRequestDTO request) {
-        this.registroService.superRegistro(request);
+    public ResponseEntity<String> superRegistroInicial(@Valid @RequestBody RegistroContaRequestDTO request) {
+        this.registroService.superRegistroInicial(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("");
     }
 

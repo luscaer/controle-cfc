@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.controlecfc.domain.entity.Usuario;
+import br.com.controlecfc.domain.enums.PerfilUsuario;
 
 
 @Repository
@@ -18,5 +19,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>{
     boolean existsByEmail(String email);
 
     List<Usuario> findAllByAutoEscolaId(UUID autoEscolaId);
+
+    List<Usuario> findAllByAutoEscolaIdAndPerfilUsuario(UUID autoEscolaId, PerfilUsuario perfilUsuario);
 
 }

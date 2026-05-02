@@ -14,6 +14,9 @@ public record UsuarioRequestDTO(
     @NotBlank(message = "O email é obrigatório")
     String email,
 
+    @NotBlank
+    @Pattern(regexp = "^\\d{10,11}$", message = "O telefone deve ter 10 ou 11 dígitos (apenas números)")
+    String telefone,
     
     @NotBlank(message = "A senha deve ser informada")
     @Pattern(

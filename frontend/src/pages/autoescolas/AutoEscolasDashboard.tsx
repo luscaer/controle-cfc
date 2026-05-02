@@ -1,27 +1,33 @@
-// src/pages/AutoEscolasDashboard.tsx
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
-import { useAutoEscolas } from "../hooks/useAutoEscolas";
-import { LoadingScreen } from "../components/ui/LoadingScreen";
-import { ErroAcesso } from "../components/ui/ErroAcesso";
-import { TabelaAutoEscolas } from "../components/autoescolas/TabelaAutoEscolas";
-import { BarraBusca } from "../components/autoescolas/BarraBusca";
-import LogoIcon from "../assets/logo.svg?react";
+import { useAutoEscolas } from "../../hooks/useAutoEscolas";
+import { LoadingScreen } from "../../components/ui/LoadingScreen";
+import { TabelaAutoEscolas } from "../../components/autoescolas/TabelaAutoEscolas";
+import { BarraBusca } from "../../components/autoescolas/BarraBusca";
+import LogoIcon from "../../assets/logo.svg?react";
 
 const ITENS_POR_PAGINA = 10;
 
 export function AutoEscolasDashboard() {
   const navigate = useNavigate();
+
   const {
-    autoEscolas, paginaAtual, totalElementos,
-    isLoading, erro, busca, setBusca, setPaginaAtual,
+    autoEscolas,
+    paginaAtual,
+    totalElementos,
+    isLoading,
+    busca,
+    setBusca,
+    setPaginaAtual,
   } = useAutoEscolas();
 
-  if (isLoading) return <LoadingScreen logo={<LogoIcon className="h-full w-full text-white" />} />;
-  if (erro)      return <ErroAcesso mensagem={erro} />;
+  if (isLoading)
+    return (
+      <LoadingScreen logo={<LogoIcon className="h-full w-full text-white" />} />
+    );
 
   return (
-    <div className="p-6">
+    <div className="p-6 animate-fade-in">
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-lg font-semibold text-gray-900">Autoescolas</h1>

@@ -1,38 +1,17 @@
-import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-
-import {
-  LoginValidatorSchema,
-  type LoginFormData,
-} from "../schemas/authSchema";
-
 import { CustomInput } from "../components/ui/Input";
 import { CustomButton } from "../components/ui/Button";
 import { LockIcon, MailIcon } from "lucide-react";
-import { toast } from "sonner";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from "../components/ui/Spinner";
+import { useLogin } from "../hooks/useLogin";
+import { Link } from "react-router-dom";
 
 export function FormularioLogin() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({ resolver: zodResolver(LoginValidatorSchema), mode:"onTouched" });
-
-  const aoSubmeter = async (dados: LoginFormData) => {
-    const sucesso = await login(dados);
-
-    if (sucesso) {
-      navigate("/");
-    } else {
-      toast.error("Usuário ou senha estão incorretos");
-    }
-  };
+    aoSubmeter,
+  } = useLogin();
 
   return (
     <form onSubmit={handleSubmit(aoSubmeter)} className="flex flex-col gap-4">
@@ -44,16 +23,16 @@ export function FormularioLogin() {
         >
           E-mail
         </label>
-        <div className="relative flex items-center">
-          <MailIcon className="absolute left-3 h-4 w-4 text-gray-400" />
-          <CustomInput
-            type="text"
-            id="email"
-            placeholder="seu@email.com"
-            className="pl-9"
-            {...register("email")}
-          />
-        </div>
+
+        <CustomInput
+          iconLeft={<MailIcon className="h-4 w-4 text-gray-400" />}
+          type="text"
+          id="email"
+          placeholder="seu@email.com"
+          {...register("email")}
+          hasError={!!errors.email}
+        ></CustomInput>
+
         {errors.email && (
           <span className="text-red-500 text-xs">{errors.email.message}</span>
         )}
@@ -67,30 +46,37 @@ export function FormularioLogin() {
         >
           Senha
         </label>
-        <div className="relative flex items-center">
-          <LockIcon className="absolute left-3 h-4 w-4 text-gray-400" />
-          <CustomInput
-            type="password"
-            id="senha"
-            placeholder="••••••••"
-            className="pl-9"
-            {...register("senha")}
-          />
-        </div>
+
+        <CustomInput
+          iconLeft={<LockIcon className="h-4 w-4 text-gray-400" />}
+          type="password"
+          id="senha"
+          placeholder="••••••••"
+          {...register("senha")}
+          hasError={!!errors.senha}
+          showToggle={true}
+        ></CustomInput>
+
         {errors.senha && (
           <span className="text-red-500 text-xs">{errors.senha.message}</span>
         )}
       </div>
 
       {/* Esqueceu a senha */}
-      <div className="text-right -mt-1">
-        <a href="#" className="text-xs text-primary-500 hover:underline">
-          Esqueceu a senha?
-        </a>
-      </div>
+      <Link
+        to="/esqueci-senha"
+        className="text-right -mt-1 text-xs text-primary-500 hover:underline"
+      >
+        Esqueceu a senha?
+      </Link>
 
-      <CustomButton type="submit" disabled={isSubmitting} variant="primary" size="md">
-        {isSubmitting && <Spinner size={14} />} 
+      <CustomButton
+        type="submit"
+        disabled={isSubmitting}
+        variant="primary"
+        size="md"
+      >
+        {isSubmitting && <Spinner size={14} />}
         Entrar
       </CustomButton>
     </form>

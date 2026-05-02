@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no">
+    <title>Redefinição de senha — Controle CFC</title>
+    <!--[if mso]>
+    <noscript>
+        <xml>
+            <o:OfficeDocumentSettings>
+                <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+    </noscript>
+    <![endif]-->
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+        img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+        table { border-collapse: collapse !important; }
+
+        @media only screen and (max-width: 620px) {
+            .wrapper { width: 100% !important; padding: 0 !important; }
+            .container { width: 100% !important; border-radius: 0 !important; }
+            .content-td { padding: 28px 20px !important; }
+            .header-td { padding: 28px 20px !important; }
+            .footer-td { padding: 16px 20px !important; }
+            .btn-td { padding: 12px 24px !important; font-size: 13px !important; }
+            .heading { font-size: 20px !important; }
+            .body-text { font-size: 14px !important; }
+            .link-fallback { font-size: 12px !important; }
+            .divider-td { padding: 0 20px !important; }
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #EEF0F3; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+
+    <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all;">
+        Redefinição de senha solicitada para sua conta no Controle CFC. O link expira em 15 minutos.
+        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+    </div>
+
+    <table class="wrapper" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #EEF0F3;">
+        <tr>
+            <td align="center" style="padding: 32px 16px;">
+
+                <table class="container" border="0" cellpadding="0" cellspacing="0" width="560" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #D4D8DE;">
+
+                    <!-- Header -->
+                    <tr>
+                        <td class="header-td" align="center" style="padding: 32px 40px 28px; background-color: #1B62A5;">
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center">
+                                        <img src="cid:logo-controle-cfc"
+                                             alt="Controle CFC"
+                                             width="160"
+                                             style="display: block; max-width: 160px; height: auto;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Conteúdo principal -->
+                    <tr>
+                        <td class="content-td" style="padding: 36px 40px 28px;">
+
+                            <!-- Ícone de chave -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
+                                <tr>
+                                    <td align="center">
+                                        <img src="cid:icone-chave"
+                                             alt=""
+                                             width="64"
+                                             height="64"
+                                             style="display: block; border-radius: 50%;" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Título -->
+                            <h1 class="heading" style="margin: 0 0 12px; font-size: 22px; font-weight: 600; color: #111827; text-align: center; letter-spacing: -0.3px;">
+                                Redefinição de senha
+                            </h1>
+
+                            <!-- Saudação -->
+                            <p class="body-text" style="margin: 0 0 16px; font-size: 15px; line-height: 1.7; color: #4B5563; text-align: center;">
+                                Olá, <strong th:text="${nomeUsuario}" style="color: #111827; font-weight: 600;">Usuário</strong>!
+                            </p>
+
+                            <!-- Texto principal -->
+                            <p class="body-text" style="margin: 0 0 28px; font-size: 15px; line-height: 1.7; color: #4B5563; text-align: center;">
+                                Recebemos uma solicitação para redefinir a senha da sua conta no <strong style="color: #111827;">Controle CFC</strong>.
+                                Clique no botão abaixo para escolher uma nova senha.
+                            </p>
+
+                            <!-- Botão CTA -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
+                                <tr>
+                                    <td align="center">
+                                        <table border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td align="center" style="background-color: #1B62A5; border-radius: 8px;">
+                                                    <a th:href="${linkRedefinicao}"
+                                                       href="#"
+                                                       class="btn-td"
+                                                       style="display: inline-block; padding: 13px 32px; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.2px;">
+                                                        Redefinir minha senha
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Aviso de expiração -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
+                                <tr>
+                                    <td align="center" style="background-color: #FAEEDA; border-radius: 8px; border: 1px solid #FAC775; padding: 10px 16px;">
+                                        <p style="margin: 0; font-size: 13px; color: #633806; line-height: 1.5;">
+                                            ⚠&nbsp; Este link expira em <strong>15 minutos</strong>. Após esse prazo, solicite um novo.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Divisor -->
+                            <table class="divider-td" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
+                                <tr>
+                                    <td style="border-top: 1px solid #E5E7EB;"></td>
+                                </tr>
+                            </table>
+
+                            <!-- Link alternativo -->
+                            <p class="link-fallback" style="margin: 0 0 8px; font-size: 13px; line-height: 1.6; color: #9CA3AF; text-align: center;">
+                                Se o botão não funcionar, copie e cole o link abaixo no seu navegador:
+                            </p>
+                            <p class="link-fallback" style="margin: 0; font-size: 12px; line-height: 1.6; text-align: center;">
+                                <a th:href="${linkRedefinicao}"
+                                   href="#"
+                                   style="color: #1B62A5; word-break: break-all; text-decoration: underline;"
+                                   th:text="${linkRedefinicao}">
+                                    https://controlecfc.com.br/redefinir-senha?token=...
+                                </a>
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- Aviso de segurança -->
+                    <tr>
+                        <td style="padding: 0 40px 24px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="background-color: #F9FAFB; border-radius: 8px; border: 1px solid #E5E7EB; padding: 14px 16px;">
+                                        <p style="margin: 0; font-size: 12px; color: #6B7280; line-height: 1.6;">
+                                            <strong style="color: #374151;">Não solicitou essa alteração?</strong><br>
+                                            Ignore este e-mail com segurança. Sua senha permanece a mesma e nenhuma alteração foi feita na sua conta.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Rodapé -->
+                    <tr>
+                        <td class="footer-td" align="center" style="padding: 20px 40px; background-color: #F9FAFB; border-top: 1px solid #E5E7EB;">
+                            <p style="margin: 0 0 4px; font-size: 12px; color: #9CA3AF;">
+                                Este é um e-mail automático — não responda a esta mensagem.
+                            </p>
+                            <p style="margin: 0; font-size: 12px; color: #9CA3AF;">
+                                &copy; 2026 <strong style="color: #6B7280;">Controle CFC</strong> — Gestão inteligente para autoescolas.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

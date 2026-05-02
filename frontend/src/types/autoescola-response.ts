@@ -4,4 +4,7 @@ export interface AutoEscolaResponse {
     cnpj: string;
     ativo: boolean;
     dataCriacao: string;
+    dataAtualizacao: string;
+    usuarioCriador: string;
+    usuarioModificador: string;
 }

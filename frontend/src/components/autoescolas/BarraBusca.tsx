@@ -1,4 +1,5 @@
 import { Search } from "lucide-react";
+import { tratarBuscaAutoEscola } from "../../utils/formatters";
 
 interface BarraBuscaProps {
   busca: string;
@@ -24,15 +25,14 @@ export function BarraBusca({
           type="text"
           placeholder="Buscar por nome ou CNPJ..."
           value={busca}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onChange(tratarBuscaAutoEscola(e.target.value))}
           className="h-[34px] w-full rounded-lg border border-gray-200 bg-white pl-8 pr-3 text-sm outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10"
         />
       </div>
       <span className="ml-auto text-xs text-gray-400">
         {exibindo}
         {" de "}
-        {total}{" "}
-        {exibindo === 1 ? "autoescola" : "autoescolas"}
+        {total} {exibindo === 1 ? "autoescola" : "autoescolas"}
       </span>
     </div>
   );

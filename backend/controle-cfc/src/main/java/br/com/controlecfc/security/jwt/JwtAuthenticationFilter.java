@@ -2,6 +2,7 @@ package br.com.controlecfc.security.jwt;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,16 +43,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Cookie[] cookies = request.getCookies();
         String jwt = null;
 
-        if (cookies == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        jwt = Arrays.stream(cookies)
+        jwt = Stream.ofNullable(cookies)
+                .flatMap(Arrays::stream)
                 .filter(c -> c.getName().equals("token"))
                 .map(Cookie::getValue)
                 .findFirst()
                 .orElse(null);
+
+        if (jwt == null || jwt.isBlank()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         try {
             final String username = jwtService.extractUsername(jwt);
@@ -59,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = usuarioDetailsService.loadUserByUsername(username);
 
-                if (jwtService.isTokenValid(jwt, userDetails)) {
+                if (jwtService.isTokenValid(jwt, userDetails) && userDetails.isEnabled()) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
 

@@ -21,7 +21,7 @@ public class UsuarioPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        PerfilUsuario perfilUsuario = this.usuario.getPerfilUsuario();
+        PerfilUsuario perfilUsuario = getPerfil();
 
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + perfilUsuario.name());
 
@@ -40,15 +40,15 @@ public class UsuarioPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        if (getPerfil() != PerfilUsuario.SUPER_ADMIN) {
+            return this.usuario.isAtivo() && this.usuario.getAutoEscola().isAtivo();
+        }
+
         return this.usuario.isAtivo();
     }
 
     public UUID getId() {
         return this.usuario.getId();
-    }
-
-    public String getNome() {
-        return this.usuario.getNome();
     }
 
     public PerfilUsuario getPerfil() {
