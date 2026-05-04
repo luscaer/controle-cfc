@@ -41,7 +41,7 @@ public class RecuperacaoSenhaService {
 
         LocalDateTime expiracao = LocalDateTime.now().plusMinutes(15);
 
-        recuperacaoSenhaRepository.save(new RecuperacaoSenha(token, usuario, expiracao, false));
+        recuperacaoSenhaRepository.save(new RecuperacaoSenha(token, usuario, expiracao));
 
         emailService.enviarEmailRecuperacaoSenha(email, usuario.getNome(), token);
     }

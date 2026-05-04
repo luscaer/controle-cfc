@@ -13,26 +13,32 @@ public class RegistroService {
 
     private final AutoEscolaService autoEscolaService;
     private final UsuarioService usuarioService;
+    private final ConviteCadastroService conviteCadastroService;
 
-    public RegistroService(AutoEscolaService autoEscolaService, UsuarioService usuarioService) {
+    public RegistroService(AutoEscolaService autoEscolaService, UsuarioService usuarioService,
+            ConviteCadastroService conviteCadastroService) {
         this.autoEscolaService = autoEscolaService;
         this.usuarioService = usuarioService;
+        this.conviteCadastroService = conviteCadastroService;
     }
 
     // --- MÉTODOS DE CONTEXTO (TENANT / AUTOESCOLA) ---
     // Usados por Administradores da própria unidade
 
     @Transactional
-    public void registroInicial(RegistroContaRequestDTO request) {
+    public void registroInicial(RegistroContaRequestDTO request, String token) {
+        String email = conviteCadastroService.validarToken(token);
+
         AutoEscolaResponseDTO autoEscolaResponse = this.autoEscolaService.criarAutoEscola(request.requestAutoEscola());
         UsuarioRequestDTO usuarioRequest = new UsuarioRequestDTO(
                 request.requestUsuario().nome(),
-                request.requestUsuario().email(),
+                email,
                 request.requestUsuario().telefone(),
                 request.requestUsuario().senha(),
                 PerfilUsuario.ADMINISTRADOR);
 
         this.usuarioService.criarUsuario(usuarioRequest, autoEscolaResponse.id());
+        conviteCadastroService.concluirConvite(token);
     }
 
     // --- MÉTODOS GLOBAIS (SUPER ADMIN) ---

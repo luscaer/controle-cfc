@@ -99,6 +99,7 @@ public class UsuarioService {
                 passwordEncoder.encode(request.senha()),
                 request.perfilUsuario(),
                 autoEscola));
+        usuario.ativar();
 
         return UsuarioResponseDTO.fromEntity(usuario);
     }

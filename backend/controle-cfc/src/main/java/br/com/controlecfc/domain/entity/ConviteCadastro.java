@@ -5,49 +5,45 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "recuperacao_senha_token")
-public class RecuperacaoSenha {
+public class ConviteCadastro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank
+    @Email
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false, unique = true)
     private String token;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
 
     @Column(nullable = false)
     private LocalDateTime dataExpiracao;
 
     private boolean utilizado  = false;
 
-    protected RecuperacaoSenha() {}
-
-    public RecuperacaoSenha(String token, Usuario usuario, LocalDateTime dataExpiracao) {
+    public ConviteCadastro(String email, String token, LocalDateTime dataExpiracao) {
+        this.email = email;
         this.token = token;
-        this.usuario = usuario;
         this.dataExpiracao = dataExpiracao;
         this.utilizado = false;
     }
 
-    public String getToken() {
-        return token;
+    public String getEmail() {
+        return email;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getToken() {
+        return token;
     }
 
     public LocalDateTime getDataExpiracao() {
@@ -58,12 +54,12 @@ public class RecuperacaoSenha {
         return utilizado;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public void setDataExpiracao(LocalDateTime dataExpiracao) {

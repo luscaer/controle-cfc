@@ -20,10 +20,10 @@ public class DataSeeder implements CommandLineRunner {
 
     @Value("${app.superadmin.name}")
     private String nome;
-    
+
     @Value("${app.superadmin.email}")
     private String email;
-    
+
     @Value("${app.superadmin.phone}")
     private String telefone;
 
@@ -49,16 +49,21 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         AutoEscola autoEscola = new AutoEscola("SISTEMA CONTROLE CFC", "79935520000146");
+        autoEscola.ativar();
 
         autoEscolaRepository.save(autoEscola);
-        usuarioRepository.save(new Usuario(
+
+        Usuario super_admin = new Usuario(
                 "Lucas Admin",
                 email,
                 telefone,
                 passwordEncoder.encode(senha),
                 PerfilUsuario.SUPER_ADMIN,
-                autoEscola));
-        
+                autoEscola);
+        super_admin.ativar();
+
+        usuarioRepository.save(super_admin);
+
         logger.info("SUPER ADMIN criado com sucesso!");
     }
 }

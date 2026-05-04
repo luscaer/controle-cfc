@@ -6,9 +6,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controlecfc.dto.registro.RegistroContaRequestDTO;
+import br.com.controlecfc.service.ConviteCadastroService;
 import br.com.controlecfc.service.RegistroService;
 import jakarta.validation.Valid;
 
@@ -17,14 +19,17 @@ import jakarta.validation.Valid;
 public class RegistroController {
 
     private final RegistroService registroService;
+    private final ConviteCadastroService conviteCadastroService;
 
-    public RegistroController(RegistroService registroService) {
+    public RegistroController(RegistroService registroService, ConviteCadastroService conviteCadastroService) {
         this.registroService = registroService;
+        this.conviteCadastroService = conviteCadastroService;
     }
 
     @PostMapping("/inicial")
-    public ResponseEntity<String> registroInicial(@Valid @RequestBody RegistroContaRequestDTO request) {
-        this.registroService.registroInicial(request);
+    public ResponseEntity<String> registroInicial(@Valid @RequestBody RegistroContaRequestDTO request,
+            @RequestParam("token") String token) {
+        this.registroService.registroInicial(request, token);
         return ResponseEntity.status(HttpStatus.CREATED).body("");
     }
 
@@ -33,6 +38,13 @@ public class RegistroController {
     public ResponseEntity<String> superRegistroInicial(@Valid @RequestBody RegistroContaRequestDTO request) {
         this.registroService.superRegistroInicial(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("");
+    }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PostMapping("/convidar")
+    public ResponseEntity<Void> enviarConvite(String email) {
+        this.conviteCadastroService.solicitarConvite(email);
+        return ResponseEntity.ok().build();
     }
 
 }

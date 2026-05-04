@@ -59,6 +59,7 @@ public class AutoEscolaService {
         }
 
         AutoEscola autoEscola = autoEscolaRepository.save(new AutoEscola(request.nome(), request.cnpj()));
+        autoEscola.ativar();
 
         return AutoEscolaResponseDTO.fromEntity(autoEscola);
     }

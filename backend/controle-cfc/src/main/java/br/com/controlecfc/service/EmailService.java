@@ -27,37 +27,48 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
+    public void enviarEmailConvite(String destinatario, String token) {
+        Context context = new Context();
+        context.setVariable("linkRedefinicao", urlFrontend + "/finalizar-cadastro?token=" + token);
+
+        enviarEmailTemplate(destinatario, "Convite de Cadastro - Controle CFC", "email-convite", context,
+                "static/images/logo-volante.png");
+    }
+
     public void enviarEmailRecuperacaoSenha(String destinatario, String nome, String token) {
+        Context context = new Context();
+        context.setVariable("nomeUsuario", nome);
+        context.setVariable("linkRedefinicao", urlFrontend + "/redefinir-senha?token=" + token);
+
+        enviarEmailTemplate(destinatario, "Recuperação de Senha - Controle CFC", "email-redefinicao-senha", context,
+                "static/images/icone-chave.png");
+    }
+
+    private void enviarEmailTemplate(String destinatario, String assunto, String template, Context context,
+            String caminhoIcone) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-
-            Context context = new Context();
-            context.setVariable("nomeUsuario", nome);
-            context.setVariable("linkRedefinicao", urlFrontend + "/redefinir-senha?token=" + token);
-
-            String corpoHtml = templateEngine.process("email-redefinicao-senha", context);
-
+            String corpoHtml = templateEngine.process(template, context);
             helper.setTo(destinatario);
             helper.setFrom("nao-responda@controlecfc.com.br");
-            helper.setSubject("Recuperação de Senha - Controle CFC");
-
+            helper.setSubject(assunto);
             helper.setText(corpoHtml, true);
 
             ClassPathResource logo = new ClassPathResource("static/images/logo-completo-branco.jpg");
-            ClassPathResource icone = new ClassPathResource("static/images/icone-chave.png");
+            ClassPathResource icone = new ClassPathResource(caminhoIcone);
 
             if (logo.exists()) {
                 helper.addInline("logo-controle-cfc", logo);
             }
 
             if (icone.exists()) {
-                helper.addInline("icone-chave", icone);
+                helper.addInline("icone-dinamico", icone);
             }
 
             mailSender.send(mimeMessage);
         } catch (MailException | MessagingException e) {
-            throw new EmailEnvioException("Falha ao enviar e-mail de recuperação para: " + destinatario);
+            throw new EmailEnvioException("Falha ao enviar e-mail para: " + destinatario);
         }
     }
 }

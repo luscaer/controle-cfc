@@ -85,7 +85,7 @@ public class Usuario {
         this.telefone = telefone;
         this.senha = senha;
         this.perfilUsuario = perfilUsuario;
-        this.ativo = true;
+        this.ativo = false;
         this.autoEscola = autoEscola;
     }
 

@@ -9,7 +9,7 @@
       name="format-detection"
       content="telephone=no,address=no,email=no,date=no,url=no"
     />
-    <title>Redefinição de senha — Controle CFC</title>
+    <title>Convite de Cadastro — Controle CFC</title>
     <!--[if mso]>
       <noscript>
         <xml>
@@ -86,8 +86,8 @@
     "
   >
     <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all">
-      Redefinição de senha solicitada para sua conta no Controle CFC. O link
-      expira em 15 minutos.
+      Seu convite para gerenciar sua autoescola no Controle CFC chegou! Comece o
+      cadastro agora.
       &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
     </div>
 
@@ -172,7 +172,7 @@
                     letter-spacing: -0.3px;
                   "
                 >
-                  Redefinição de senha
+                  Tudo pronto para começar?
                 </h1>
 
                 <!-- Saudação -->
@@ -187,10 +187,8 @@
                   "
                 >
                   Olá,
-                  <strong
-                    th:text="${nomeUsuario}"
-                    style="color: #111827; font-weight: 600"
-                    >Usuário</strong
+                  <strong style="color: #111827; font-weight: 600"
+                    >Futuro Parceiro</strong
                   >!
                 </p>
 
@@ -205,9 +203,13 @@
                     text-align: center;
                   "
                 >
-                  Recebemos uma solicitação para redefinir a senha da sua conta
-                  no <strong style="color: #111827">Controle CFC</strong>.
-                  Clique no botão abaixo para escolher uma nova senha.
+                  Recebemos sua solicitação de acesso ao
+                  <strong>Controle CFC</strong>. Estamos prontos para ajudar
+                  você a levar a gestão da sua autoescola para o próximo nível.
+                  <br /><br />
+                  Clique no botão abaixo para
+                  <strong>completar o seu cadastro</strong> e configurar o seu
+                  ambiente de trabalho.
                 </p>
 
                 <!-- Botão CTA -->
@@ -243,7 +245,7 @@
                                 letter-spacing: 0.2px;
                               "
                             >
-                              Redefinir minha senha
+                              Iniciar cadastro da autoescola
                             </a>
                           </td>
                         </tr>
@@ -278,8 +280,8 @@
                           line-height: 1.5;
                         "
                       >
-                        ⚠&nbsp; Este link expira em <strong>15 minutos</strong>.
-                        Após esse prazo, solicite um novo.
+                        ⚠&nbsp; Este link expira em <strong>1 dia</strong>. Após
+                        esse prazo, solicite um novo.
                       </p>
                     </td>
                   </tr>
@@ -310,8 +312,7 @@
                     text-align: center;
                   "
                 >
-                  Se o botão não funcionar, copie e cole o link abaixo no seu
-                  navegador:
+                  Se tiver problemas com o botão, use o link abaixo:
                 </p>
                 <p
                   class="link-fallback"
@@ -332,42 +333,9 @@
                     "
                     th:text="${linkRedefinicao}"
                   >
-                    https://controlecfc.com.br/redefinir-senha?token=...
+                    https://controlecfc.com.br/finalizar-cadastro?token=...
                   </a>
                 </p>
-              </td>
-            </tr>
-
-            <!-- Aviso de segurança -->
-            <tr>
-              <td style="padding: 0 40px 24px">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                  <tr>
-                    <td
-                      style="
-                        background-color: #f9fafb;
-                        border-radius: 8px;
-                        border: 1px solid #e5e7eb;
-                        padding: 14px 16px;
-                      "
-                    >
-                      <p
-                        style="
-                          margin: 0;
-                          font-size: 12px;
-                          color: #6b7280;
-                          line-height: 1.6;
-                        "
-                      >
-                        <strong style="color: #374151"
-                          >Não solicitou essa alteração?</strong
-                        ><br />
-                        Ignore este e-mail com segurança. Sua senha permanece a
-                        mesma e nenhuma alteração foi feita na sua conta.
-                      </p>
-                    </td>
-                  </tr>
-                </table>
               </td>
             </tr>
 
@@ -383,7 +351,7 @@
                 "
               >
                 <p style="margin: 0 0 4px; font-size: 12px; color: #9ca3af">
-                  Este é um e-mail automático — não responda a esta mensagem.
+                  Este é um e-mail automático enviado a pedido do administrador.
                 </p>
                 <p style="margin: 0; font-size: 12px; color: #9ca3af">
                   &copy; 2026

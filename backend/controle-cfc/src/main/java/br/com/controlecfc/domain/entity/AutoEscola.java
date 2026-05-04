@@ -53,7 +53,7 @@ public class AutoEscola {
     public AutoEscola(String nome, String cnpj) {
         this.nome = nome;
         this.cnpj = cnpj;
-        this.ativo = true;
+        this.ativo = false;
     }
 
     public UUID getId() {
