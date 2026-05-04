@@ -42,7 +42,7 @@ public class RegistroController {
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PostMapping("/convidar")
-    public ResponseEntity<Void> enviarConvite(String email) {
+    public ResponseEntity<Void> enviarConvite(@RequestParam("email") String email) {
         this.conviteCadastroService.solicitarConvite(email);
         return ResponseEntity.ok().build();
     }
