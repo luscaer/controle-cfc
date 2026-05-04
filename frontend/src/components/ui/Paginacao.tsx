@@ -66,7 +66,7 @@ export function NumeroPaginas({ paginaAtual, totalElementos, itensPorPagina, onC
             onClick={() => onChange(p)}
             className={`flex h-[28px] w-[28px] items-center justify-center rounded-lg text-xs font-medium transition ${
               p === paginaAtual
-                ? "bg-[#1B62A5] text-white"
+                ? "bg-primary-500 text-white"
                 : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"
             }`}
           >

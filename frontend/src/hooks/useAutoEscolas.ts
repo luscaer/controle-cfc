@@ -33,7 +33,7 @@ export function useAutoEscolas() {
           buscaDebounced,
         );
         setAutoEscolas(pagina.content);
-        setTotalElementos(pagina.totalElements);
+        setTotalElementos(pagina.page.totalElements);
       } catch (error) {
         const mensagem = axios.isAxiosError(error)
           ? error.response?.data?.mensagem

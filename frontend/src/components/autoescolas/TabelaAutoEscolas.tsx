@@ -110,7 +110,7 @@ export function TabelaAutoEscolas({
 
           <BotaoPaginacao
             onClick={() => onPaginaChange(paginaAtual + 1)}
-            disabled={(paginaAtual + 1) * 10 >= totalElementos}
+            disabled={(paginaAtual + 1) * itensPorPagina >= totalElementos}
             icone="next"
           >
             Próxima
