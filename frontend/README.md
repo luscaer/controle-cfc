@@ -1,73 +1,59 @@
-# React + TypeScript + Vite
+# Controle CFC - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Esta é a aplicação web do sistema **Controle CFC**, desenvolvida com tecnologias modernas para oferecer uma interface rápida, responsiva e segura para a gestão de autoescolas.
 
-Currently, two official plugins are available:
+## Tecnologias Principais
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 18**: Biblioteca base para construção da interface.
+- **Vite**: Ferramenta de build extremamente rápida.
+- **TypeScript**: Superset de JavaScript que adiciona tipagem estática ao projeto.
+- **Tailwind CSS**: Framework CSS utilitário para estilização rápida e consistente.
+- **React Hook Form**: Gerenciamento eficiente de formulários.
+- **Zod**: Validação de esquemas com integração total ao TypeScript e React Hook Form.
+- **Axios**: Cliente HTTP para comunicação com a API REST.
+- **React Router Dom**: Gerenciamento de rotas e navegação.
+- **Lucide React**: Biblioteca de ícones leves e bonitos.
+- **Sonner**: Sistema de notificações (toast) elegante.
 
-## React Compiler
+## 📁 Estrutura de Pastas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+├── api/          # Definições de chamadas à API (Axios)
+├── assets/       # Imagens, logotipos e estilos globais
+├── components/   # Componentes React reutilizáveis (UI, layouts, entidades)
+├── context/      # Contextos globais (Autenticação, Temas)
+├── hooks/        # Hooks customizados para lógica de negócio e API
+├── pages/        # Componentes de página (rotas principais)
+├── schemas/      # Definições de validação Zod
+├── types/        # Definições de tipos TypeScript
+└── utils/        # Funções utilitárias (formatadores, validadores)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Como Iniciar
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Instalação
+```bash
+npm install
 ```
+
+### Desenvolvimento
+```bash
+npm run dev
+```
+
+### Build para Produção
+```bash
+npm run build
+```
+
+## 🔐 Autenticação
+
+A aplicação utiliza um fluxo de autenticação baseado em **JWT** enviado através de cookies `HttpOnly` pelo backend. O estado de autenticação é gerenciado globalmente via `AuthContext`, protegendo rotas privadas e controlando o acesso baseado no perfil do usuário.
+
+## 🎨 Design System
+
+O projeto utiliza uma paleta de cores personalizada via Tailwind, com foco em:
+- **Responsividade**: Layouts que se adaptam de mobile a telas 4K.
+- **Feedback Visual**: Estados de carregamento, erros de validação claros e notificações em tempo real.
+- **Acessibilidade**: Uso de elementos semânticos e contrastes adequados.

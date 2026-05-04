@@ -2,25 +2,25 @@
 
 ## 1. Objetivo
 
-Este documento descreve o **modelo de domínio do MVP** do sistema Controle CFC.
-Ele define as entidades principais, seus atributos, relacionamentos e regras de negócio,
-servindo como base para o modelo de dados e implementação das entidades JPA.
+Este documento descreve o **modelo de domínio** do sistema Controle CFC, diferenciando as entidades já implementadas das planejadas para o MVP final.
 
 ---
 
-## 2. Entidades do Domínio (MVP)
+## 2. Entidades Implementadas
 
-### 2.1 AutoEscola
+### 2.1 AutoEscola `[Implementado]`
 
 **Descrição:**  
 Representa a unidade de negócio principal do sistema (tenant do SaaS).
 
 **Atributos:**
-- id
-- nome
-- cnpj
-- ativo
-- dataCriacao
+- `id` (UUID)
+- `nome` (String)
+- `cnpj` (String, único)
+- `ativo` (Boolean)
+- `dataCriacao` (LocalDateTime, auditoria)
+- `dataAtualizacao` (LocalDateTime, auditoria)
+- `usuarioCriador` / `usuarioModificador` (Auditoria)
 
 **Regras de negócio:**
 - Todas as entidades do sistema devem estar vinculadas a uma AutoEscola.
@@ -28,100 +28,88 @@ Representa a unidade de negócio principal do sistema (tenant do SaaS).
 
 ---
 
-### 2.2 Usuario
+### 2.2 Usuario `[Implementado]`
 
 **Descrição:**  
-Representa um usuário do sistema.
+Representa um usuário (colaborador ou administrador) do sistema.
 
 **Atributos:**
-- id
-- nome
-- email
-- senha
-- perfil (ADMINISTRADOR | INSTRUTOR)
-- ativo
-- autoEscolaId
+- `id` (UUID)
+- `nome` (String)
+- `email` (String, único)
+- `telefone` (String)
+- `senha` (String, BCrypt)
+- `perfilUsuario` (SUPER_ADMIN | ADMINISTRADOR | INSTRUTOR)
+- `ativo` (Boolean)
+- `autoEscola` (Relacionamento Many-to-One)
+- `campos de auditoria` (dataCriacao, dataAtualizacao, etc)
 
 **Regras de negócio:**
 - Usuários pertencem a apenas uma autoescola.
-- Instrutores possuem acesso restrito às funcionalidades do sistema.
+- O acesso ao sistema depende do status `ativo` tanto do usuário quanto da sua autoescola.
 
 ---
 
-### 2.3 Aluno
+### 2.3 RecuperacaoSenha `[Implementado]`
+
+**Descrição:**  
+Gerenciamento de tokens temporários para redefinição de senha.
+
+**Atributos:**
+- `token` (String, único)
+- `usuario` (Relacionamento Many-to-One)
+- `dataExpiracao` (LocalDateTime)
+- `utilizado` (Boolean)
+
+---
+
+## 3. Entidades Planejadas (Escopo MVP)
+
+### 3.1 Aluno `[Planejado]`
 
 **Descrição:**  
 Representa o aluno em processo de formação.
 
 **Atributos:**
-- id
-- nome
-- cpf
-- status (EM_FORMACAO | PRONTO_PARA_EXAMES)
-- cargaHorariaRealizada
-- cargaHorariaPrevista
-- autoEscolaId
-
-**Regras de negócio:**
-- A carga horária realizada é atualizada automaticamente com a confirmação das aulas.
-- O status do aluno é atualizado conforme a carga horária.
+- `nome`, `cpf`, `status` (EM_FORMACAO | PRONTO_PARA_EXAMES)
+- `cargaHorariaRealizada`, `cargaHorariaPrevista`
+- `autoEscolaId`
+- `campos de auditoria` (dataCriacao, dataAtualizacao, etc)
 
 ---
 
-### 2.4 Venda
+### 3.2 Venda `[Planejado]`
 
 **Descrição:**  
 Representa o acordo comercial entre o aluno e a autoescola.
 
 **Atributos:**
-- id
-- alunoId
-- quantidadeDeAulas
-- valorTotal
-- status (ATIVA | CONCLUIDA)
-- dataCriacao
-- autoEscolaId
-
-**Regras de negócio:**
-- Aulas só podem ser agendadas se houver venda ativa.
-- Cada venda pertence a um aluno.
+- `alunoId`, `quantidadeDeAulas`, `valorTotal`, `status` (ATIVA | CONCLUIDA)
+- `campos de auditoria` (dataCriacao, dataAtualizacao, etc)
 
 ---
 
-### 2.5 Aula
+### 3.3 Aula `[Planejado]`
 
 **Descrição:**  
-Representa uma aula prática do aluno.
+Representa uma aula prática agendada ou realizada.
 
 **Atributos:**
-- id
-- alunoId
-- instrutorId
-- dataHoraInicio
-- duracao
-- status (AGENDADA | REALIZADA)
-- autoEscolaId
-
-**Regras de negócio:**
-- Uma aula só pode ser confirmada uma vez.
-- A confirmação da aula soma carga horária ao aluno.
+- `alunoId`, `instrutorId`, `dataHoraInicio`, `duracao`, `status` (AGENDADA | REALIZADA)
+- `campos de auditoria` (dataCriacao, dataAtualizacao, etc)
 
 ---
 
-## 3. Relacionamentos
+## 4. Relacionamentos Principais
 
-* AutoEscola 1:N Usuario 
-* AutoEscola 1:N Aluno 
-* AutoEscola 1:N Venda 
-* AutoEscola 1:N Aula 
-
-* Aluno 1:N Venda 
-* Aluno 1:N Aula 
-* Usuario (Instrutor) 1:N Aula
+* **AutoEscola 1:N Usuario** (Implementado)
+* **AutoEscola 1:N Aluno** (Planejado)
+* **AutoEscola 1:N Venda** (Planejado)
+* **AutoEscola 1:N Aula** (Planejado)
+* **Usuario 1:N RecuperacaoSenha** (Implementado)
 
 ---
 
-## 4. Considerações
+## 5. Considerações
 
-Este modelo foi definido com foco no MVP, priorizando simplicidade e clareza,
-permitindo evolução futura sem refatorações complexas.
+Este modelo é a "fonte da verdade" para o desenvolvimento das entidades JPA e reflete a evolução incremental do sistema SaaS.

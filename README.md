@@ -14,82 +14,84 @@
 
 O **Controle CFC** é um sistema **SaaS B2B** voltado para Centros de Formação de Condutores (CFCs) e autoescolas, com foco na gestão de alunos, aulas práticas e vendas de pacotes, seguindo as diretrizes legais e priorizando simplicidade operacional.
 
+O sistema utiliza uma abordagem **Multi-tenant**, onde cada autoescola possui seu próprio isolamento de dados, permitindo que uma única instância do software atenda a múltiplos clientes de forma segura.
+
 ---
 
-## Processo de Desenvolvimento
+## Status do Projeto
 
-Este projeto está sendo desenvolvido de forma incremental, seguindo práticas inspiradas no **Scrum**, com definição clara de:
+🟢 **MVP em Desenvolvimento Ativo**  
+A estrutura base do sistema (Backend e Frontend) está consolidada, com os fluxos principais de autenticação e gestão de entidades fundamentais implementados.
 
-- Escopo de MVP
-- Histórias de usuário
-- Backlog priorizado
-- Execução em sprints
-
-### Escopo do MVP
-
-O MVP do Controle CFC foca nos processos essenciais de uma autoescola:
-
-- Cadastro e gestão de autoescolas (multi-tenant)
-- Cadastro de usuários (Administrador e Instrutor)
-- Cadastro e acompanhamento de alunos
-- Venda de pacotes de aulas
-- Agendamento e confirmação de aulas práticas
-- Controle automático de carga horária e status do aluno
-
-### Documentação
-- **Documento de Requisitos (MVP)**  
-  [Documento de Requisitos (MVP)](docs/Sistema%20de%20Gerenciamento%20de%20Auto%20Escolas.pdf)
-
-- **Quadro de Backlog (Trello)**  
-  [Link do Trello](https://trello.com/invite/b/694a7f653e5736fea21635fe/ATTIf7101634f0a0d71fe4f69e3d2405255e901DC4BE/meu-quadro-do-trello)
-
-- **Arquitetura do Sistema**  
-  [Arquitetura](docs/arquitetura.md)
-
-- **Modelo de Domínio**  
-  [Modelo de Domínio](docs/dominio.md)
-
-### Modelagem de Dados
-
-O banco de dados do sistema foi modelado utilizando PostgreSQL, com foco em um ambiente SaaS multi-tenant.
-
-![Diagrama ER](docs/database/diagrama-er.png)
+### Funcionalidades Atuais:
+- [x] **Arquitetura Base**: Backend Spring Boot e Frontend React estruturados.
+- [x] **Multi-tenancy**: Isolamento de dados por autoescola (`autoEscolaId`).
+- [x] **Autenticação Segura**: Sistema de Login e Registro com JWT e cookies HttpOnly.
+- [x] **Registro de Contas**: Fluxo completo de criação de Autoescola + Usuário Administrador.
+- [x] **Gestão de Autoescolas**: Dashboard para visualização e edição de dados das autoescolas.
+- [x] **Gestão de Usuários**: Controle de perfis e ativação/desativação de usuários.
+- [x] **Redefinição de Senha**: Fluxo de "Esqueci minha senha" com envio de e-mail e tokens temporários.
 
 ---
 
 ## Tecnologias
 
 ### Backend
-- Java 21
-- Spring Boot
-- Spring Data JPA
+- **Java 21** e **Spring Boot 3**
+- **Spring Security** com **JWT** (Stateless)
+- **Spring Data JPA** com **Auditoria** (dataCriacao, dataAtualizacao)
+- **Validation** (Bean Validation) e **Global Exception Handling**
+- **PostgreSQL** como banco de dados principal
 
 ### Frontend
-- React (Vite) + Tailwind CSS (em adoção)
+- **React (Vite)** com **TypeScript**
+- **Tailwind CSS** para estilização moderna e responsiva
+- **React Hook Form** + **Zod** para validação robusta de formulários
+- **Lucide React** (Ícones) e **Sonner** (Notificações)
+- **Axios** para comunicação com a API
 
 ### Infraestrutura
-- PostgreSQL
-- Docker
-- Git e GitHub
+- **Docker** e **Docker Compose**
+- **Mailtrap** para testes de envio de e-mail em desenvolvimento
 
 ---
 
-## Status do Projeto
+## Como Executar
 
-🟡 Em desenvolvimento  
-Fase atual: definição de arquitetura, modelagem de domínio e estrutura base do backend.
+### Pré-requisitos
+- Docker e Docker Compose
+- Java 21+ (opcional para execução via Docker)
+- Node.js 20+ (opcional para execução via Docker)
+
+### Execução via Docker (Recomendado)
+1. Clone o repositório.
+2. Configure as variáveis de ambiente no arquivo `.env` (baseie-se no `.env.example`).
+3. Execute o comando:
+   ```bash
+   docker-compose up -d
+   ```
+4. O frontend estará disponível em `http://localhost:5173` (ou conforme configurado) e o backend em `http://localhost:8080`.
+
+### Execução Local (Desenvolvimento)
+Para rodar sem Docker (exceto o banco de dados):
+1. Suba apenas o banco de dados via Docker **OU** utilize o perfil de desenvolvimento (`dev`) para usar o banco de dados em memória **H2**.
+2. Use o script auxiliar:
+   ```bash
+   ./run-local.sh
+   ```
 
 ---
 
-## Como Executar (em breve)
-
-As instruções para execução local do projeto serão adicionadas conforme a implementação do backend e frontend avançar.
+## Documentação Detalhada
+- [Arquitetura do Sistema](docs/arquitetura.md)
+- [Modelo de Domínio](docs/dominio.md)
+- [Documento de Requisitos (MVP)](docs/Sistema%20de%20Gerenciamento%20de%20Auto%20Escolas.pdf)
 
 ---
 
 ## Evoluções Futuras
-
-- Integração com órgãos oficiais
-- Relatórios gerenciais
-- Gestão financeira avançada
-- Escalabilidade com Kubernetes
+- [ ] Módulo de Alunos e Matrículas
+- [ ] Agendamento de Aulas Práticas
+- [ ] Gestão de Vendas e Pacotes
+- [ ] Integração com órgãos oficiais (Detran)
+- [ ] Relatórios gerenciais e financeiros
