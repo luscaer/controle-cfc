@@ -31,6 +31,8 @@ public class ConviteCadastro {
 
     private boolean utilizado  = false;
 
+    protected ConviteCadastro() {}
+
     public ConviteCadastro(String email, String token, LocalDateTime dataExpiracao) {
         this.email = email;
         this.token = token;

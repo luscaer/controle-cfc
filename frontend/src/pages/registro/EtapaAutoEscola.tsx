@@ -25,7 +25,7 @@ export function EtapaAutoEscola({
         etapa={1}
         total={2}
         titulo="Cadastro da AutoEscola"
-        subtitulo="Informa os dados da sua instituição"
+        subtitulo="Informe os dados da sua instituição"
       />
 
       {/* Nome */}

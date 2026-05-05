@@ -5,11 +5,23 @@ import { LoadingScreen } from "../../components/ui/LoadingScreen";
 import { TabelaAutoEscolas } from "../../components/autoescolas/TabelaAutoEscolas";
 import { BarraBusca } from "../../components/autoescolas/BarraBusca";
 import LogoIcon from "../../assets/logo.svg?react";
+import { CustomButton } from "../../components/ui/Button";
+import { useState } from "react";
+import {
+  ConviteSchema,
+  type ConviteFormData,
+} from "../../schemas/conviteSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { conviteRegistro } from "../../api/registroApi";
+import { toast } from "sonner";
+import { ModalConvite } from "../../components/ui/ModalConvite";
 
 const ITENS_POR_PAGINA = 10;
 
 export function AutoEscolasDashboard() {
   const navigate = useNavigate();
+  const [modalConviteAberto, setModalConviteAberto] = useState(false);
 
   const {
     autoEscolas,
@@ -20,6 +32,26 @@ export function AutoEscolasDashboard() {
     setBusca,
     setPaginaAtual,
   } = useAutoEscolas();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ConviteFormData>({
+    resolver: zodResolver(ConviteSchema),
+  });
+
+  const onSubmit = async (data: ConviteFormData) => {
+    try {
+      await conviteRegistro(data);
+      toast.success("Convite enviado com sucesso!");
+      reset();
+      setModalConviteAberto(false);
+    } catch (error) {
+      toast.error("Falha ao enviar convite.");
+    }
+  };
 
   if (isLoading)
     return (
@@ -35,13 +67,20 @@ export function AutoEscolasDashboard() {
             Gerencie todas as autoescolas cadastradas no sistema
           </p>
         </div>
-        <button
-          onClick={() => navigate("/registro")}
-          className="flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-[#185490]"
-        >
-          <Plus size={14} />
-          Nova autoescola
-        </button>
+
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <CustomButton
+            variant="secondary"
+            onClick={() => setModalConviteAberto(true)}
+          >
+            <Plus size={14} />
+            Convidar
+          </CustomButton>
+          <CustomButton onClick={() => navigate("/registro")}>
+            <Plus size={14} />
+            Nova autoescola
+          </CustomButton>
+        </div>
       </div>
 
       <BarraBusca
@@ -60,6 +99,16 @@ export function AutoEscolasDashboard() {
         onDetalhe={(id) => navigate(`/auto-escolas/${id}`)}
         onPaginaChange={setPaginaAtual}
       />
+
+      <ModalConvite
+        isOpen={modalConviteAberto}
+        onClose={() => setModalConviteAberto(false)}
+        register={register}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        errors={errors}
+        isSubmitting={isSubmitting}
+      ></ModalConvite>
     </div>
   );
 }

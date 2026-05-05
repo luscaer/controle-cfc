@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { EmailStringSchema } from "./commonSchemas";
 
 export const LoginValidatorSchema = z.object({
-  email: z.email("Formato de e-mail inválido"),
+  email: EmailStringSchema,
   senha: z.string().min(1, "A senha é obrigatória"),
 });
 

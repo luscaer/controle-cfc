@@ -17,7 +17,7 @@ export function CustomButton({
   ...rest
 }: CustomButtonProps) {
   const baseClasses =
-    "inline-flex items-center justify-center font-medium rounded-md transition duration-200 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none cursor-pointer";
+    "inline-flex items-center justify-center font-medium rounded-md transition duration-200 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none cursor-pointer gap-1.5";
 
   const variants = {
     primary:

@@ -2,12 +2,18 @@ import { ShieldCheck, User } from "lucide-react";
 import type { PerfilSelecao } from "../../types/perfil-usuario";
 
 interface PerfilSelectorProps {
-    value: PerfilSelecao;
-    hasError?: boolean;
-    onChange: (perfil: PerfilSelecao) => void;
+  value: PerfilSelecao;
+  hasError?: boolean;
+  onChange: (perfil: PerfilSelecao) => void;
+  isConvite?: boolean;
 }
 
-const opcoes: { value: PerfilSelecao; label: string; descricao: string; icon: React.ReactNode }[] = [
+const opcoes: {
+  value: PerfilSelecao;
+  label: string;
+  descricao: string;
+  icon: React.ReactNode;
+}[] = [
   {
     value: "INSTRUTOR",
     label: "Instrutor",
@@ -22,7 +28,12 @@ const opcoes: { value: PerfilSelecao; label: string; descricao: string; icon: Re
   },
 ];
 
-export function PerfilSelector({ value, onChange, hasError }: PerfilSelectorProps) {
+export function PerfilSelector({
+  value,
+  onChange,
+  hasError,
+  isConvite = false,
+}: PerfilSelectorProps) {
   return (
     <div className="grid grid-cols-2 gap-2">
       {opcoes.map((opcao) => {
@@ -30,14 +41,17 @@ export function PerfilSelector({ value, onChange, hasError }: PerfilSelectorProp
         return (
           <button
             key={opcao.value}
-            type="button"                          
+            type="button"
             onClick={() => onChange(opcao.value)}
+            disabled={isConvite}
             className={`
               flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left
               transition-all
-              ${selecionado
-                ? "border-primary-500 bg-blue-50 text-primary-500"
-                : hasError
+              ${isConvite && opcao.value !== "ADMINISTRADOR" ? "opacity-50 grayscale cursor-not-allowed" : ""} 
+              ${
+                selecionado
+                  ? "border-primary-500 bg-blue-50 text-primary-500"
+                  : hasError
                     ? "border-red-300 bg-red-50 text-red-500"
                     : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300"
               }

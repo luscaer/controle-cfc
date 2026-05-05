@@ -23,6 +23,8 @@ interface EtapaUsuarioProps {
   setValue: UseFormSetValue<RegisterFormData>;
   isSubmitting: boolean;
   onVoltar: () => void;
+  isConvite?: boolean;
+  isSubmitted: boolean;
 }
 
 export function EtapaUsuario({
@@ -33,8 +35,15 @@ export function EtapaUsuario({
   setValue,
   isSubmitting,
   onVoltar,
+  isConvite = false,
+  isSubmitted,
 }: EtapaUsuarioProps) {
   useState<boolean>(false);
+
+  const confirmacao = watch("confirmacaoSenha");
+  const mostrarErroConfirmacao =
+    (isSubmitted || (confirmacao && confirmacao.length > 0)) &&
+    erros.confirmacaoSenha;
 
   return (
     <div className="flex flex-col gap-4 animate-fade-in-up">
@@ -84,6 +93,7 @@ export function EtapaUsuario({
           placeholder="joao@autoescola.com"
           {...register("email")}
           hasError={!!erros.email}
+          disabled={isConvite}
         ></CustomInput>
 
         {erros.email && (
@@ -157,7 +167,7 @@ export function EtapaUsuario({
             {...register("confirmacaoSenha", {
               onChange: () => trigger("confirmacaoSenha"),
             })}
-            hasError={!!erros.confirmacaoSenha}
+            hasError={!!mostrarErroConfirmacao}
             showToggle={true}
           ></CustomInput>
         </div>
@@ -167,7 +177,7 @@ export function EtapaUsuario({
         <p className="text-xs text-red-600 -mt-2">{erros.senha.message}</p>
       )}
 
-      {erros.confirmacaoSenha && (
+      {mostrarErroConfirmacao && (
         <p className="text-xs text-red-600 -mt-2">
           {erros.confirmacaoSenha.message}
         </p>
@@ -182,6 +192,7 @@ export function EtapaUsuario({
           value={watch("perfilUsuario")}
           onChange={(novoPerfil) => setValue("perfilUsuario", novoPerfil)}
           hasError={!!erros.perfilUsuario}
+          isConvite={isConvite}
         />
 
         {erros.perfilUsuario && (

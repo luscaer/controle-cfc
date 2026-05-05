@@ -1,8 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
+import { CustomButton } from "../ui/Button";
 
-export function LinkInvalido() {
+export function LinkRegistroInvalido() {
   const navigate = useNavigate();
+
+  const solicitarNovoLinkCadastro = () => {
+    const phone = import.meta.env.VITE_SUPPORT_PHONE;
+    const mensagem =
+      "Olá! Gostaria de solicitar um novo link para criar a minha conta no Controle CFC!";
+
+    const textoFormatado = encodeURIComponent(mensagem);
+
+    window.open(`https://wa.me/${phone}?text=${textoFormatado}`, "_blank");
+  };
 
   const abrirSuporte = () => {
     const phone = import.meta.env.VITE_SUPPORT_PHONE;
@@ -27,8 +38,8 @@ export function LinkInvalido() {
           Link inválido ou expirado
         </p>
         <p className="text-sm leading-relaxed text-gray-500">
-          O link de redefinição de senha é inválido, já foi utilizado ou
-          expirou. Links são válidos por apenas 15 minutos.
+          O link de registro de conta é inválido, já foi utilizado ou
+          expirou. Links são válidos por apenas 1 dia.
         </p>
       </div>
 
@@ -36,18 +47,16 @@ export function LinkInvalido() {
 
       {/* Ações */}
       <div className="flex w-full flex-col gap-2">
-        <button
-          onClick={() => navigate("/esqueci-senha")}
-          className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#1B62A5] py-2.5 text-sm font-medium text-white transition hover:bg-[#185490]"
-        >
+        <CustomButton onClick={solicitarNovoLinkCadastro}>
           Solicitar novo link
-        </button>
-        <button
+        </CustomButton>
+        <CustomButton
+          variant="secondary"
           onClick={() => navigate("/login")}
-          className="w-full rounded-lg border border-gray-200 py-2.5 text-sm text-gray-500 transition hover:bg-gray-50"
+          className="border border-gray-200 py-2.5 text-sm text-gray-500 transition hover:bg-gray-50"
         >
           Voltar ao login
-        </button>
+        </CustomButton>
       </div>
 
       <p className="text-xs text-gray-400">

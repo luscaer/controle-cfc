@@ -1,5 +1,7 @@
 package br.com.controlecfc.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
@@ -15,6 +17,8 @@ import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailService {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
@@ -32,7 +36,7 @@ public class EmailService {
         context.setVariable("linkRedefinicao", urlFrontend + "/finalizar-cadastro?token=" + token);
 
         enviarEmailTemplate(destinatario, "Convite de Cadastro - Controle CFC", "email-convite", context,
-                "static/images/logo-volante.png");
+                "static/images/logo-volante.jpg");
     }
 
     public void enviarEmailRecuperacaoSenha(String destinatario, String nome, String token) {
@@ -68,6 +72,7 @@ public class EmailService {
 
             mailSender.send(mimeMessage);
         } catch (MailException | MessagingException e) {
+            logger.warn("Falha ao enviar e-mail: {}", e.getMessage());
             throw new EmailEnvioException("Falha ao enviar e-mail para: " + destinatario);
         }
     }

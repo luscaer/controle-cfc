@@ -3,11 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import axios from "axios";
-import { RedefinirSenhaSchema, type RedefinirSenhaFormData } from "../schemas/redefinirSenha";
+import {
+  RedefinirSenhaSchema,
+  type RedefinirSenhaFormData,
+} from "../schemas/redefinirSenhaSchema";
 import { redefinirSenha } from "../api/redefinirSenhaApi";
 
 export function useRedefinirSenha(token: string | undefined) {
-  
   const navigate = useNavigate();
 
   const form = useForm<RedefinirSenhaFormData>({

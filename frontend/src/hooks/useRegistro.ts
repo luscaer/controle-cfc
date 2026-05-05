@@ -4,7 +4,7 @@ import {
   type RegisterFormData,
 } from "../schemas/registerSchema";
 import { useNavigate } from "react-router-dom";
-import { superRegistroInicial } from "../api/registroApi";
+import { registroInicial, superRegistroInicial } from "../api/registroApi";
 import { toast } from "sonner";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +12,7 @@ import { useState } from "react";
 
 const CAMPOS_ETAPA_1 = ["nomeAutoEscola", "cnpj"] as const;
 
-export function useRegistroForm() {
+export function useRegistroForm(token?: string) {
   const navigate = useNavigate();
 
   const [etapa, setEtapa] = useState<number>(1);
@@ -31,9 +31,14 @@ export function useRegistroForm() {
 
   const registrar = async (dados: RegisterFormData) => {
     try {
-      await superRegistroInicial(dados);
+      if (token) {
+        await registroInicial(dados, token);
+        navigate("/login");
+      } else {
+        await superRegistroInicial(dados);
+        navigate("/");
+      }
       toast.success("Cadastro realizado!");
-      navigate("/");
     } catch (error) {
       const mensagem = axios.isAxiosError(error)
         ? error.response?.data?.mensagem

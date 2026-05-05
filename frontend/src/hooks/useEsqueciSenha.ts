@@ -3,7 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import axios from "axios";
-import { EsqueciSenhaSchema, type EsqueciSenhaFormData } from "../schemas/redefinirSenha";
+import {
+  EsqueciSenhaSchema,
+  type EsqueciSenhaFormData,
+} from "../schemas/redefinirSenhaSchema";
 import { esqueciSenha } from "../api/redefinirSenhaApi";
 
 export function useEsqueciSenha() {
@@ -18,7 +21,9 @@ export function useEsqueciSenha() {
     try {
       await esqueciSenha(email);
       navigate("/");
-      toast.success("O link de recuperação de senha foi enviado para o seu email.");
+      toast.success(
+        "O link de recuperação de senha foi enviado para o seu email.",
+      );
     } catch (error) {
       const mensagem = axios.isAxiosError(error)
         ? error.response?.data?.mensagem

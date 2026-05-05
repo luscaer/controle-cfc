@@ -3,14 +3,20 @@ import { AuthLayout } from "../components/layouts/AuthLayout";
 import { CustomButton } from "../components/ui/Button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FormularioRedefinirSenha } from "./redefinirSenha/FormularioRedefinirSenha";
-import { LinkInvalido } from "../components/layouts/LinkInvalido";
+import { LinkRecuperacaoInvalido } from "../components/layouts/LinkRecuperacaoInvalido";
 
 export function RedefinirSenha() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
 
-  if(!token) return <AuthLayout> <LinkInvalido /> </AuthLayout>;
+  if (!token)
+    return (
+      <AuthLayout>
+        {" "}
+        <LinkRecuperacaoInvalido />{" "}
+      </AuthLayout>
+    );
 
   return (
     <AuthLayout>
@@ -19,18 +25,16 @@ export function RedefinirSenha() {
         <h1 className="text-xl font-semibold tracking-tight text-gray-900">
           Redefinir Senha
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Digite sua nova senha
-        </p>
+        <p className="mt-1 text-sm text-gray-500">Digite sua nova senha</p>
       </div>
 
       {/* Formulário */}
       <FormularioRedefinirSenha token={token} />
 
       {/* Rodapé */}
-      <div className="mt-2"> 
-        <CustomButton 
-          variant="secondary" 
+      <div className="mt-2">
+        <CustomButton
+          variant="secondary"
           size="md"
           type="button"
           className="w-full justify-center"

@@ -12,6 +12,7 @@ import { Toaster } from "sonner";
 import { AutoEscolaDetalhes } from "./pages/autoescolas/AutoEscolaDetalhes";
 import { EsqueciSenha } from "./pages/EsqueciSenha";
 import { RedefinirSenha } from "./pages/RedefinirSenha";
+import { FinalizarCadastro } from "./pages/FinalizarCadastro";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/finalizar-cadastro" element={<FinalizarCadastro />} />
           <Route path="/esqueci-senha" element={<EsqueciSenha />} />
           <Route path="/redefinir-senha" element={<RedefinirSenha />} />
         </Routes>

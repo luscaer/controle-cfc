@@ -1,8 +1,11 @@
 package br.com.controlecfc.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,12 @@ public class RegistroController {
     public RegistroController(RegistroService registroService, ConviteCadastroService conviteCadastroService) {
         this.registroService = registroService;
         this.conviteCadastroService = conviteCadastroService;
+    }
+
+    @GetMapping("/validar-token")
+    public ResponseEntity<Map<String, String>> validarTokenConvite(@RequestParam("token") String token) {
+        String email = conviteCadastroService.validarToken(token);
+        return ResponseEntity.ok(Map.of("email", email));
     }
 
     @PostMapping("/inicial")

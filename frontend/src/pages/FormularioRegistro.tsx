@@ -5,16 +5,17 @@ import { EtapaUsuario } from "./registro/EtapaUsuario";
 type HookRegistro = ReturnType<typeof useRegistroForm>;
 interface FormularioRegistroProps {
   form: HookRegistro;
+  isConvite?: boolean;
 }
 
-export function FormularioRegistro({ form }: FormularioRegistroProps) {
+export function FormularioRegistro({ form, isConvite }: FormularioRegistroProps) {
   const {
     etapa,
     register,
     trigger,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
     handleSubmit,
     registrar,
     avancarEtapa,
@@ -41,6 +42,8 @@ export function FormularioRegistro({ form }: FormularioRegistroProps) {
           setValue={setValue}
           isSubmitting={isSubmitting}
           onVoltar={retrocederEtapa}
+          isConvite={isConvite}
+          isSubmitted={isSubmitted}
         />
       )}
     </form>
