@@ -14,10 +14,16 @@ export function FormularioRedefinirSenha({
   const {
     register,
     handleSubmit,
+    watch,
     trigger,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
     aoSubmeter,
   } = useRedefinirSenha(token);
+
+  const confirmacao = watch("confirmacaoSenha");
+  const mostrarErroConfirmacao =
+    (isSubmitted || (confirmacao && confirmacao.length > 0)) &&
+    errors.confirmacaoSenha;
 
   return (
     <form onSubmit={handleSubmit(aoSubmeter)} className="flex flex-col gap-4">
@@ -46,28 +52,28 @@ export function FormularioRedefinirSenha({
           <span className="text-red-500 text-xs">{errors.senha.message}</span>
         )}
 
-          <label
-            className="text-xs font-medium uppercase tracking-wide text-gray-400"
-            htmlFor="confirmacao-senha"
-          >
-            Confirmar
-          </label>
+        <label
+          className="text-xs font-medium uppercase tracking-wide text-gray-400"
+          htmlFor="confirmacao-senha"
+        >
+          Confirmar
+        </label>
 
-          <CustomInput
-            iconLeft={<Lock className="h-4 w-4 text-gray-400" />}
-            type="password"
-            id="confirmacao-senha"
-            placeholder="••••••••"
-            {...register("confirmacaoSenha")}
-            hasError={!!errors.confirmacaoSenha}
-            showToggle={true}
-          ></CustomInput>
+        <CustomInput
+          iconLeft={<Lock className="h-4 w-4 text-gray-400" />}
+          type="password"
+          id="confirmacao-senha"
+          placeholder="••••••••"
+          {...register("confirmacaoSenha")}
+          hasError={!!mostrarErroConfirmacao}
+          showToggle={true}
+        ></CustomInput>
 
-          {errors.confirmacaoSenha && (
-            <p className="text-xs text-red-600">
-              {errors.confirmacaoSenha.message}
-            </p>
-          )}
+        {mostrarErroConfirmacao && (
+          <p className="text-xs text-red-600">
+            {errors.confirmacaoSenha?.message}
+          </p>
+        )}
       </div>
 
       <CustomButton

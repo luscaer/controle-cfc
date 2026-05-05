@@ -40,6 +40,7 @@ export function AutoEscolasDashboard() {
     formState: { errors, isSubmitting },
   } = useForm<ConviteFormData>({
     resolver: zodResolver(ConviteSchema),
+    mode: "onTouched"
   });
 
   const onSubmit = async (data: ConviteFormData) => {

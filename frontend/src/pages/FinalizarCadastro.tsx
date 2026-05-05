@@ -14,6 +14,13 @@ export function FinalizarCadastro() {
 
   const registro = useRegistroForm(token);
 
+  if (!token)
+    return (
+      <AuthLayout>
+        <LinkRegistroInvalido></LinkRegistroInvalido>
+      </AuthLayout>
+    );
+
   useEffect(() => {
     const carregarEmail = async () => {
       try {
@@ -26,13 +33,6 @@ export function FinalizarCadastro() {
     };
     carregarEmail();
   }, [token]);
-
-  if (!token)
-    return (
-      <AuthLayout>
-        <LinkRegistroInvalido></LinkRegistroInvalido>
-      </AuthLayout>
-    );
 
   const registroAside = (
     <div className="flex flex-col gap-4">

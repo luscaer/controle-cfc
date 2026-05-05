@@ -179,7 +179,7 @@ export function EtapaUsuario({
 
       {mostrarErroConfirmacao && (
         <p className="text-xs text-red-600 -mt-2">
-          {erros.confirmacaoSenha.message}
+          {erros.confirmacaoSenha?.message}
         </p>
       )}
 
