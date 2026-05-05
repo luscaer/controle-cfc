@@ -1,3 +1,4 @@
+import type { AlterarEmailFormData, AlterarSenhaFormData } from "../schemas/segurancaSchema";
 import type { UsuarioUpdateData } from "../schemas/usuarioSchema";
 import type { UsuarioResponse, UsuarioResumedResponse } from "../types/usuario-response";
 import { apiClient } from "./apiClient";
@@ -17,4 +18,14 @@ export const atualizarMeuUsuario = async (usuario: UsuarioUpdateData): Promise<U
         `/v1/usuarios/me`, usuario
     );
     return response.data;
+}
+
+export const atualizarMeuEmail = async (dados: AlterarEmailFormData) => {
+    const { confirmacaoEmail, ...dadosParaAPI } = dados;
+    await apiClient.put("/v1/usuarios/atualizar-email", dadosParaAPI);
+}
+
+export const atualizarMinhaSenha = async (dados: AlterarSenhaFormData) => {
+    const { confirmacaoSenha, ...dadosParaAPI } = dados;
+    await apiClient.put("/v1/usuarios/atualizar-senha", dadosParaAPI);
 }

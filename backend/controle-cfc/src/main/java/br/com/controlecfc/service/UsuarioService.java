@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.controlecfc.domain.entity.AutoEscola;
 import br.com.controlecfc.domain.entity.Usuario;
 import br.com.controlecfc.domain.enums.PerfilUsuario;
+import br.com.controlecfc.dto.usuario.EmailUpdateRequestDTO;
+import br.com.controlecfc.dto.usuario.SenhaUpdateRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResumedResponseDTO;
@@ -17,6 +19,7 @@ import br.com.controlecfc.dto.usuario.UsuarioUpdateRequestDTO;
 import br.com.controlecfc.exception.AcessoNegadoException;
 import br.com.controlecfc.exception.ConflitoException;
 import br.com.controlecfc.exception.RecursoNaoEncontradoException;
+import br.com.controlecfc.exception.SenhaIncorretaException;
 import br.com.controlecfc.repository.AutoEscolaRepository;
 import br.com.controlecfc.repository.UsuarioRepository;
 import br.com.controlecfc.security.SecurityUtils;
@@ -69,6 +72,18 @@ public class UsuarioService {
         usuario.setTelefone(request.telefone());
 
         return UsuarioResponseDTO.fromEntity(usuario);
+    }
+
+    @Transactional
+    public void atualizarMeuEmail(EmailUpdateRequestDTO request) {
+        Usuario usuario = validarSenha(request.senhaAtual());
+        usuario.setEmail(request.novoEmail());
+    }
+
+    @Transactional
+    public void atualizarMinhaSenha(SenhaUpdateRequestDTO request) {
+        Usuario usuario = validarSenha(request.senhaAtual());
+        usuario.alterarSenha(passwordEncoder.encode(request.novaSenha()));
     }
 
     // --- MÉTODOS GLOBAIS (SUPER ADMIN) ---
@@ -128,6 +143,16 @@ public class UsuarioService {
                 && !idSolicitado.equals(usuarioLogado.getAutoEscolaId())) {
             throw new AcessoNegadoException("Você não tem permissão para acessar dados de outra Auto Escola.");
         }
+    }
+
+    private Usuario validarSenha(String senha) {
+        Usuario usuario = findById(getId());
+
+        if (!passwordEncoder.matches(senha, usuario.getSenha())) {
+            throw new SenhaIncorretaException("A senha informada está incorreta.");
+        }
+
+        return usuario;
     }
 
 }

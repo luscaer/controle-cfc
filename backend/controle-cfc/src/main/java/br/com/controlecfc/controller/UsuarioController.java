@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controlecfc.domain.enums.PerfilUsuario;
+import br.com.controlecfc.dto.usuario.EmailUpdateRequestDTO;
+import br.com.controlecfc.dto.usuario.SenhaUpdateRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioRequestDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResponseDTO;
 import br.com.controlecfc.dto.usuario.UsuarioResumedResponseDTO;
@@ -41,11 +43,6 @@ public class UsuarioController {
                 .body(usuarioService.findAllByAutoEscolaIdAndPerfilUsuario(autoEscolaId, perfil));
     }
 
-    @PutMapping("/me")
-    public ResponseEntity<UsuarioResponseDTO> atualizarMeuUsuario(@Valid @RequestBody UsuarioUpdateRequestDTO request) {
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.atualizarMeuUsuario(request));
-    }
-
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping("/listar-usuarios")
     public ResponseEntity<List<UsuarioResponseDTO>> listarUsuarios() {
@@ -56,6 +53,23 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> criarUsuario(@Valid @RequestBody UsuarioRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.criarUsuario(request));
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<UsuarioResponseDTO> atualizarMeuUsuario(@Valid @RequestBody UsuarioUpdateRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.atualizarMeuUsuario(request));
+    }
+
+    @PutMapping("/atualizar-email")
+    public ResponseEntity<Void> atualizarMeuEmail(@Valid @RequestBody EmailUpdateRequestDTO request) {
+        usuarioService.atualizarMeuEmail(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/atualizar-senha")
+    public ResponseEntity<Void> atualizarMinhaSenha(@Valid @RequestBody SenhaUpdateRequestDTO request) {
+        usuarioService.atualizarMinhaSenha(request);
+        return ResponseEntity.ok().build();
     }
 
 }

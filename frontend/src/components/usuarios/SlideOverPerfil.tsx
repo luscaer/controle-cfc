@@ -4,6 +4,9 @@ import { CustomButton } from "../ui/Button";
 import { CustomInput } from "../ui/Input";
 import { extrairIniciaisNome } from "../../utils/formatters";
 import type { PerfilUsuario } from "../../types/perfil-usuario";
+import { useState } from "react";
+import { useAlterarEmail } from "../../hooks/useAlterarEmail";
+import { ModalAlteracaoEmail } from "../ui/ModalAlteracaoEmail";
 
 interface SlideOverPerfilProps {
   aberto: boolean;
@@ -17,39 +20,54 @@ const PERFIL_LABELS: Record<PerfilUsuario, string> = {
 };
 
 const PERFIL_COLORS: Record<PerfilUsuario, string> = {
-  SUPER_ADMIN:
-    "bg-purple-100 text-purple-700 border-purple-200",
-  ADMINISTRADOR:
-    "bg-blue-100 text-blue-700 border-blue-200",
-  INSTRUTOR:
-    "bg-emerald-100 text-emerald-700 border-emerald-200",
+  SUPER_ADMIN: "bg-purple-100 text-purple-700 border-purple-200",
+  ADMINISTRADOR: "bg-blue-100 text-blue-700 border-blue-200",
+  INSTRUTOR: "bg-emerald-100 text-emerald-700 border-emerald-200",
 };
 
 export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
+  const [modalAlteracaoEmail, setModalAlteracaoEmail] = useState(false);
+  const [modalAlteracaoSenha, setModalAlteracaoSenha] = useState(false);
+
   const {
-    register,
-    handleSubmit,
-    reset,
+    register: registerPerfil,
+    handleSubmit: handleSubmitPerfil,
+    reset: resetPerfil,
     usuario,
     aoSubmeter,
-    formState: { errors, isSubmitting },
+    formState: { errors: errorsPerfil, isSubmitting: isSubmittingPerfil },
   } = useUpdateUsuario({ onFechar });
+
+  const {
+    register: registerEmail,
+    handleSubmit: handleSubmitEmail,
+    formState: { errors: errorsEmail, isSubmitting: isSubmittingEmail },
+    reset: resetEmail,
+    onSubmit: onSubmitEmail,
+  } = useAlterarEmail({
+    onFechar: () => setModalAlteracaoEmail(false),
+  });
 
   if (!usuario) return null;
 
   const fechar = () => {
-    reset({ nome: usuario.nome, telefone: usuario.telefone });
+    resetPerfil({ nome: usuario.nome, telefone: usuario.telefone });
     onFechar();
   };
 
   const iniciais = extrairIniciaisNome(usuario.nome);
-  const perfilLabel = PERFIL_LABELS[usuario.perfilUsuario] ?? usuario.perfilUsuario;
-  const perfilColor = PERFIL_COLORS[usuario.perfilUsuario] ?? "bg-gray-100 text-gray-700 border-gray-200";
+  const perfilLabel =
+    PERFIL_LABELS[usuario.perfilUsuario] ?? usuario.perfilUsuario;
+  const perfilColor =
+    PERFIL_COLORS[usuario.perfilUsuario] ??
+    "bg-gray-100 text-gray-700 border-gray-200";
 
   return (
     <div
       className={`flex fixed inset-0 z-50 transition-opacity duration-300 ${
-        aberto ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        aberto
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
       }`}
     >
       {/* Overlay */}
@@ -70,7 +88,9 @@ export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <div>
             <h1 className="text-lg font-semibold text-gray-900">Meu Perfil</h1>
-            <p className="text-xs text-gray-500 mt-0.5">Gerencie suas informações pessoais</p>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Gerencie suas informações pessoais
+            </p>
           </div>
           <CustomButton
             variant="ghost"
@@ -93,7 +113,9 @@ export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
             </div>
 
             {/* Nome + Badge */}
-            <h2 className="mt-3 text-base font-semibold text-gray-900">{usuario.nome}</h2>
+            <h2 className="mt-3 text-base font-semibold text-gray-900">
+              {usuario.nome}
+            </h2>
             <span
               className={`mt-1.5 inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${perfilColor}`}
             >
@@ -108,7 +130,7 @@ export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
 
         {/* Formulário */}
         <form
-          onSubmit={handleSubmit(aoSubmeter)}
+          onSubmit={handleSubmitPerfil(aoSubmeter)}
           className="flex flex-col flex-1 overflow-y-auto"
         >
           {/* Seção: Dados somente leitura */}
@@ -131,15 +153,6 @@ export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
                   disabled
                   className="text-sm!"
                 />
-                {/* TODO: Implementar módulo de alteração de e-mail */}
-                <button
-                  type="button"
-                  onClick={() => {/* TODO: Navegar para módulo de alterar e-mail */}}
-                  className="inline-flex items-center gap-1 text-xs text-[#1C5B9E] hover:text-[#15467A] font-medium transition-colors mt-0.5"
-                >
-                  <Pencil className="h-3 w-3" />
-                  Alterar e-mail
-                </button>
               </div>
 
               {/* Perfil (bloqueado) */}
@@ -159,7 +172,35 @@ export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
             </div>
           </div>
 
-          <div className="mx-6 mt-3 border-t border-gray-100" />
+          {/* Módulo de alteração de e-mail e senha */}
+          <div className="flex flex-row w-full justify-between px-6">
+            <CustomButton
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                resetEmail();
+                setModalAlteracaoEmail(true);
+              }}
+              className="inline-flex items-center gap-1 text-xs text-[#1C5B9E] hover:text-[#15467A] font-medium transition-colors mt-0.5"
+            >
+              <Pencil className="h-3 w-3" />
+              Alterar e-mail
+            </CustomButton>
+
+            <CustomButton
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                /* TODO: Navegar para modal de alterar senha */
+              }}
+              className="inline-flex items-center gap-1 text-xs text-[#1C5B9E] hover:text-[#15467A] font-medium transition-colors mt-0.5"
+            >
+              <Pencil className="h-3 w-3" />
+              Alterar senha
+            </CustomButton>
+          </div>
+
+          <div className="mx-6 mt-1 border-t border-gray-100" />
 
           {/* Seção: Dados editáveis */}
           <div className="px-6 pt-5 pb-4">
@@ -177,11 +218,13 @@ export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
                   iconLeft={<User className="h-4 w-4 text-gray-400" />}
                   type="text"
                   placeholder="Seu nome"
-                  {...register("nome")}
-                  hasError={!!errors.nome}
+                  {...registerPerfil("nome")}
+                  hasError={!!errorsPerfil.nome}
                 />
-                {errors.nome && (
-                  <p className="text-xs text-red-600">{errors.nome.message}</p>
+                {errorsPerfil.nome && (
+                  <p className="text-xs text-red-600">
+                    {errorsPerfil.nome.message}
+                  </p>
                 )}
               </div>
 
@@ -194,11 +237,13 @@ export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
                   iconLeft={<Phone className="h-4 w-4 text-gray-400" />}
                   type="text"
                   placeholder="(00) 00000-0000"
-                  {...register("telefone")}
-                  hasError={!!errors.telefone}
+                  {...registerPerfil("telefone")}
+                  hasError={!!errorsPerfil.telefone}
                 />
-                {errors.telefone && (
-                  <p className="text-xs text-red-600">{errors.telefone.message}</p>
+                {errorsPerfil.telefone && (
+                  <p className="text-xs text-red-600">
+                    {errorsPerfil.telefone.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -212,13 +257,26 @@ export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
             <CustomButton
               type="submit"
               className="w-full"
-              disabled={isSubmitting}
+              disabled={isSubmittingPerfil}
             >
-              {isSubmitting ? "Salvando..." : "Salvar Alterações"}
+              {isSubmittingPerfil ? "Salvando..." : "Salvar Alterações"}
             </CustomButton>
           </div>
         </form>
       </div>
+
+      <ModalAlteracaoEmail
+        isOpen={modalAlteracaoEmail}
+        onClose={() => {
+          setModalAlteracaoEmail(false);
+          resetEmail();
+        }}
+        register={registerEmail}
+        handleSubmit={handleSubmitEmail}
+        onSubmit={onSubmitEmail}
+        errors={errorsEmail}
+        isSubmitting={isSubmittingEmail}
+      />
     </div>
   );
 }
