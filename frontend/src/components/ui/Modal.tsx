@@ -37,11 +37,11 @@ export function Modal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md overflow-hidden rounded-xl border border-gray-200 bg-white"
+        className="w-full max-w-md overflow-hidden rounded-xl border border-gray-200 bg-white animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Cabeçalho */}
