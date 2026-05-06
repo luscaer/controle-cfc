@@ -1,5 +1,4 @@
 import { ArrowLeft } from "lucide-react";
-import { AuthLayout } from "../components/layouts/AuthLayout";
 import { CustomButton } from "../components/ui/Button";
 import { FormularioEsqueciSenha } from "./redefinirSenha/FormularioEsqueciSenha";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +7,7 @@ export function EsqueciSenha() {
   const navigate = useNavigate();
 
   return (
-    <AuthLayout>
+    <>
       {/* Cabeçalho do form */}
       <div className="mb-8">
         <h1 className="text-xl font-semibold tracking-tight text-gray-900">
@@ -35,6 +34,6 @@ export function EsqueciSenha() {
           Voltar para o login
         </CustomButton>
       </div>
-    </AuthLayout>
+    </>
   );
 }

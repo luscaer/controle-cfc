@@ -46,7 +46,7 @@ export function EtapaUsuario({
     erros.confirmacaoSenha;
 
   return (
-    <div className="flex flex-col gap-4 animate-fade-in-up">
+    <div className="flex flex-col gap-4">
       <CabecalhoEtapa
         etapa={2}
         total={2}
@@ -191,11 +191,11 @@ export function EtapaUsuario({
         <PerfilSelector
           value={watch("perfilUsuario")}
           onChange={(novoPerfil) => setValue("perfilUsuario", novoPerfil)}
-          hasError={!!erros.perfilUsuario}
+          hasError={!!erros.perfilUsuario && isSubmitted}
           isConvite={isConvite}
         />
 
-        {erros.perfilUsuario && (
+        {erros.perfilUsuario && isSubmitted && (
           <p className="text-xs text-red-600">{erros.perfilUsuario.message}</p>
         )}
       </div>
@@ -203,10 +203,10 @@ export function EtapaUsuario({
       {/* Ações */}
       <div className="flex gap-2 mt-1">
         <CustomButton
+          type="button"
           variant="ghost"
           size="md"
           onClick={onVoltar}
-          type="button"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Voltar

@@ -1,18 +1,26 @@
 import type { ReactNode } from "react";
 import LogoIcon from "../../assets/logo-separado-branco.svg?react";
 import { HeroBackground } from "../ui/HeroBackground";
+import { AnimatePresence, motion } from "framer-motion";
+import { useLocation, useOutlet } from "react-router-dom";
+import { TRANSITION_FADE } from "../../styles/animation";
 
 interface AuthLayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
   aside?: ReactNode;
 }
 
 export function AuthLayout({ children, aside }: AuthLayoutProps) {
+  const location = useLocation();
+  const elementoDoOutlet = useOutlet();
+
+  const conteudoPrincipal = children || elementoDoOutlet;
+
   return (
-    <div className="flex min-h-screen w-full animate-fade-in">
+    <div className="flex min-h-screen w-full">
       <div className="relative hidden lg:flex w-1/2 flex-col justify-between bg-primary-500 p-10 overflow-hidden">
         <HeroBackground />
-        
+
         <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full border-40 border-white/10" />
         <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full border-30 border-white/10" />
 
@@ -38,10 +46,20 @@ export function AuthLayout({ children, aside }: AuthLayoutProps) {
           </div>
         </div>
       </div>
-
-      <div className="flex w-full lg:w-1/2 flex-col justify-center py-12 px-4 md:px-8 lg:px-12 xl:px-24">
-        <div className="mx-auto w-full max-w-sm xl:max-w-md 2xl:max-w-lg 2xl:scale-110">{children}</div>
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          className="flex w-full lg:w-1/2 flex-col justify-center py-12 px-4 md:px-8 lg:px-12 xl:px-24"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={TRANSITION_FADE}
+        >
+          <div className="mx-auto w-full max-w-sm xl:max-w-md 2xl:max-w-lg 2xl:scale-110">
+            {conteudoPrincipal}
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

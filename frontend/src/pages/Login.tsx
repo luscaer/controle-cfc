@@ -1,4 +1,3 @@
-import { AuthLayout } from "../components/layouts/AuthLayout";
 import { FormularioLogin } from "./FormularioLogin";
 
 export function Login() {
@@ -13,7 +12,7 @@ export function Login() {
   };
 
   return (
-    <AuthLayout>
+    <>
       {/* Cabeçalho do form */}
       <div className="mb-8">
         <h1 className="text-xl font-semibold tracking-tight text-gray-900">
@@ -37,6 +36,6 @@ export function Login() {
           Fale com o suporte
         </span>
       </div>
-    </AuthLayout>
+    </>
   );
 }

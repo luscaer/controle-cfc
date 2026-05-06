@@ -1,5 +1,4 @@
 import { ArrowLeft } from "lucide-react";
-import { AuthLayout } from "../components/layouts/AuthLayout";
 import { CustomButton } from "../components/ui/Button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FormularioRedefinirSenha } from "./redefinirSenha/FormularioRedefinirSenha";
@@ -12,14 +11,11 @@ export function RedefinirSenha() {
 
   if (!token)
     return (
-      <AuthLayout>
-        {" "}
-        <LinkRecuperacaoInvalido />{" "}
-      </AuthLayout>
+        <LinkRecuperacaoInvalido />
     );
 
   return (
-    <AuthLayout>
+    <>
       {/* Cabeçalho do form */}
       <div className="mb-8">
         <h1 className="text-xl font-semibold tracking-tight text-gray-900">
@@ -44,6 +40,6 @@ export function RedefinirSenha() {
           Voltar para o login
         </CustomButton>
       </div>
-    </AuthLayout>
+    </>
   );
 }

@@ -20,7 +20,7 @@ export function EtapaAutoEscola({
   onAvancar,
 }: EtapaAutoEscolaProps) {
   return (
-    <div className="flex flex-col gap-4 animate-fade-in-up">
+    <div className="flex flex-col gap-4">
       <CabecalhoEtapa
         etapa={1}
         total={2}
@@ -80,14 +80,15 @@ export function EtapaAutoEscola({
 
       <div className="flex gap-2 mt-1">
         <CustomButton
+          type="button"
           variant="ghost"
           size="md"
           onClick={onCancelar}
-          type="button"
         >
           Cancelar
         </CustomButton>
         <CustomButton
+          type="button"
           variant="primary"
           size="md"
           onClick={onAvancar}

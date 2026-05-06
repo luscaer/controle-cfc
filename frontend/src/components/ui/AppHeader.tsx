@@ -12,6 +12,7 @@ import { useAuth } from "../../context/AuthContext";
 import { extrairIniciaisNome } from "../../utils/formatters";
 import { SlideOverPerfil } from "../usuarios/SlideOverPerfil";
 import { SlideOverAutoEscola } from "../autoescolas/SlideOverAutoEscola";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface AppHeaderProps {
   sidebarAberta: boolean;
@@ -74,7 +75,8 @@ interface UserCardProps {
 function UserCard({ iniciais, nome, perfil }: UserCardProps) {
   const [aberto, setAberto] = useState(false);
   const [slideOverAberto, setSlideOverAberto] = useState(false);
-  const [slideOverAutoEscolaAberto, setSlideOverAutoEscolaAberto] = useState(false);
+  const [slideOverAutoEscolaAberto, setSlideOverAutoEscolaAberto] =
+    useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { usuario, logout } = useAuth();
 
@@ -120,59 +122,71 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-400" />
 
         {/* Chevron */}
-        <svg
-          className={`h-3 w-3 shrink-0 text-gray-400 transition-transform ${aberto ? "rotate-180" : ""}`}
+        <motion.svg
+          animate={{ rotate: aberto ? 180 : 0 }}
+          transition={{ duration: 0.1 }}
+          className={"h-3 w-3 shrink-0 text-gray-400 transition-transform"}
           viewBox="0 0 12 12"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"
           strokeLinecap="round"
         >
-          <path d="M2 4l4 4 4-4" />
-        </svg>
+            <path d="M2 4l4 4 4-4" />
+        </motion.svg>
       </button>
 
       {/* Dropdown */}
-      {aberto && (
-        <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-52 rounded-xl border border-gray-100 bg-white p-1 shadow-lg">
-          {/* Cabeçalho do dropdown */}
-          <div className="border-b border-gray-100 px-2.5 py-2 mb-1">
-            <p className="text-xs font-medium text-gray-900">{nome}</p>
-            <p className="text-[11px] text-gray-500">{perfil}</p>
-          </div>
-
-          <MenuItem
-            icon={<UserCog size={14} />}
-            onClick={() => {
-              setSlideOverAberto(true);
-              setAberto(false);
-            }}
+      <AnimatePresence>
+        {aberto && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            style={{ transformOrigin: "top right" }}
+            className="absolute right-0 top-[calc(100%+6px)] z-50 w-52 rounded-xl border border-gray-100 bg-white p-1 shadow-lg"
           >
-            Meus dados
-          </MenuItem>
-          {["SUPER_ADMIN", "ADMINISTRADOR"].includes(usuario.perfilUsuario) && usuario.autoEscolaId && (
+            {/* Cabeçalho do dropdown */}
+            <div className="border-b border-gray-100 px-2.5 py-2 mb-1">
+              <p className="text-xs font-medium text-gray-900">{nome}</p>
+              <p className="text-[11px] text-gray-500">{perfil}</p>
+            </div>
+
             <MenuItem
-              icon={<Building size={14} />}
+              icon={<UserCog size={14} />}
               onClick={() => {
-                setSlideOverAutoEscolaAberto(true);
+                setSlideOverAberto(true);
                 setAberto(false);
               }}
             >
-              Dados da autoescola
+              Meus dados
             </MenuItem>
-          )}
+            {["SUPER_ADMIN", "ADMINISTRADOR"].includes(usuario.perfilUsuario) &&
+              usuario.autoEscolaId && (
+                <MenuItem
+                  icon={<Building size={14} />}
+                  onClick={() => {
+                    setSlideOverAutoEscolaAberto(true);
+                    setAberto(false);
+                  }}
+                >
+                  Dados da autoescola
+                </MenuItem>
+              )}
 
-          <div className="my-1 border-t border-gray-100" />
+            <div className="my-1 border-t border-gray-100" />
 
-          <MenuItem
-            icon={<LogOut size={14} />}
-            onClick={() => logout()}
-            variant="danger"
-          >
-            Sair da conta
-          </MenuItem>
-        </div>
-      )}
+            <MenuItem
+              icon={<LogOut size={14} />}
+              onClick={() => logout()}
+              variant="danger"
+            >
+              Sair da conta
+            </MenuItem>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <SlideOverPerfil
         aberto={slideOverAberto}
