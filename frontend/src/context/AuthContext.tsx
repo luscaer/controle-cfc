@@ -22,7 +22,7 @@ interface AuthContextParams {
 
 const AuthContext = createContext<AuthContextParams | null>(null);
 
-export function AuthProvider ({ children }: { children: ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<UsuarioResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -30,7 +30,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
     const verificarAutenticacao = async () => {
       try {
         setUsuario(await authMe());
-      } catch (error) {
+      } catch {
         setUsuario(null);
       } finally {
         setIsLoading(false);
@@ -40,31 +40,23 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (credenciais: LoginFormData) => {
-    try {
-        setUsuario(await authLogin(credenciais));
-        return true;
-    } catch (error) {
-        throw error;
-    }
+    setUsuario(await authLogin(credenciais));
+    return true;
   };
 
   const logout = async () => {
     try {
-        await authLogout();
-        setUsuario(null);
-        return true;
-    } catch (error) {
-        return false;
+      await authLogout();
+      setUsuario(null);
+      return true;
+    } catch {
+      return false;
     }
   };
 
   const updateMyUser = async (usuario: UsuarioUpdateData) => {
-    try {
-        setUsuario(await atualizarMeuUsuario(usuario))
-    } catch (error) {
-        throw error;
-    }
-  }
+    setUsuario(await atualizarMeuUsuario(usuario));
+  };
 
   const isAuthenticated = usuario !== null;
 
@@ -74,13 +66,15 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
     isAuthenticated,
     login,
     logout,
-    updateMyUser
+    updateMyUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+}
 
-export function useAuth () {
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useAuth() {
   const context = useContext(AuthContext);
 
   if (!context) {
@@ -88,4 +82,4 @@ export function useAuth () {
   }
 
   return context;
-};
+}

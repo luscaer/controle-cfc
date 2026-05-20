@@ -80,8 +80,6 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const { usuario, logout } = useAuth();
 
-  if (!usuario) return null;
-
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -91,6 +89,8 @@ function UserCard({ iniciais, nome, perfil }: UserCardProps) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  if (!usuario) return null;
 
   return (
     <div className="relative" ref={menuRef}>

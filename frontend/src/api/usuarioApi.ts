@@ -21,11 +21,13 @@ export const atualizarMeuUsuario = async (usuario: UsuarioUpdateData): Promise<U
 }
 
 export const atualizarMeuEmail = async (dados: AlterarEmailFormData) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmacaoEmail, ...dadosParaAPI } = dados;
     await apiClient.put("/v1/usuarios/atualizar-email", dadosParaAPI);
 }
 
 export const atualizarMinhaSenha = async (dados: AlterarSenhaFormData) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmacaoSenha, ...dadosParaAPI } = dados;
     await apiClient.put("/v1/usuarios/atualizar-senha", dadosParaAPI);
 }
