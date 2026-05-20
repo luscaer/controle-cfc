@@ -16,6 +16,7 @@ export function FinalizarCadastro() {
 
   useEffect(() => {
     const carregarEmail = async () => {
+      if (!token) return;
       try {
         const email = await validarTokenEmail(token);
         registro.setValue("email", email);
