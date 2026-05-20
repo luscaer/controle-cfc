@@ -43,7 +43,7 @@ export function useAutoEscola(id: string | undefined) {
       }
     };
     buscarAutoEscolaPeloId();
-  }, [id]);
+  }, [id, form]);
 
   const handleUpdate = async (dados: AutoEscolaFormData) => {
     if (!id) return;

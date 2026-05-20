@@ -49,7 +49,7 @@ export function AutoEscolasDashboard() {
       toast.success("Convite enviado com sucesso!");
       reset();
       setModalConviteAberto(false);
-    } catch (error) {
+    } catch {
       toast.error("Falha ao enviar convite.");
     }
   };

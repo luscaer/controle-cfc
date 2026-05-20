@@ -29,7 +29,7 @@ const PERFIL_COLORS: Record<PerfilUsuario, string> = {
 
 export function SlideOverPerfil({ aberto, onFechar }: SlideOverPerfilProps) {
   const [modalAlteracaoEmail, setModalAlteracaoEmail] = useState(false);
-  const [modalAlteracaoSenha, setModalAlteracaoSenha] = useState(false);
+  // const [modalAlteracaoSenha, setModalAlteracaoSenha] = useState(false);
 
   const {
     register: registerPerfil,

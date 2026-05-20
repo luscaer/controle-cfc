@@ -53,7 +53,7 @@ export function useUpdateAutoEscola({
     }
 
     carregarDados();
-  }, [aberto, id]);
+  }, [aberto, id, form]);
 
   const aoSubmeter = async (dados: AutoEscolaFormData) => {
     try {

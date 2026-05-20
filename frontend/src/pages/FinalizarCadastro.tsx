@@ -14,25 +14,26 @@ export function FinalizarCadastro() {
 
   const registro = useRegistroForm(token);
 
+  useEffect(() => {
+    const carregarEmail = async () => {
+      if (!token) return;
+      try {
+        const email = await validarTokenEmail(token);
+        registro.setValue("email", email);
+        registro.setValue("perfilUsuario", "ADMINISTRADOR");
+      } catch {
+        toast.error("Link de convite inválido ou expirado.");
+      }
+    };
+    carregarEmail();
+  }, [token, registro]);
+
   if (!token)
     return (
       <AuthLayout>
         <LinkRegistroInvalido></LinkRegistroInvalido>
       </AuthLayout>
     );
-
-  useEffect(() => {
-    const carregarEmail = async () => {
-      try {
-        const email = await validarTokenEmail(token);
-        registro.setValue("email", email);
-        registro.setValue("perfilUsuario", "ADMINISTRADOR");
-      } catch (error) {
-        toast.error("Link de convite inválido ou expirado.");
-      }
-    };
-    carregarEmail();
-  }, [token]);
 
   const registroAside = (
     <div className="flex flex-col gap-4">

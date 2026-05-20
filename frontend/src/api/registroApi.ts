@@ -11,7 +11,7 @@ export const validarTokenEmail = async (token: string): Promise<string> => {
     return response.data.email;
 }
 
-export const registroInicial = async (dados: RegisterFormData, token: String) => {
+export const registroInicial = async (dados: RegisterFormData, token: string) => {
   const payloadDoBackend = {
     requestAutoEscola: {
       nome: dados.nomeAutoEscola,
